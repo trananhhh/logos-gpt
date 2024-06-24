@@ -9,30 +9,30 @@ export default function Footer({ className }: { className?: string }) {
   const { data: config } = useGetStartupConfig();
   const localize = useLocalize();
 
-  const privacyPolicy = config?.interface?.privacyPolicy;
-  const termsOfService = config?.interface?.termsOfService;
+  // const privacyPolicy = config?.interface?.privacyPolicy;
+  // const termsOfService = config?.interface?.termsOfService;
 
-  const privacyPolicyRender = privacyPolicy?.externalUrl && (
-    <a
-      className=" text-gray-600 underline dark:text-gray-300"
-      href={privacyPolicy.externalUrl}
-      target={privacyPolicy.openNewTab ? '_blank' : undefined}
-      rel="noreferrer"
-    >
-      {localize('com_ui_privacy_policy')}
-    </a>
-  );
+  // const privacyPolicyRender = privacyPolicy?.externalUrl && (
+  //   <a
+  //     className=" text-gray-600 underline dark:text-gray-300"
+  //     href={privacyPolicy.externalUrl}
+  //     target={privacyPolicy.openNewTab ? '_blank' : undefined}
+  //     rel="noreferrer"
+  //   >
+  //     {localize('com_ui_privacy_policy')}
+  //   </a>
+  // );
 
-  const termsOfServiceRender = termsOfService?.externalUrl && (
-    <a
-      className=" text-gray-600 underline dark:text-gray-300"
-      href={termsOfService.externalUrl}
-      target={termsOfService.openNewTab ? '_blank' : undefined}
-      rel="noreferrer"
-    >
-      {localize('com_ui_terms_of_service')}
-    </a>
-  );
+  // const termsOfServiceRender = termsOfService?.externalUrl && (
+  //   <a
+  //     className=" text-gray-600 underline dark:text-gray-300"
+  //     href={termsOfService.externalUrl}
+  //     target={termsOfService.openNewTab ? '_blank' : undefined}
+  //     rel="noreferrer"
+  //   >
+  //     {localize('com_ui_terms_of_service')}
+  //   </a>
+  // );
 
   if (config?.analyticsGtmId) {
     const tagManagerArgs = {
@@ -74,9 +74,7 @@ export default function Footer({ className }: { className?: string }) {
     </React.Fragment>
   ));
 
-  const footerElements = [...mainContentRender, privacyPolicyRender, termsOfServiceRender].filter(
-    Boolean,
-  );
+  const footerElements = [...mainContentRender].filter(Boolean);
 
   return (
     <div
