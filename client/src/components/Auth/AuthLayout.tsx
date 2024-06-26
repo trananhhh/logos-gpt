@@ -1,9 +1,8 @@
-import { useLocalize } from '~/hooks';
-import { BlinkAnimation } from './BlinkAnimation';
 import { TStartupConfig } from 'librechat-data-provider';
-import SocialLoginRender from './SocialLoginRender';
 import { ThemeSelector } from '~/components/ui';
+import { useLocalize } from '~/hooks';
 import Footer from './Footer';
+import SocialLoginRender from './SocialLoginRender';
 
 const ErrorRender = ({ children }: { children: React.ReactNode }) => (
   <div className="mt-16 flex justify-center">
@@ -56,11 +55,11 @@ function AuthLayout({
 
   return (
     <div className="relative flex min-h-screen flex-col bg-white dark:bg-gray-900">
-      <BlinkAnimation active={isFetching}>
+      {/* <BlinkAnimation active={isFetching}>
         <div className="mt-12 h-24 w-full bg-cover">
           <img src="/assets/favicon.ico" className="h-full w-full object-contain" alt="Logo" />
         </div>
-      </BlinkAnimation>
+      </BlinkAnimation> */}
       <DisplayError />
       <div className="absolute bottom-0 left-0 md:m-4">
         <ThemeSelector />
