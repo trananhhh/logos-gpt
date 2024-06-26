@@ -39,7 +39,7 @@ export default function Settings({ open, onOpenChange }: TDialogProps) {
               className={cn(
                 isSmallScreen
                   ? 'hide-scrollbar flex flex-row space-x-4 overflow-x-auto'
-                  : 'min-w-auto max-w-auto -ml-[8px] flex flex-shrink-0 flex-col flex-col flex-wrap overflow-auto sm:max-w-none',
+                  : 'min-w-auto max-w-auto -ml-[8px] flex flex-shrink-0 flex-col flex-wrap overflow-auto sm:max-w-none',
               )}
               style={{ outline: 'none' }}
             >

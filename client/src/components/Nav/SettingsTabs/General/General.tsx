@@ -163,12 +163,12 @@ function General() {
         <div className="border-b pb-3 last-of-type:border-b-0 dark:border-gray-600">
           <LangSelector langcode={selectedLang} onChange={changeLang} />
         </div>
-        <div className="border-b pb-3 last-of-type:border-b-0 dark:border-gray-600">
+        {/* <div className="border-b pb-3 last-of-type:border-b-0 dark:border-gray-600">
           <AutoScrollSwitch />
-        </div>
-        <div className="border-b pb-3 last-of-type:border-b-0 dark:border-gray-600">
+        </div> */}
+        {/* <div className="border-b pb-3 last-of-type:border-b-0 dark:border-gray-600">
           <HideSidePanelSwitch />
-        </div>
+        </div> */}
         <div className="border-b pb-3 last-of-type:border-b-0 dark:border-gray-600">
           <ArchivedChats />
         </div>
