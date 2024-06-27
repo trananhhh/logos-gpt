@@ -1,6 +1,8 @@
 import { TPlugin } from 'librechat-data-provider';
-import { XCircle, DownloadCloud } from 'lucide-react';
+import { DownloadCloud, XCircle } from 'lucide-react';
+import { useState } from 'react';
 import { useLocalize } from '~/hooks';
+import { cn } from '../../../utils';
 
 type TPluginStoreItemProps = {
   plugin: TPlugin;
@@ -10,6 +12,8 @@ type TPluginStoreItemProps = {
 };
 
 function PluginStoreItem({ plugin, onInstall, onUninstall, isInstalled }: TPluginStoreItemProps) {
+  const [isLoaded, setIsLoaded] = useState(false);
+
   const localize = useLocalize();
   const handleClick = () => {
     if (isInstalled) {
@@ -25,10 +29,13 @@ function PluginStoreItem({ plugin, onInstall, onUninstall, isInstalled }: TPlugi
         <div className="flex gap-4">
           <div className="h-[70px] w-[70px] shrink-0">
             <div className="relative h-full w-full">
+              {!isLoaded && <div className="h-full w-full rounded-[5px] bg-zinc-50" />}
               <img
-                src={plugin.icon}
+                src={plugin?.icon}
                 alt={`${plugin.name} logo`}
-                className="h-full w-full rounded-[5px]"
+                className={cn('h-full w-full rounded-[5px]', !isLoaded && 'hidden')}
+                loading="eager"
+                onLoad={() => setIsLoaded(true)}
               />
               <div className="absolute inset-0 rounded-[5px] ring-1 ring-inset ring-black/10"></div>
             </div>

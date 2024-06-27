@@ -44,7 +44,7 @@ export default function Footer({ className }: { className?: string }) {
   const mainContentParts = (
     typeof config?.customFooter === 'string'
       ? config.customFooter
-      : '[LibreChat ' +
+      : 'LoyosAI' +
         Constants.VERSION +
         '](https://librechat.ai) - ' +
         localize('com_ui_latest_footer')
@@ -80,7 +80,7 @@ export default function Footer({ className }: { className?: string }) {
     <div
       className={
         className ||
-        'relative flex items-center justify-center gap-2 px-2 py-2 text-center text-xs text-gray-600 dark:text-gray-300 md:px-[60px]'
+        'relative flex items-center justify-center gap-2 px-2 py-2 text-center text-xs text-gray-600 opacity-0 dark:text-gray-300 md:px-[60px] md:opacity-100'
       }
     >
       {footerElements.map((contentRender, index) => {

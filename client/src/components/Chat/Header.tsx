@@ -30,7 +30,7 @@ export default function Header() {
           {interfaceConfig.endpointsMenu && <EndpointsMenu />}
           {modelSpecs?.length > 0 && <ModelSpecsMenu modelSpecs={modelSpecs} />}
           {<HeaderOptions interfaceConfig={interfaceConfig} />}
-          {interfaceConfig.presets && <PresetsMenu />}
+          {/* {interfaceConfig.presets && <PresetsMenu />} */}
           {isSmallScreen && (
             <ExportAndShareMenu
               isSharedButtonEnabled={startupConfig?.sharedLinksEnabled ?? false}
