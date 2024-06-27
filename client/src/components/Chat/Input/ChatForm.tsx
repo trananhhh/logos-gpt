@@ -29,6 +29,7 @@ import AudioRecorder from './AudioRecorder';
 import AttachFile from './Files/AttachFile';
 import FileRow from './Files/FileRow';
 import Mention from './Mention';
+import PromptsCommand from './PromptsCommand';
 import SendButton from './SendButton';
 import StopButton from './StopButton';
 import StreamAudio from './StreamAudio';
@@ -48,7 +49,12 @@ const ChatForm = ({ index = 0 }) => {
   );
 
   const { requiresKey } = useRequiresKey();
-  const handleKeyUp = useHandleKeyUp({ textAreaRef, setShowPlusPopover, setShowMentionPopover });
+  const handleKeyUp = useHandleKeyUp({
+    index,
+    textAreaRef,
+    setShowPlusPopover,
+    setShowMentionPopover,
+  });
   const { handlePaste, handleKeyDown, handleCompositionStart, handleCompositionEnd } = useTextarea({
     textAreaRef,
     submitButtonRef,
@@ -85,7 +91,7 @@ const ChatForm = ({ index = 0 }) => {
   });
 
   const assistantMap = useAssistantsMapContext();
-  const { submitMessage } = useSubmitMessage({ clearDraft });
+  const { submitMessage, submitPrompt } = useSubmitMessage({ clearDraft });
 
   const { endpoint: _endpoint, endpointType } = conversation ?? { endpoint: null };
   const endpoint = endpointType ?? _endpoint;
@@ -137,12 +143,8 @@ const ChatForm = ({ index = 0 }) => {
               textAreaRef={textAreaRef}
             />
           )}
-          <div
-            className={cn(
-              'bg-token-main-surface-primary relative flex w-full flex-grow flex-col overflow-hidden rounded-2xl border dark:border-gray-600 dark:text-white [&:has(textarea:focus)]:border-gray-300 [&:has(textarea:focus)]:shadow-[0_2px_6px_rgba(0,0,0,.05)] dark:[&:has(textarea:focus)]:border-gray-500',
-              isSmallScreen && 'rounded-3xl',
-            )}
-          >
+          <PromptsCommand index={index} textAreaRef={textAreaRef} submitPrompt={submitPrompt} />
+          <div className="bg-token-main-surface-primary relative flex w-full flex-grow flex-col overflow-hidden rounded-2xl border dark:border-gray-600 dark:text-white [&:has(textarea:focus)]:border-gray-300 [&:has(textarea:focus)]:shadow-[0_2px_6px_rgba(0,0,0,.05)] dark:[&:has(textarea:focus)]:border-gray-500">
             {/* <TextareaHeader addedConvo={addedConvo} setAddedConvo={setAddedConvo} /> */}
             <FileRow
               files={files}
