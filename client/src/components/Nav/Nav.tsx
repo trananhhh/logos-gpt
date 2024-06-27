@@ -47,10 +47,11 @@ const Nav = ({ navVisible, setNavVisible }) => {
         toggleNavVisible();
       }
       setNavWidth('320px');
+      setNavVisible(false);
     } else {
       setNavWidth('260px');
     }
-  }, [isSmallScreen]);
+  }, [isSmallScreen, setNavVisible]);
 
   const { newConversation } = useConversation();
   const [showLoading, setShowLoading] = useState(false);

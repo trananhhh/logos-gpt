@@ -18,6 +18,7 @@ import {
   useRequiresKey,
   useHandleKeyUp,
   useSubmitMessage,
+  useMediaQuery,
 } from '~/hooks';
 import { TextareaAutosize } from '~/components/ui';
 import { useGetFileConfig } from '~/data-provider';
@@ -81,6 +82,8 @@ const ChatForm = ({ index = 0 }) => {
   } = useAddedChatContext();
   const showStopAdded = useRecoilValue(store.showStopButtonByIndex(addedIndex));
 
+  const isSmallScreen = useMediaQuery('(max-width: 768px)');
+
   const { clearDraft } = useAutoSave({
     conversationId: useMemo(() => conversation?.conversationId, [conversation]),
     textAreaRef,
@@ -121,7 +124,7 @@ const ChatForm = ({ index = 0 }) => {
   return (
     <form
       onSubmit={methods.handleSubmit((data) => submitMessage(data))}
-      className="stretch mx-2 flex flex-row gap-3 last:mb-2 md:mx-4 md:last:mb-6 lg:mx-auto lg:max-w-2xl xl:max-w-3xl"
+      className="stretch mx-7 flex flex-row gap-3 last:mb-2 md:mx-4 md:last:mb-6 lg:mx-auto lg:max-w-2xl xl:max-w-3xl"
     >
       <div className="relative flex h-full flex-1 items-stretch md:flex-col">
         <div className="flex w-full items-center">
@@ -143,7 +146,12 @@ const ChatForm = ({ index = 0 }) => {
             />
           )}
           <PromptsCommand index={index} textAreaRef={textAreaRef} submitPrompt={submitPrompt} />
-          <div className="bg-token-main-surface-primary relative flex w-full flex-grow flex-col overflow-hidden rounded-2xl border dark:border-gray-600 dark:text-white [&:has(textarea:focus)]:border-gray-300 [&:has(textarea:focus)]:shadow-[0_2px_6px_rgba(0,0,0,.05)] dark:[&:has(textarea:focus)]:border-gray-500">
+          <div
+            className={cn(
+              'bg-token-main-surface-primary relative flex w-full flex-grow flex-col overflow-hidden rounded-2xl border dark:border-gray-600 dark:text-white [&:has(textarea:focus)]:border-gray-300 [&:has(textarea:focus)]:shadow-[0_2px_6px_rgba(0,0,0,.05)] dark:[&:has(textarea:focus)]:border-gray-500',
+              isSmallScreen && 'rounded-3xl',
+            )}
+          >
             <TextareaHeader addedConvo={addedConvo} setAddedConvo={setAddedConvo} />
             <FileRow
               files={files}
@@ -198,6 +206,7 @@ const ChatForm = ({ index = 0 }) => {
                   ref={submitButtonRef}
                   control={methods.control}
                   disabled={!!(filesLoading || isSubmitting || disableInputs)}
+                  className={isSmallScreen ? 'rounded-full' : ''}
                 />
               )
             )}

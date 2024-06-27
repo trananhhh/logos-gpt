@@ -178,7 +178,7 @@ function PluginStoreDialog({ isOpen, setIsOpen }: TPluginStoreDialogProps) {
             </div>
           )}
           <div className="p-4 sm:p-6 sm:pt-4">
-            <div className="mt-4 flex flex-col gap-4">
+            <div className="mt-2 flex flex-col gap-4">
               <div className="flex items-center">
                 <div className="relative flex items-center">
                   <Search className="absolute left-2 h-6 w-6 text-gray-500" />
@@ -201,7 +201,7 @@ function PluginStoreDialog({ isOpen, setIsOpen }: TPluginStoreDialogProps) {
                     .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
                     .map((plugin, index) => (
                       <PluginStoreItem
-                        key={index}
+                        key={plugin.name + index}
                         plugin={plugin}
                         isInstalled={userPlugins.includes(plugin.pluginKey)}
                         onInstall={() => onPluginInstall(plugin.pluginKey)}
@@ -210,7 +210,7 @@ function PluginStoreDialog({ isOpen, setIsOpen }: TPluginStoreDialogProps) {
                     ))}
               </div>
             </div>
-            <div className="mt-2 flex flex-col items-center gap-2 sm:flex-row sm:justify-between">
+            <div className="mt-6 flex flex-col items-center gap-2 sm:flex-row sm:justify-between">
               {maxPage > 0 ? (
                 <PluginPagination
                   currentPage={currentPage}

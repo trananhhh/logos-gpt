@@ -33,7 +33,8 @@ export const router = createBrowserRouter([
     element: <StartupLayout />,
     children: [
       {
-        path: 'register',
+        path: 'dkndm',
+        // path: 'register',
         element: <Registration />,
       },
       {

@@ -37,11 +37,11 @@ if (fs.existsSync(rootEnvPath)) {
 
 // Validate old configs
 if (!fs.existsSync(apiEnvPath)) {
-  console.error('Api env doesn\'t exit! Did you mean to run install?');
+  console.error('Api env doesn`t exit! Did you mean to run install?');
   exit(1);
 }
 if (!fs.existsSync(clientEnvPath)) {
-  console.error('Client env doesn\'t exit! But api/.env does. Manual upgrade required');
+  console.error('Client env doesn`t exit! But api/.env does. Manual upgrade required');
   exit(1);
 }
 
@@ -103,7 +103,7 @@ const removeEnvs = {
   '#JWT:': 'remove',
   '# Add a secure secret for production if deploying to live domain.': 'remove',
   '# Site URLs:': 'remove',
-  '# Don\'t forget to set Node env to development in the Server configuration section above':
+  '# Don`t forget to set Node env to development in the Server configuration section above':
     'remove',
   '# if you want to run in dev mode': 'remove',
   '# Change these values to domain if deploying:': 'remove',
@@ -134,7 +134,7 @@ fs.appendFileSync(
   '\n\n##########################\n# Frontend Vite Variables:\n##########################\n',
 );
 const frontend = {
-  APP_TITLE: initEnv['VITE_APP_TITLE'] || '"LibreChat"',
+  APP_TITLE: initEnv['VITE_APP_TITLE'] || '"LoyosAI"',
   ALLOW_REGISTRATION: 'true',
 };
 loader.writeEnvFile(rootEnvPath, frontend);

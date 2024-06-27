@@ -37,7 +37,7 @@ export default function StartupLayout({ isAuthenticated }: { isAuthenticated?: b
   }, [isAuthenticated, navigate, data]);
 
   useEffect(() => {
-    document.title = startupConfig?.appTitle || 'LogosAI';
+    document.title = startupConfig?.appTitle || 'LoyosAI';
   }, [startupConfig?.appTitle]);
 
   useEffect(() => {
