@@ -8,22 +8,17 @@ version: 1.1.4
 cache: true
 
 # Custom interface configuration
-interface:
-  # Privacy policy settings
-  # privacyPolicy:
-  #   externalUrl: 'https://librechat.ai/privacy-policy'
-  #   openNewTab: true
+# interface:
+# Privacy policy settings
+# privacyPolicy:
+#   externalUrl: 'https://librechat.ai/privacy-policy'
+#   openNewTab: true
 
-  # Terms of service
-  # termsOfService:
-  #   externalUrl: 'https://librechat.ai/tos'
-  #   openNewTab: true
+# Terms of service
+# termsOfService:
+#   externalUrl: 'https://librechat.ai/tos'
+#   openNewTab: true
 
-  endpointsMenu: true
-  modelSelect: true
-  parameters: true
-  sidePanel: false
-  presets: false
 # Example Registration Object Structure (optional)
 # registration:
 # socialLogins: ['github', 'google', 'discord', 'openid', 'facebook']
@@ -60,40 +55,80 @@ interface:
 #     userMax: 50
 #     userWindowInMinutes: 60  # Rate limit window for conversation imports per user
 
-# Definition of custom endpoints
-# endpoints:
-# assistants:
-# disableBuilder: true # Disable Assistants Builder Interface by setting to `true`
-# pollIntervalMs: 3000  # Polling interval for checking assistant updates
-# timeoutMs: 180000  # Timeout for assistant operations
-#   # Should only be one or the other, either `supportedIds` or `excludedIds`
-# supportedIds: ["asst_supportedAssistantId1", "asst_supportedAssistantId2"]
-#   # excludedIds: ["asst_excludedAssistantId"]
-#   Only show assistants that the user created or that were created externally (e.g. in Assistants playground).
-# privateAssistants: false # Does not work with `supportedIds` or `excludedIds`
-#   # (optional) Models that support retrieval, will default to latest known OpenAI models that support the feature
-# retrievalModels: ["gpt-4-turbo"]
-#   # (optional) Assistant Capabilities available to all users. Omit the ones you wish to exclude. Defaults to list below.
-# capabilities: ["code_interpreter", "retrieval", "actions", "tools", "image_vision"]
-# custom:
-# Groq Example
-# - name: 'groq'
-#   apiKey: '${GROQ_API_KEY}'
-#   baseURL: 'https://api.groq.com/openai/v1/'
-#   models:
-#     default:
-#       [
-#         'llama3-70b-8192',
-#         'llama3-8b-8192',
-#         'llama2-70b-4096',
-#         'mixtral-8x7b-32768',
-#         'gemma-7b-it',
-#       ]
-#     fetch: false
-#   titleConvo: true
-#   titleModel: 'mixtral-8x7b-32768'
-#   modelDisplayLabel: 'groq'
+interface:
+  endpointsMenu: true
+  modelSelect: true
+  parameters: true
+  presets: false
+# sidePanel: false
 
+# modelSpecs:
+#   enforce: false
+#   prioritize: false
+#   list:
+#     - name: 'Gemini-Flash'
+#       label: 'Gemini Flash'
+#       description: 'Fastest model for quick responses.'
+#       preset:
+#         default: false
+#         endpoint: 'google'
+#         model: 'gemini-1.5-flash-preview-0514'
+#         temperature: 0.7
+#         modelLabel: 'Gemini Flash'
+#         greeting: |
+#           Fast model for quick responses.
+#     - name: 'image-generation'
+#       label: 'Image generator'
+#       description: 'Generate images starting form text.'
+#       preset:
+#         default: false
+#         endpoint: 'gptPlugins'
+#         tools: ['dalle']
+#         model: 'gpt-3.5-turbo'
+#         temperature: 0.3
+#         modelLabel: 'AI'
+#         greeting: |
+#           Try to be accurate while describing your image and remember that each generation is independent.
+
+# Definition of custom endpoints
+endpoints:
+  # assistants:
+  # disableBuilder: true # Disable Assistants Builder Interface by setting to `true`
+  # pollIntervalMs: 3000  # Polling interval for checking assistant updates
+  # timeoutMs: 180000  # Timeout for assistant operations
+  #   # Should only be one or the other, either `supportedIds` or `excludedIds`
+  # supportedIds: ["asst_supportedAssistantId1", "asst_supportedAssistantId2"]
+  #   # excludedIds: ["asst_excludedAssistantId"]
+  #   Only show assistants that the user created or that were created externally (e.g. in Assistants playground).
+  # privateAssistants: false # Does not work with `supportedIds` or `excludedIds`
+  #   # (optional) Models that support retrieval, will default to latest known OpenAI models that support the feature
+  # retrievalModels: ["gpt-4-turbo"]
+  #   # (optional) Assistant Capabilities available to all users. Omit the ones you wish to exclude. Defaults to list below.
+  # capabilities: ["code_interpreter", "retrieval", "actions", "tools", "image_vision"]
+  custom:
+    - name: 'ClaudeAI'
+      apiKey: '${CLAUDE_API_KEY}'
+      iconURL: 'anthropic'
+      baseURL: 'https://api.unify.ai/v0/'
+      models:
+        default:
+          [
+            'claude-3-sonnet@anthropic',
+            'claude-3.5-sonnet@anthropic',
+            'claude-3-haiku@anthropic',
+            'claude-3-opus@anthropic',
+          ]
+        fetch: false
+      titleConvo: true
+      titleModel: 'claude-3-sonnet@anthropic'
+      modelDisplayLabel: 'ClaudeAI'
+      dropParams:
+        - 'stop'
+        - 'user'
+        - 'frequency_penalty'
+        - 'presence_penalty'
+      titleMessageRole: 'user' # <-----------NEW
+      # directEndpoint: true # <---------------NEW
 # Mistral AI Example
 # - name: 'Mistral' # Unique name for the endpoint
 #   # For `apiKey` and `baseURL`, you can use environment variables that you define.
