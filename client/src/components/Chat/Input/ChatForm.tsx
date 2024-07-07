@@ -1,38 +1,37 @@
-import { memo, useRef, useMemo } from 'react';
+import {
+  fileConfig as defaultFileConfig,
+  isAssistantsEndpoint,
+  mergeFileConfig,
+  supportsFiles,
+} from 'librechat-data-provider';
+import { memo, useMemo, useRef } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import {
-  supportsFiles,
-  mergeFileConfig,
-  isAssistantsEndpoint,
-  fileConfig as defaultFileConfig,
-} from 'librechat-data-provider';
-import {
-  useChatContext,
   useAddedChatContext,
   useAssistantsMapContext,
+  useChatContext,
   useChatFormContext,
 } from '~/Providers';
-import {
-  useTextarea,
-  useAutoSave,
-  useRequiresKey,
-  useHandleKeyUp,
-  useSubmitMessage,
-  useMediaQuery,
-} from '~/hooks';
+import { mainTextareaId } from '~/common';
 import { TextareaAutosize } from '~/components/ui';
 import { useGetFileConfig } from '~/data-provider';
+import {
+  useAutoSave,
+  useHandleKeyUp,
+  useMediaQuery,
+  useRequiresKey,
+  useSubmitMessage,
+  useTextarea,
+} from '~/hooks';
+import store from '~/store';
 import { cn, removeFocusRings } from '~/utils';
-import TextareaHeader from './TextareaHeader';
-import AttachFile from './Files/AttachFile';
 import AudioRecorder from './AudioRecorder';
-import { mainTextareaId } from '~/common';
-import StreamAudio from './StreamAudio';
-import StopButton from './StopButton';
-import SendButton from './SendButton';
+import AttachFile from './Files/AttachFile';
 import FileRow from './Files/FileRow';
 import Mention from './Mention';
-import store from '~/store';
+import SendButton from './SendButton';
+import StopButton from './StopButton';
+import StreamAudio from './StreamAudio';
 
 const ChatForm = ({ index = 0 }) => {
   const submitButtonRef = useRef<HTMLButtonElement>(null);
@@ -90,7 +89,6 @@ const ChatForm = ({ index = 0 }) => {
 
   const { endpoint: _endpoint, endpointType } = conversation ?? { endpoint: null };
   const endpoint = endpointType ?? _endpoint;
-
   const { data: fileConfig = defaultFileConfig } = useGetFileConfig({
     select: (data) => mergeFileConfig(data),
   });
@@ -145,7 +143,7 @@ const ChatForm = ({ index = 0 }) => {
               isSmallScreen && 'rounded-3xl',
             )}
           >
-            <TextareaHeader addedConvo={addedConvo} setAddedConvo={setAddedConvo} />
+            {/* <TextareaHeader addedConvo={addedConvo} setAddedConvo={setAddedConvo} /> */}
             <FileRow
               files={files}
               setFiles={setFiles}

@@ -200,16 +200,16 @@ export default function Message(props: TMessageProps) {
             <div className="flex w-full flex-row flex-wrap justify-between gap-1 md:max-w-5xl md:flex-nowrap md:gap-2 lg:max-w-5xl xl:max-w-6xl">
               <MessageRender
                 {...props}
-                message={message}
-                isSubmittingFamily={isSubmittingFamily}
-                isCard
-              />
-              <MessageRender
-                {...props}
                 isMultiMessage
                 isCard
                 message={siblingMessage ?? latestMultiMessage ?? undefined}
                 isSubmittingFamily={isSubmittingFamily}
+              />
+              <MessageRender
+                {...props}
+                message={message}
+                isSubmittingFamily={isSubmittingFamily}
+                isCard
               />
             </div>
           </div>
