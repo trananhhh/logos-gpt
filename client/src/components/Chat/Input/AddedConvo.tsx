@@ -1,10 +1,7 @@
+import type { TConversation, TEndpointOption } from 'librechat-data-provider';
 import { useMemo } from 'react';
-import { useGetEndpointsQuery } from 'librechat-data-provider/react-query';
-import type { TConversation, TEndpointOption, TPreset } from 'librechat-data-provider';
 import type { SetterOrUpdater } from 'recoil';
 import useGetSender from '~/hooks/Conversations/useGetSender';
-import { EndpointIcon } from '~/components/Endpoints';
-import { getPresetTitle } from '~/utils';
 
 export default function AddedConvo({
   addedConvo,
@@ -14,33 +11,20 @@ export default function AddedConvo({
   setAddedConvo: SetterOrUpdater<TConversation | null>;
 }) {
   const getSender = useGetSender();
-  const { data: endpointsConfig } = useGetEndpointsQuery();
   const title = useMemo(() => {
     const sender = getSender(addedConvo as TEndpointOption);
-    const title = getPresetTitle(addedConvo as TPreset);
-    return `+ ${sender}: ${title}`;
+    return `${sender}`;
   }, [addedConvo, getSender]);
 
   if (!addedConvo) {
     return null;
   }
   return (
-    <div className="flex items-start gap-4 py-2.5 pl-3 pr-1.5 text-sm">
-      <span className="mt-0 flex h-6 w-6 flex-shrink-0 items-center justify-center">
-        <div className="icon-md">
-          <EndpointIcon
-            conversation={addedConvo}
-            endpointsConfig={endpointsConfig}
-            containerClassName="shadow-stroke overflow-hidden rounded-full"
-            context="menu-item"
-            size={20}
-          />
-        </div>
-      </span>
-      <span className="text-token-text-secondary line-clamp-3 flex-1 py-0.5 font-semibold">
+    <div className="flex items-center gap-1 rounded-xl border-2 px-3 py-1">
+      <span className="text-token-text-secondary line-clamp-1 flex-1 py-0.5 font-semibold">
         {title}
       </span>
-      <button
+      {/* <button
         className="text-token-text-secondary flex-shrink-0"
         type="button"
         onClick={() => setAddedConvo(null)}
@@ -60,7 +44,7 @@ export default function AddedConvo({
             clipRule="evenodd"
           ></path>
         </svg>
-      </button>
+      </button> */}
     </div>
   );
 }
