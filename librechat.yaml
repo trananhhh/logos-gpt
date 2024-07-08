@@ -66,6 +66,7 @@ modelSpecs:
   enforce: false
   prioritize: true
   list:
+    # BingAI
     - name: 'copilot-sydney'
       iconURL: 'bingAI'
       label: 'Copilot Sydney'
@@ -73,8 +74,8 @@ modelSpecs:
       default: false
       preset:
         endpoint: 'bingAI'
-        model: 'sydney'
-        temperature: 0.7
+        model: 'Sydney'
+        # temperature: 0.7
         modelLabel: 'Copilot Sydney'
         greeting: |
           AI with internet access.
@@ -86,12 +87,13 @@ modelSpecs:
       default: false
       preset:
         endpoint: 'bingAI'
-        model: 'bingAI'
-        temperature: 0.7
+        model: 'BingAI'
+        # temperature: 0.7
         modelLabel: 'Copilot BingAI'
         greeting: |
           AI with internet access.
 
+    # GPT
     - name: 'gpt-god-3-5'
       iconURL: 'openAI'
       label: 'GPT 3.5 Turbo'
@@ -102,7 +104,7 @@ modelSpecs:
         default: false
         endpoint: 'gpt-god-open-ai'
         model: 'gpt-3.5-turbo-16k'
-        temperature: 0.7
+        # temperature: 0.7
         modelLabel: 'GPT 3.5 Turbo'
         greeting: |
           Great for daily tasks.
@@ -116,24 +118,12 @@ modelSpecs:
         iconURL: 'openAI'
         endpoint: 'gpt-god-open-ai'
         model: 'gpt-4o-all'
-        temperature: 0.7
+        # temperature: 0.7
         modelLabel: 'GPT 4o'
         greeting: |
           Latest GPT model, AI with internet access.
 
-    # - name: 'gpt-god-4o'
-    #   label: 'GPT 4o'
-    #   description: 'Latest GPT model, '
-    #   default: true
-    #   preset:
-    #     default: true
-    #     endpoint: 'gpt-god'
-    #     model: 'gpt-4o'
-    #     temperature: 0.7
-    #     modelLabel: 'GPT 4o'
-    #     greeting: |
-    #       Latest GPT model, AI with internet access.
-
+    # Gemini
     - name: 'gemini-flash'
       default: true
       iconURL: 'google'
@@ -144,46 +134,59 @@ modelSpecs:
         default: true
         endpoint: 'google'
         model: 'gemini-1.5-flash-latest'
-        temperature: 0.7
+        # temperature: 0.7
         modelLabel: 'Gemini 1.5 Flash'
         greeting: |
           Google's advanced AI model can handle various tasks quickly, flexibly, and supports image recognition
 
-    - name: 'gemini-pro-vision'
+    - name: 'gemini-pro'
       iconURL: 'google'
-      label: 'Gemini Pro Vision'
-      description: "Google's advanced AI model powers image recognition"
+      label: 'Gemini 1.5 Pro'
+      description: "Google's advanced AI model"
       preset:
         iconURL: 'google'
         default: false
-        endpoint: 'gpt-god-google'
-        model: 'gemini-pro-vision'
-        temperature: 0.7
-        modelLabel: 'Gemini Pro Vision'
+        endpoint: 'google'
+        model: 'gemini-1.5-pro-latest'
+        # temperature: 0.7
+        modelLabel: 'Gemini 1.5 Pro'
         greeting: |
-          Google's advanced AI model powers image recognition
+          Google's advanced AI model
 
     # ClaudeAI
-    - name: 'claude-3-sonnet'
-      label: 'Claude 3 Sonnet'
-      description: 'Featuring state-of-the-art language processing technology'
-      preset:
-        default: false
-        endpoint: 'unify'
-        model: 'claude-3-sonnet@anthropic'
-        temperature: 0.7
-        modelLabel: 'Claude 3 Sonnet'
-        greeting: |
-          Featuring state-of-the-art language processing technology
+
+    # - name: 'claude-3-sonnet-unify'
+    #   label: 'Claude 3 Sonnet'
+    #   description: 'Featuring state-of-the-art language processing technology'
+    #   preset:
+    #     default: false
+    #     endpoint: 'unify'
+    #     model: 'claude-3-sonnet@anthropic' #'claude-3-sonnet-20240229' 'claude-3-sonnet@anthropic'
+    #     # temperature: 0.7
+    #     modelLabel: 'Claude 3 Sonnet'
+    #     greeting: |
+    #       Featuring state-of-the-art language processing technology
+
+    # - name: 'claude-3-sonnet'
+    # label: 'Claude 3 Sonnet'
+    # description: 'Featuring state-of-the-art language processing technology'
+    # preset:
+    #   default: false
+    #   endpoint: 'gpt-god-anthropic'
+    #   model: 'claude-3-sonnet-20240229' #'claude-3-sonnet-20240229' 'claude-3-sonnet@anthropic'
+    #   # temperature: 0.7
+    #   modelLabel: 'Claude 3 Sonnet'
+    #   greeting: |
+    #     Featuring state-of-the-art language processing technology
 
     - name: 'claude-3-haiku'
       label: 'Claude 3 Haiku'
       description: 'Featuring state-of-the-art language processing technology'
       preset:
         default: false
-        endpoint: 'unify'
-        model: 'claude-3-haiku@anthropic'
-        temperature: 0.7
+        endpoint: 'gpt-god-anthropic'
+        model: 'claude-3-haiku-20240307' #'claude-3-haiku@anthropic'
+        # temperature: 0.7
         modelLabel: 'Claude 3 Haiku'
         greeting: |
           Featuring state-of-the-art language processing technology
@@ -193,9 +196,9 @@ modelSpecs:
       description: 'Featuring state-of-the-art language processing technology'
       preset:
         default: false
-        endpoint: 'unify'
-        model: 'claude-3-opus@anthropic'
-        temperature: 0.7
+        endpoint: 'gpt-god-anthropic'
+        model: 'claude-3-opus-20240229' #'claude-3-opus@anthropic'
+        # temperature: 0.7
         modelLabel: 'Claude 3 Opus'
         greeting: |
           Featuring state-of-the-art language processing technology
@@ -205,24 +208,82 @@ modelSpecs:
       description: 'The latest version of the Claude model is more powerful, with the most advanced language processing technology'
       preset:
         default: false
-        endpoint: 'unify'
-        model: 'claude-3-5-sonnet@anthropic'
-        temperature: 0.7
+        endpoint: 'gpt-god-anthropic'
+        model: 'claude-3-5-sonnet-20240620' #'claude-3-5-sonnet@anthropic'
+        # temperature: 0.7
         modelLabel: 'Claude 3.5 Sonnet'
         greeting: |
           The latest version of the Claude model is more powerful, with the most advanced language processing technology
-    - name: 'gpt-dall-e'
-      label: 'DALL-E / Image generator'
+
+    # Dall-E
+    - name: 'gpt-dall-e-4o'
+      label: 'DALL-E 3 / Image generator with GPT 4'
       description: 'Generate images starting form text.'
       preset:
         default: false
-        endpoint: 'gptPlugins'
+        endpoint: 'gpt-god-dall-e'
         tools: ['dalle']
-        model: 'gpt-3.5-turbo'
-        temperature: 0.5
-        modelLabel: 'AI'
+        model: 'gpt-4-dalle'
+        # temperature: 0.5
+        modelLabel: 'DALL-E 3'
         greeting: |
           Try to be accurate while describing your image and remember that each generation is independent.
+
+    # - name: 'gpt-dall-e-3'
+    #   label: 'DALL-E 3 / Image generator'
+    #   description: 'Generate images starting form text.'
+    #   preset:
+    #     default: false
+    #     endpoint: 'gpt-god-dall-e'
+    #     tools: ['dalle']
+    #     model: 'dall-e-3'
+    #     # temperature: 0.5
+    #     modelLabel: 'DALL-E 3'
+    #     greeting: |
+    #       Try to be accurate while describing your image and remember that each generation is independent.
+
+    # GPT with internet
+    - name: 'gpt-god-3-5-net'
+      iconURL: 'openAI'
+      label: 'GPT 3.5 Turbo Internet'
+      description: 'Great for daily tasks, with internet.'
+      default: false
+      preset:
+        iconURL: 'openAI'
+        default: false
+        endpoint: 'gpt-god-open-ai'
+        model: 'net-gpt-3.5-turbo-16k'
+        # temperature: 0.7
+        modelLabel: 'GPT 3.5 Turbo Internet'
+        greeting: |
+          Great for daily tasks.
+
+    - name: 'gpt-god-4o-net'
+      iconURL: 'openAI'
+      label: 'GPT 4o Internet'
+      description: 'Newest and most advanced GPT model, with internet'
+      default: false
+      preset:
+        iconURL: 'openAI'
+        endpoint: 'gpt-god-open-ai'
+        model: 'net-gpt-4o-all'
+        # temperature: 0.7
+        modelLabel: 'GPT 4o Internet'
+        greeting: |
+          Latest GPT model, AI with internet access.
+
+    # - name: 'gpt-dall-e'
+    #   label: 'DALL-E / Image generator'
+    #   description: 'Generate images starting form text.'
+    #   preset:
+    #     default: false
+    #     endpoint: 'gptPlugins'
+    #     tools: ['dalle']
+    #     model: 'gpt-3.5-turbo'
+    # temperature: 0.5
+    #     modelLabel: 'AI'
+    #     greeting: |
+    #       Try to be accurate while describing your image and remember that each generation is independent.
 
 # Definition of custom endpoints
 endpoints:
@@ -243,7 +304,7 @@ endpoints:
     - name: 'unify'
       apiKey: '${CLAUDE_API_KEY}'
       iconURL: 'anthropic'
-      baseURL: 'https://api.unify.ai/v0/'
+      baseURL: 'https://api.unify.ai/v1/'
       models:
         default:
           [
@@ -269,21 +330,23 @@ endpoints:
       iconURL: 'openAI'
       baseURL: 'https://api.gptgod.online/v1/'
       models:
-        default:
-          [
-            'gpt-3.5-turbo-16k',
-            'gpt-4o',
-            'gpt-4o-all',
-            'gemini-1.5-flash',
-            'gemini-pro-vision',
-            'claude-3-sonnet-20240229',
-            'claude-3-haiku-20240307',
-            'claude-3-5-sonnet-20240620',
-          ]
+        default: ['gpt-3.5-turbo-16k', 'net-gpt-3.5-turbo-16k', 'gpt-4o-all', 'net-gpt-4o-all']
         fetch: false
       titleConvo: true
       titleModel: 'gpt-3.5-turbo-16k'
       modelDisplayLabel: 'ChatGPT'
+      titleMessageRole: 'user' # <-----------NEW
+
+    - name: 'gpt-god-dall-e'
+      apiKey: '${GPTGOD_API_KEY}'
+      iconURL: 'openAI'
+      baseURL: 'https://api.gptgod.online/v1/'
+      models:
+        default: ['gpt-3.5-turbo-16k', 'gpt-4-dalle', 'dall-e-3']
+        fetch: false
+      titleConvo: true
+      titleModel: 'gpt-3.5-turbo-16k'
+      modelDisplayLabel: 'DALL-E'
       titleMessageRole: 'user' # <-----------NEW
 
     - name: 'gpt-god-google'
@@ -291,7 +354,7 @@ endpoints:
       iconURL: 'google'
       baseURL: 'https://api.gptgod.online/v1/'
       models:
-        default: ['gemini-1.5-flash', 'gemini-pro-vision']
+        default: ['gemini-1.5-flash', 'gemini-pro-vision', 'gemini-1.5-pro']
         fetch: false
       titleConvo: true
       titleModel: 'gemini-1.5-flash'
@@ -305,14 +368,14 @@ endpoints:
       models:
         default:
           [
-            'claude-3-sonnet-20240229',
             'claude-3-haiku-20240307',
+            'claude-3-sonnet-20240229',
+            'claude-3-opus-20240229',
             'claude-3-5-sonnet-20240620',
-            'gpt-3.5-turbo-16k',
           ]
         fetch: false
       titleConvo: true
-      titleModel: 'gpt-3.5-turbo-16k'
+      titleModel: 'claude-3-5-sonnet-20240620'
       modelDisplayLabel: 'ClaudeAI'
       titleMessageRole: 'user' # <-----------NEW
     # directEndpoint: true # <---------------NEW
