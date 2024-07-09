@@ -82,12 +82,12 @@ export default defineConfig({
           //   type: 'image/png',
           // },
           {
-            src: '/assets/apple-touch-icon-180x180.jpg',
+            src: '/assets/apple-touch-icon-180x180.png',
             sizes: '180x180',
             type: 'image/jpg',
           },
           {
-            src: '/assets/maskable-icon.jpg',
+            src: '/assets/logo.png',
             sizes: '512x512',
             type: 'image/jpg',
             purpose: 'maskable',
