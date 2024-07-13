@@ -68,41 +68,41 @@ modelSpecs:
   prioritize: true
   list:
     # BingAI
-    - name: 'copilot-sydney'
-      iconURL: 'bingAI'
-      label: 'Copilot Sydney'
-      description: 'AI with internet access.'
-      default: false
-      preset:
-        endpoint: 'bingAI'
-        model: 'Sydney'
-        # temperature: 0.7
-        modelLabel: 'Copilot Sydney'
-        greeting: |
-          AI with internet access.
+    # - name: 'copilot-sydney'
+    #   iconURL: 'bingAI'
+    #   label: 'Copilot Sydney'
+    #   description: 'AI with internet access.'
+    #   default: false
+    #   preset:
+    #     endpoint: 'bingAI'
+    #     model: 'Sydney'
+    #     # temperature: 0.7
+    #     modelLabel: 'Copilot Sydney'
+    #     greeting: |
+    #       AI with internet access.
 
-    - name: 'copilot-bingAI'
-      iconURL: 'bingAI'
-      label: 'Copilot BingAI'
-      description: 'AI with internet access.'
-      default: false
-      preset:
-        endpoint: 'bingAI'
-        model: 'BingAI'
-        # temperature: 0.7
-        modelLabel: 'Copilot BingAI'
-        greeting: |
-          AI with internet access.
+    # - name: 'copilot-bingAI'
+    #   iconURL: 'bingAI'
+    #   label: 'Copilot BingAI'
+    #   description: 'AI with internet access.'
+    #   default: false
+    #   preset:
+    #     endpoint: 'bingAI'
+    #     model: 'BingAI'
+    #     # temperature: 0.7
+    #     modelLabel: 'Copilot BingAI'
+    #     greeting: |
+    #       AI with internet access.
 
     # GPT
     - name: 'gpt-god-3-5'
       iconURL: 'openAI'
       label: 'GPT 3.5 Turbo'
       description: 'Great for daily tasks.'
-      default: false
+      default: true
       preset:
         iconURL: 'openAI'
-        default: false
+        default: true
         endpoint: 'gpt-god-open-ai'
         model: 'gpt-3.5-turbo-16k'
         # temperature: 0.7
@@ -126,13 +126,13 @@ modelSpecs:
 
     # Gemini
     - name: 'gemini-flash'
-      default: true
+      default: false
       iconURL: 'google'
       label: 'Gemini 1.5 Flash'
       description: 'AI model can handle various tasks quickly, flexibly, and supports image recognition'
       preset:
         iconURL: 'google'
-        default: true
+        default: false
         endpoint: 'google'
         model: 'gemini-1.5-flash-latest'
         # temperature: 0.7
