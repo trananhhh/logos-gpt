@@ -7,30 +7,39 @@ const defaultRate = 6;
  * @type {Object.<string, {prompt: number, completion: number}>}
  */
 const tokenValues = {
-  '8k': { prompt: 30, completion: 60 },
-  '32k': { prompt: 60, completion: 120 },
-  '4k': { prompt: 1.5, completion: 2 },
-  '16k': { prompt: 3, completion: 4 },
-  'gpt-3.5-turbo-1106': { prompt: 1, completion: 2 },
-  'gpt-4o': { prompt: 5, completion: 15 },
-  'gpt-4-1106': { prompt: 10, completion: 30 },
-  'gpt-3.5-turbo-0125': { prompt: 0.5, completion: 1.5 },
-  'claude-3-opus': { prompt: 15, completion: 75 },
-  'claude-3-sonnet': { prompt: 3, completion: 15 },
-  'claude-3-5-sonnet': { prompt: 3, completion: 15 },
-  'claude-3-haiku': { prompt: 0.25, completion: 1.25 },
-  'claude-2.1': { prompt: 8, completion: 24 },
-  'claude-2': { prompt: 8, completion: 24 },
-  'claude-': { prompt: 0.8, completion: 2.4 },
-  'command-r-plus': { prompt: 3, completion: 15 },
-  'command-r': { prompt: 0.5, completion: 1.5 },
+  // '8k': { prompt: 30, completion: 60 },
+  // '32k': { prompt: 60, completion: 120 },
+  // '4k': { prompt: 1.5, completion: 2 },
+  // '16k': { prompt: 3, completion: 4 },
+
+  //GPT
+  'gpt-4-dalle': { prompt: 0.5, completion: 200, ggTime: 1149 },
+  'gpt-4o': { prompt: 5, completion: 15, ggTime: 599 },
+  // 'gpt-3.5': { prompt: 0.5, completion: 1.5, ggTime: 9 },
+  'gpt-3.5': { prompt: 0, completion: 0, ggTime: 9 }, // Free Tier1
+  'gpt-4-gizmo': { prompt: 5, completion: 15, ggTime: 1149 },
+
+  // Claude
+  // 'claude-3-haiku': { prompt: 0.25, completion: 1.25, ggToken: 0.03 },
+  'claude-3-haiku': { prompt: 0, completion: 0, ggToken: 0.03 }, // Free Tier1
+  'claude-3-sonnet': { prompt: 3, completion: 15, ggToken: 0.3 },
+  'claude-3-opus': { prompt: 15, completion: 75, ggToken: 1 },
+  'claude-3-5-sonnet': { prompt: 3, completion: 15, ggToken: 0.3 },
+
   /* cohere doesn't have rates for the older command models,
   so this was from https://artificialanalysis.ai/models/command-light/providers */
   command: { prompt: 0.38, completion: 0.38 },
+  'command-r-plus': { prompt: 3, completion: 15 },
+  'command-r': { prompt: 0.5, completion: 1.5 },
+
+  // Gemini
+
   // 'gemini-1.5': { prompt: 7, completion: 21 }, // May 2nd, 2024 pricing
   // 'gemini': { prompt: 0.5, completion: 1.5 }, // May 2nd, 2024 pricing
-  'gemini-1.5': { prompt: 0, completion: 0 }, // currently free
-  gemini: { prompt: 0, completion: 0 }, // currently free
+  'gemini-1.5-flash': { prompt: 0.5, completion: 1.5 }, // currently free
+  'gemini-1.5-pro': { prompt: 5, completion: 15 }, // currently free
+  'gemini-1.0-pro': { prompt: 0.5, completion: 1.5 }, // currently free
+  // gemini: { prompt: 0, completion: 0 }, // currently free
 };
 
 /**
@@ -46,30 +55,36 @@ const getValueKey = (model, endpoint) => {
     return undefined;
   }
 
-  if (modelName.includes('gpt-3.5-turbo-16k')) {
-    return '16k';
-  } else if (modelName.includes('gpt-3.5-turbo-0125')) {
-    return 'gpt-3.5-turbo-0125';
-  } else if (modelName.includes('gpt-3.5-turbo-1106')) {
-    return 'gpt-3.5-turbo-1106';
-  } else if (modelName.includes('gpt-3.5')) {
-    return '4k';
-  } else if (modelName.includes('gpt-4o')) {
-    return 'gpt-4o';
-  } else if (modelName.includes('gpt-4-vision')) {
-    return 'gpt-4-1106';
-  } else if (modelName.includes('gpt-4-1106')) {
-    return 'gpt-4-1106';
-  } else if (modelName.includes('gpt-4-0125')) {
-    return 'gpt-4-1106';
-  } else if (modelName.includes('gpt-4-turbo')) {
-    return 'gpt-4-1106';
-  } else if (modelName.includes('gpt-4-32k')) {
-    return '32k';
-  } else if (modelName.includes('gpt-4')) {
-    return '8k';
-  } else if (tokenValues[modelName]) {
-    return modelName;
+  switch (true) {
+    case tokenValues[modelName]:
+      return modelName;
+    case modelName.includes('dall'):
+      console.log('dall-e');
+      return 'dall';
+    case modelName.includes('gpt-3.5'):
+      return 'gpt-3.5';
+    case modelName.includes('gpt-4-gizmo'):
+      return 'gpt-4-gizmo';
+    case modelName.includes('gpt-4'):
+      return 'gpt-4o';
+    case modelName.includes('3-haiku'):
+      return 'claude-3-haiku';
+    case modelName.includes('3-sonnet'):
+      return 'claude-3-sonnet';
+    case modelName.includes('3-opus'):
+      return 'claude-3-opus';
+    case modelName.includes('3-5-sonnet') || modelName.includes('3.5-sonnet'):
+      return 'claude-3-5-sonnet';
+    case modelName.includes('gemini') && modelName.includes('flash'):
+      return 'gemini-1.5-flash';
+    case modelName.includes('gemini') &&
+      modelName.includes('pro') &&
+      (modelName.includes('1.5') || modelName.includes('1-5')):
+      return 'gemini-1.5-pro';
+    case modelName.includes('gemini') &&
+      modelName.includes('pro') &&
+      (modelName.includes('1.0') || modelName.includes('1-0')):
+      return 'gemini-1.0-pro';
   }
 
   return undefined;
@@ -109,4 +124,25 @@ const getMultiplier = ({ valueKey, tokenType, model, endpoint, endpointTokenConf
   return tokenValues[valueKey][tokenType] ?? defaultRate;
 };
 
-module.exports = { tokenValues, getValueKey, getMultiplier, defaultRate };
+const getMultiplierGG = ({ tokenType, model, endpoint }) => {
+  if (tokenType === 'prompt') {
+    return {
+      per: 'time',
+      value: 1,
+    };
+  }
+
+  const _valueKey = getValueKey(model, endpoint);
+
+  return tokenValues[_valueKey]?.ggTime
+    ? {
+        per: 'time',
+        value: tokenValues[_valueKey]?.ggTime,
+      }
+    : {
+        per: 'token',
+        value: tokenValues[_valueKey]?.ggToken,
+      };
+};
+
+module.exports = { tokenValues, getValueKey, getMultiplier, getMultiplierGG, defaultRate };

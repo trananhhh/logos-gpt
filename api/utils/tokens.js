@@ -197,6 +197,8 @@ const modelSchema = z.object({
   pricing: z.object({
     prompt: z.string(),
     completion: z.string(),
+    ggToken: z.string().optional(),
+    ggTime: z.string().optional(),
   }),
   context_length: z.number(),
 });
@@ -230,10 +232,14 @@ function processModelData(input) {
     }
     const prompt = parseFloat(model.pricing.prompt) * 1000000;
     const completion = parseFloat(model.pricing.completion) * 1000000;
+    const ggToken = parseFloat(model.pricing.ggToken) * 1000000;
+    const ggTime = parseFloat(model.pricing.ggTime);
 
     tokenConfig[modelKey] = {
       prompt,
       completion,
+      ggToken,
+      ggTime,
       context: model.context_length,
     };
   }

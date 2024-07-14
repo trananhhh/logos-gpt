@@ -12,6 +12,10 @@ const balanceSchema = mongoose.Schema({
     type: Number,
     default: 0,
   },
+  ggTokenCredits: {
+    type: Number,
+    default: 0,
+  },
 });
 
 module.exports = balanceSchema;

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { isEnabled } = require('../server/utils/handleText');
 const transactionSchema = require('./schema/transaction');
-const { getMultiplier } = require('./tx');
+const { getMultiplier, getMultiplierGG } = require('./tx');
 const { logger } = require('~/config');
 const Balance = require('./Balance');
 const cancelRate = 1.15;
@@ -13,8 +13,19 @@ transactionSchema.methods.calculateTokenValue = function () {
   }
   const { valueKey, tokenType, model, endpointTokenConfig } = this;
   const multiplier = Math.abs(getMultiplier({ valueKey, tokenType, model, endpointTokenConfig }));
+  const multiplierGG = getMultiplierGG({ tokenType, model });
+
   this.rate = multiplier;
   this.tokenValue = this.rawAmount * multiplier;
+
+  // GPT-God
+  this.ggRate = multiplierGG.value ?? 1;
+  this.ggTokenValue =
+    multiplierGG.per === 'time'
+      ? -1 * multiplierGG.value
+      : Math.round(this.rawAmount * (multiplierGG.value ?? 1));
+
+  // GPT-God
   if (this.context && this.tokenType === 'completion' && this.context === 'incomplete') {
     this.tokenValue = Math.ceil(this.tokenValue * cancelRate);
     this.rate *= cancelRate;
@@ -38,6 +49,7 @@ transactionSchema.statics.create = async function (transactionData) {
 
   let balance = await Balance.findOne({ user: transaction.user }).lean();
   let incrementValue = transaction.tokenValue;
+  let ggIncrementValue = transaction.ggTokenValue;
 
   if (balance && balance?.tokenCredits + incrementValue < 0) {
     incrementValue = -balance.tokenCredits;
@@ -45,7 +57,7 @@ transactionSchema.statics.create = async function (transactionData) {
 
   balance = await Balance.findOneAndUpdate(
     { user: transaction.user },
-    { $inc: { tokenCredits: incrementValue } },
+    { $inc: { tokenCredits: incrementValue, ggTokenCredits: ggIncrementValue } },
     { upsert: true, new: true },
   ).lean();
 

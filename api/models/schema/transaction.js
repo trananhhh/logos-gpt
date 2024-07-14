@@ -30,6 +30,14 @@ const transactionSchema = mongoose.Schema(
     rate: Number,
     rawAmount: Number,
     tokenValue: Number,
+    ggRate: {
+      type: Number,
+      default: null,
+    },
+    ggTokenValue: {
+      type: Number,
+      default: null,
+    },
   },
   {
     timestamps: true,

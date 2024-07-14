@@ -1,19 +1,19 @@
-import { FileText } from 'lucide-react';
-import { useRecoilState } from 'recoil';
-import { Fragment, useState, memo } from 'react';
 import { Menu, Transition } from '@headlessui/react';
-import { useGetUserBalance, useGetStartupConfig } from 'librechat-data-provider/react-query';
+import { useGetStartupConfig, useGetUserBalance } from 'librechat-data-provider/react-query';
+import { CreditCard, FileText } from 'lucide-react';
+import { Fragment, memo, useState } from 'react';
+import { useRecoilState } from 'recoil';
+import { GearIcon, LinkIcon } from '~/components';
 import FilesView from '~/components/Chat/Input/Files/FilesView';
-import { useAuthContext } from '~/hooks/AuthContext';
-import useAvatar from '~/hooks/Messages/useAvatar';
-import { LinkIcon, GearIcon } from '~/components';
 import { UserIcon } from '~/components/svg';
 import { useLocalize } from '~/hooks';
-import Settings from './Settings';
-import NavLink from './NavLink';
-import Logout from './Logout';
-import { cn } from '~/utils/';
+import { useAuthContext } from '~/hooks/AuthContext';
+import useAvatar from '~/hooks/Messages/useAvatar';
 import store from '~/store';
+import { cn } from '~/utils/';
+import Logout from './Logout';
+import NavLink from './NavLink';
+import Settings from './Settings';
 
 function NavLinks() {
   const localize = useLocalize();
@@ -28,7 +28,20 @@ function NavLinks() {
   const avatarSrc = useAvatar(user);
 
   return (
-    <>
+    <div className="relative pt-2">
+      <div className="absolute -top-8 h-8 w-full bg-gradient-to-t from-gray-850/100 via-gray-850/80 to-gray-800/0"></div>
+      {startupConfig?.checkBalance &&
+        balanceQuery.data &&
+        !isNaN(parseFloat(balanceQuery.data)) && (
+          <div className="text-token-text-secondary mr-2 flex select-none justify-between rounded-md bg-gray-800/50 px-3 py-2.5 text-sm">
+            <span className="flex items-center gap-2">
+              <CreditCard size={16} />
+              Credit
+            </span>
+            <span>{`${new Intl.NumberFormat().format(parseInt(balanceQuery.data))}`}</span>
+          </div>
+        )}
+
       <Menu as="div" className="group relative">
         {({ open }) => (
           <>
@@ -80,16 +93,6 @@ function NavLinks() {
                   {user?.email || localize('com_nav_user')}
                 </div>
                 <div className="my-1.5 h-px bg-black/10 dark:bg-white/10" role="none" />
-                {startupConfig?.checkBalance &&
-                  balanceQuery.data &&
-                  !isNaN(parseFloat(balanceQuery.data)) && (
-                  <>
-                    <div className="text-token-text-secondary ml-3 mr-2 py-2 text-sm">
-                      {`Balance: ${parseFloat(balanceQuery.data).toFixed(2)}`}
-                    </div>
-                    <div className="my-1.5 h-px bg-black/10 dark:bg-white/10" role="none" />
-                  </>
-                )}
                 <Menu.Item as="div">
                   <NavLink
                     svg={() => <FileText className="icon-md" />}
@@ -124,7 +127,7 @@ function NavLinks() {
       </Menu>
       {showFiles && <FilesView open={showFiles} onOpenChange={setShowFiles} />}
       {showSettings && <Settings open={showSettings} onOpenChange={setShowSettings} />}
-    </>
+    </div>
   );
 }
 

@@ -36,7 +36,7 @@ module.exports = {
   rules: {
     'react/react-in-jsx-scope': 'off',
     '@typescript-eslint/ban-ts-comment': ['error', { 'ts-ignore': 'allow' }],
-    indent: ['error', 2, { SwitchCase: 1 }],
+    indent: 'off', //['error', 2, { SwitchCase: 1 }],
     'max-len': [
       'error',
       {
