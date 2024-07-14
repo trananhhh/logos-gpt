@@ -355,10 +355,10 @@ endpoints:
       iconURL: 'google'
       baseURL: 'https://api.gptgod.online/v1/'
       models:
-        default: ['gemini-1.5-flash', 'gemini-pro-vision', 'gemini-1.5-pro']
+        default: ['gemini-1.5-flash', 'gemini-pro-vision', 'gemini-1.5-pro', 'gpt-3.5-turbo-16k']
         fetch: false
       titleConvo: true
-      titleModel: 'gemini-1.5-flash'
+      titleModel: 'gpt-3.5-turbo-16k'
       modelDisplayLabel: 'Gemini'
       titleMessageRole: 'user' # <-----------NEW
 
@@ -373,10 +373,11 @@ endpoints:
             'claude-3-sonnet-20240229',
             'claude-3-opus-20240229',
             'claude-3-5-sonnet-20240620',
+            'gpt-3.5-turbo-16k'
           ]
         fetch: false
       titleConvo: true
-      titleModel: 'claude-3-5-sonnet-20240620'
+      titleModel: 'gpt-3.5-turbo-16k'
       modelDisplayLabel: 'ClaudeAI'
       titleMessageRole: 'user' # <-----------NEW
     # directEndpoint: true # <---------------NEW
