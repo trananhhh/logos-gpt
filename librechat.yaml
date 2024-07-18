@@ -2,7 +2,7 @@
 # https://www.librechat.ai/docs/configuration/librechat_yaml
 
 # Configuration version (required)
-version: 1.1.4
+version: 1.1.5
 
 # Cache settings: Set to true to enable caching
 cache: true
@@ -373,13 +373,16 @@ endpoints:
             'claude-3-sonnet-20240229',
             'claude-3-opus-20240229',
             'claude-3-5-sonnet-20240620',
-            'gpt-3.5-turbo-16k'
+            'gpt-3.5-turbo-16k',
           ]
         fetch: false
       titleConvo: true
       titleModel: 'gpt-3.5-turbo-16k'
       modelDisplayLabel: 'ClaudeAI'
       titleMessageRole: 'user' # <-----------NEW
+  all:
+    streamRate: 15
+
     # directEndpoint: true # <---------------NEW
 # Mistral AI Example
 # - name: 'Mistral' # Unique name for the endpoint
