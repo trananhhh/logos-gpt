@@ -170,15 +170,15 @@ const SetKeyDialog = ({
               {expiryTime === 'never'
                 ? localize('com_endpoint_config_key_never_expires')
                 : `${localize('com_endpoint_config_key_encryption')} ${new Date(
-                  expiryTime,
-                ).toLocaleString()}`}
+                    expiryTime,
+                  ).toLocaleString()}`}
             </small>{' '}
             <Dropdown
               label="Expires "
               value={expiresAtLabel}
               onChange={handleExpirationChange}
               options={expirationOptions.map((option) => option.display)}
-              width={185}
+              sizeClasses="w-[185px]"
             />
             <FormProvider {...methods}>
               <EndpointComponent

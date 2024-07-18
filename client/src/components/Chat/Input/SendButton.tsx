@@ -9,15 +9,12 @@ import { cn } from '~/utils';
 type SendButtonProps = {
   disabled: boolean;
   control: Control<{ text: string }>;
-  className?: string;
+  isRTL: boolean;
 };
 
 const SubmitButton = React.memo(
   forwardRef(
-    (
-      props: { disabled: boolean; className?: string },
-      ref: React.ForwardedRef<HTMLButtonElement>,
-    ) => {
+    (props: { disabled: boolean; isRTL: boolean }, ref: React.ForwardedRef<HTMLButtonElement>) => {
       const localize = useLocalize();
       return (
         <TooltipProvider delayDuration={250}>
@@ -27,8 +24,10 @@ const SubmitButton = React.memo(
                 ref={ref}
                 disabled={props.disabled}
                 className={cn(
-                  'absolute bottom-1.5 right-2 rounded-lg border border-black p-0.5 text-white transition-colors enabled:bg-black disabled:bg-black disabled:text-gray-400 disabled:opacity-10 dark:border-white dark:bg-white dark:disabled:bg-white md:bottom-3 md:right-3',
-                  props?.className,
+                  'absolute rounded-lg border border-black p-0.5 text-white transition-colors enabled:bg-black disabled:bg-black disabled:text-gray-400 disabled:opacity-10 dark:border-white dark:bg-white dark:disabled:bg-white',
+                  props.isRTL
+                    ? 'bottom-1.5 left-2 md:bottom-3 md:left-3'
+                    : 'bottom-1.5 right-2 md:bottom-3 md:right-3',
                 )}
                 data-testid="send-button"
                 type="submit"
@@ -51,13 +50,7 @@ const SubmitButton = React.memo(
 const SendButton = React.memo(
   forwardRef((props: SendButtonProps, ref: React.ForwardedRef<HTMLButtonElement>) => {
     const data = useWatch({ control: props.control });
-    return (
-      <SubmitButton
-        ref={ref}
-        disabled={props.disabled || !data?.text}
-        className={props?.className}
-      />
-    );
+    return <SubmitButton ref={ref} disabled={props.disabled || !data?.text} isRTL={props.isRTL} />;
   }),
 );
 

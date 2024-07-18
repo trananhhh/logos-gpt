@@ -1075,6 +1075,7 @@ button {
   border-color: transparent;
   border-radius: 0.5rem;
   border-width: 1px;
+  cursor: pointer;
   display: inline-flex;
   font-size: 0.875rem;
   font-weight: 500;

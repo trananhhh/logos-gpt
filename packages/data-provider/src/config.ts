@@ -6,7 +6,6 @@ import { fileConfigSchema } from './file-config';
 import { specsConfigSchema } from './models';
 import { FileSources } from './types/files';
 import { TModelsConfig } from './types';
-import { speech } from './api-endpoints';
 
 export const defaultSocialLogins = ['google', 'facebook', 'openid', 'github', 'discord'];
 
@@ -137,71 +136,81 @@ export const defaultAssistantsVersion = {
   [EModelEndpoint.azureAssistants]: 1,
 };
 
-export const assistantEndpointSchema = z.object({
-  /* assistants specific */
-  disableBuilder: z.boolean().optional(),
-  pollIntervalMs: z.number().optional(),
-  timeoutMs: z.number().optional(),
-  version: z.union([z.string(), z.number()]).default(2),
-  supportedIds: z.array(z.string()).min(1).optional(),
-  excludedIds: z.array(z.string()).min(1).optional(),
-  privateAssistants: z.boolean().optional(),
-  retrievalModels: z.array(z.string()).min(1).optional().default(defaultRetrievalModels),
-  capabilities: z
-    .array(z.nativeEnum(Capabilities))
-    .optional()
-    .default([
-      Capabilities.code_interpreter,
-      Capabilities.image_vision,
-      Capabilities.retrieval,
-      Capabilities.actions,
-      Capabilities.tools,
-    ]),
-  /* general */
-  apiKey: z.string().optional(),
-  baseURL: z.string().optional(),
-  models: z
-    .object({
-      default: z.array(z.string()).min(1),
-      fetch: z.boolean().optional(),
-      userIdQuery: z.boolean().optional(),
-    })
-    .optional(),
-  titleConvo: z.boolean().optional(),
-  titleMethod: z.union([z.literal('completion'), z.literal('functions')]).optional(),
-  titleModel: z.string().optional(),
-  headers: z.record(z.any()).optional(),
+export const baseEndpointSchema = z.object({
+  streamRate: z.number().optional(),
 });
+
+export type TBaseEndpoint = z.infer<typeof baseEndpointSchema>;
+
+export const assistantEndpointSchema = baseEndpointSchema.merge(
+  z.object({
+    /* assistants specific */
+    disableBuilder: z.boolean().optional(),
+    pollIntervalMs: z.number().optional(),
+    timeoutMs: z.number().optional(),
+    version: z.union([z.string(), z.number()]).default(2),
+    supportedIds: z.array(z.string()).min(1).optional(),
+    excludedIds: z.array(z.string()).min(1).optional(),
+    privateAssistants: z.boolean().optional(),
+    retrievalModels: z.array(z.string()).min(1).optional().default(defaultRetrievalModels),
+    capabilities: z
+      .array(z.nativeEnum(Capabilities))
+      .optional()
+      .default([
+        Capabilities.code_interpreter,
+        Capabilities.image_vision,
+        Capabilities.retrieval,
+        Capabilities.actions,
+        Capabilities.tools,
+      ]),
+    /* general */
+    apiKey: z.string().optional(),
+    baseURL: z.string().optional(),
+    models: z
+      .object({
+        default: z.array(z.string()).min(1),
+        fetch: z.boolean().optional(),
+        userIdQuery: z.boolean().optional(),
+      })
+      .optional(),
+    titleConvo: z.boolean().optional(),
+    titleMethod: z.union([z.literal('completion'), z.literal('functions')]).optional(),
+    titleModel: z.string().optional(),
+    headers: z.record(z.any()).optional(),
+  }),
+);
 
 export type TAssistantEndpoint = z.infer<typeof assistantEndpointSchema>;
 
-export const endpointSchema = z.object({
-  name: z.string().refine((value) => !eModelEndpointSchema.safeParse(value).success, {
-    message: `Value cannot be one of the default endpoint (EModelEndpoint) values: ${Object.values(
-      EModelEndpoint,
-    ).join(', ')}`,
+export const endpointSchema = baseEndpointSchema.merge(
+  z.object({
+    name: z.string().refine((value) => !eModelEndpointSchema.safeParse(value).success, {
+      message: `Value cannot be one of the default endpoint (EModelEndpoint) values: ${Object.values(
+        EModelEndpoint,
+      ).join(', ')}`,
+    }),
+    apiKey: z.string(),
+    baseURL: z.string(),
+    models: z.object({
+      default: z.array(z.string()).min(1),
+      fetch: z.boolean().optional(),
+      userIdQuery: z.boolean().optional(),
+    }),
+    titleConvo: z.boolean().optional(),
+    titleMethod: z.union([z.literal('completion'), z.literal('functions')]).optional(),
+    titleModel: z.string().optional(),
+    summarize: z.boolean().optional(),
+    summaryModel: z.string().optional(),
+    forcePrompt: z.boolean().optional(),
+    modelDisplayLabel: z.string().optional(),
+    headers: z.record(z.any()).optional(),
+    addParams: z.record(z.any()).optional(),
+    dropParams: z.array(z.string()).optional(),
+    customOrder: z.number().optional(),
+    directEndpoint: z.boolean().optional(),
+    titleMessageRole: z.string().optional(),
   }),
-  apiKey: z.string(),
-  baseURL: z.string(),
-  models: z.object({
-    default: z.array(z.string()).min(1),
-    fetch: z.boolean().optional(),
-    userIdQuery: z.boolean().optional(),
-  }),
-  titleConvo: z.boolean().optional(),
-  titleMethod: z.union([z.literal('completion'), z.literal('functions')]).optional(),
-  titleModel: z.string().optional(),
-  summarize: z.boolean().optional(),
-  summaryModel: z.string().optional(),
-  forcePrompt: z.boolean().optional(),
-  modelDisplayLabel: z.string().optional(),
-  headers: z.record(z.any()).optional(),
-  addParams: z.record(z.any()).optional(),
-  dropParams: z.array(z.string()).optional(),
-  customOrder: z.number().optional(),
-  directEndpoint: z.boolean().optional(),
-  titleMessageRole: z.string().optional(),
-});
+);
 
 export type TEndpoint = z.infer<typeof endpointSchema>;
 
@@ -214,6 +223,7 @@ export const azureEndpointSchema = z
   .and(
     endpointSchema
       .pick({
+        streamRate: true,
         titleConvo: true,
         titleMethod: true,
         titleModel: true,
@@ -230,6 +240,15 @@ export type TAzureConfig = Omit<z.infer<typeof azureEndpointSchema>, 'groups'> &
 const ttsOpenaiSchema = z.object({
   url: z.string().optional(),
   apiKey: z.string(),
+  model: z.string(),
+  voices: z.array(z.string()),
+});
+
+const ttsAzureOpenAISchema = z.object({
+  instanceName: z.string(),
+  apiKey: z.string(),
+  deploymentName: z.string(),
+  apiVersion: z.string(),
   model: z.string(),
   voices: z.array(z.string()),
 });
@@ -260,18 +279,27 @@ const ttsLocalaiSchema = z.object({
 
 const ttsSchema = z.object({
   openai: ttsOpenaiSchema.optional(),
+  azureOpenAI: ttsAzureOpenAISchema.optional(),
   elevenLabs: ttsElevenLabsSchema.optional(),
   localai: ttsLocalaiSchema.optional(),
 });
 
+const sttOpenaiSchema = z.object({
+  url: z.string().optional(),
+  apiKey: z.string(),
+  model: z.string(),
+});
+
+const sttAzureOpenAISchema = z.object({
+  instanceName: z.string(),
+  apiKey: z.string(),
+  deploymentName: z.string(),
+  apiVersion: z.string(),
+});
+
 const sttSchema = z.object({
-  openai: z
-    .object({
-      url: z.string().optional(),
-      apiKey: z.string().optional(),
-      model: z.string().optional(),
-    })
-    .optional(),
+  openai: sttOpenaiSchema.optional(),
+  azureOpenAI: sttAzureOpenAISchema.optional(),
 });
 
 const speechTab = z
@@ -287,7 +315,7 @@ const speechTab = z
           languageSTT: z.string().optional(),
           autoTranscribeAudio: z.boolean().optional(),
           decibelValue: z.number().optional(),
-          autoSendText: z.boolean().optional(),
+          autoSendText: z.number().optional(),
         }),
       )
       .optional(),
@@ -409,10 +437,15 @@ export const configSchema = z.object({
   modelSpecs: specsConfigSchema.optional(),
   endpoints: z
     .object({
+      all: baseEndpointSchema.optional(),
+      [EModelEndpoint.openAI]: baseEndpointSchema.optional(),
+      [EModelEndpoint.google]: baseEndpointSchema.optional(),
+      [EModelEndpoint.anthropic]: baseEndpointSchema.optional(),
+      [EModelEndpoint.gptPlugins]: baseEndpointSchema.optional(),
       [EModelEndpoint.azureOpenAI]: azureEndpointSchema.optional(),
       [EModelEndpoint.azureAssistants]: assistantEndpointSchema.optional(),
       [EModelEndpoint.assistants]: assistantEndpointSchema.optional(),
-      custom: z.array(endpointSchema.partial()).optional(),
+      [EModelEndpoint.custom]: z.array(endpointSchema.partial()).optional(),
     })
     .strict()
     .refine((data) => Object.keys(data).length > 0, {
@@ -641,6 +674,16 @@ export enum InfiniteCollections {
 }
 
 /**
+ * Enum for time intervals
+ */
+export enum Time {
+  THIRTY_MINUTES = 1800000,
+  TEN_MINUTES = 600000,
+  FIVE_MINUTES = 300000,
+  TWO_MINUTES = 120000,
+}
+
+/**
  * Enum for cache keys.
  */
 export enum CacheKeys {
@@ -710,6 +753,10 @@ export enum CacheKeys {
    * Key for the cached audio run Ids.
    */
   AUDIO_RUNS = 'audioRuns',
+  /**
+   * Key for in-progress messages.
+   */
+  MESSAGES = 'messages',
 }
 
 /**
@@ -825,9 +872,9 @@ export enum SettingsTabValues {
    */
   GENERAL = 'general',
   /**
-   * Tab for Messages Settings
+   * Tab for Chat Settings
    */
-  MESSAGES = 'messages',
+  CHAT = 'chat',
   /**
    * Tab for Speech Settings
    */
@@ -844,6 +891,36 @@ export enum SettingsTabValues {
    * Tab for Account Settings
    */
   ACCOUNT = 'account',
+}
+
+export enum STTProviders {
+  /**
+   * Provider for OpenAI STT
+   */
+  OPENAI = 'openai',
+  /**
+   * Provider for Microsoft Azure STT
+   */
+  AZURE_OPENAI = 'azureOpenAI',
+}
+
+export enum TTSProviders {
+  /**
+   * Provider for OpenAI TTS
+   */
+  OPENAI = 'openai',
+  /**
+   * Provider for Microsoft Azure OpenAI TTS
+   */
+  AZURE_OPENAI = 'azureOpenAI',
+  /**
+   * Provider for ElevenLabs TTS
+   */
+  ELEVENLABS = 'elevenlabs',
+  /**
+   * Provider for LocalAI TTS
+   */
+  LOCALAI = 'localai',
 }
 
 /** Enum for app-wide constants */
@@ -864,6 +941,8 @@ export enum Constants {
   COMMON_DIVIDER = '__',
   /** Max length for commands */
   COMMANDS_MAX_LENGTH = 56,
+  /** Default Stream Rate (ms) */
+  DEFAULT_STREAM_RATE = 1,
 }
 
 export enum LocalStorageKeys {
