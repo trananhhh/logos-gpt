@@ -13,10 +13,11 @@ const tokenValues = {
   // '16k': { prompt: 3, completion: 4 },
 
   //GPT
+  'gpt-3.5': { prompt: 0, completion: 0, ggTime: 9 }, // Free Tier1
+  'gpt-4o-mini': { prompt: 0, completion: 0, ggTime: 19 }, // Free Tier1
   'gpt-4-dalle': { prompt: 0.5, completion: 200, ggTime: 1149 },
   'gpt-4o': { prompt: 5, completion: 15, ggTime: 599 },
   // 'gpt-3.5': { prompt: 0.5, completion: 1.5, ggTime: 9 },
-  'gpt-3.5': { prompt: 0, completion: 0, ggTime: 9 }, // Free Tier1
   'gpt-4-gizmo': { prompt: 5, completion: 15, ggTime: 1149 },
 
   // Claude
@@ -61,6 +62,8 @@ const getValueKey = (model, endpoint) => {
     case modelName.includes('dall'):
       console.log('dall-e');
       return 'dall';
+    case modelName.includes('4o') && modelName.includes('gpt') && modelName.includes('mini'):
+      return 'gpt-4o-mini';
     case modelName.includes('gpt-3.5'):
       return 'gpt-3.5';
     case modelName.includes('gpt-4-gizmo'):
