@@ -31,7 +31,7 @@ function NavLinks() {
     <div className="relative pt-2">
       <div className="absolute -top-8 h-8 w-full bg-gradient-to-t from-gray-50/100 via-gray-50/80 to-gray-50/0 dark:from-gray-850/100 dark:via-gray-850/80 dark:to-gray-800/0"></div>
       {startupConfig?.checkBalance &&
-        balanceQuery.data &&
+        !!balanceQuery.data &&
         !isNaN(parseFloat(balanceQuery.data)) && (
           <div className="text-token-text-secondary mb-1.5 flex select-none justify-between rounded-md bg-gray-100/50 px-3 py-2.5 text-sm dark:bg-gray-800/50">
             <span className="flex items-center gap-2">

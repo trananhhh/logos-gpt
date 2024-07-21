@@ -28,7 +28,7 @@ balanceSchema.statics.check = async function ({
     endpointTokenConfig: !!endpointTokenConfig,
   });
 
-  if (!balance) {
+  if (balance < tokenCost) {
     return {
       canSpend: false,
       balance: 0,
