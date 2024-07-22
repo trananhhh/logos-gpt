@@ -20,7 +20,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '../ui';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/Card';
 import { Progress } from '../ui/Progress';
 
 type Props = {
