@@ -133,7 +133,7 @@ const PlanNCredit = ({ balanceQuery }: Props) => {
           <Tabs
             defaultValue="plan"
             className={cn(
-              'max-h-[40rem] w-full transition-all duration-1000',
+              'max-h-[40rem] w-full border-none outline-none ring-0 transition-all duration-1000',
               activeTab === 'plan' ? 'max-h-[40rem]' : 'max-h-64',
             )}
           >
@@ -145,7 +145,7 @@ const PlanNCredit = ({ balanceQuery }: Props) => {
                 Credit
               </TabsTrigger>
             </TabsList>
-            <TabsContent className="mt-4 border-none p-0" value="plan">
+            <TabsContent className="mt-4 border-none p-0 outline-none ring-0" value="plan">
               <div className="flex flex-col gap-4">
                 {pricings.map((pricing) => (
                   <Card
@@ -180,7 +180,7 @@ const PlanNCredit = ({ balanceQuery }: Props) => {
                 </a>
               </div>
             </TabsContent>
-            <TabsContent className="mt-4 border-none p-0" value="credit">
+            <TabsContent className="mt-4 border-none p-0 outline-none ring-0" value="credit">
               <div className="flex flex-col gap-4">
                 <div className="flex items-center justify-between gap-4">
                   <Label htmlFor="credit-amount">Credit Amount</Label>
