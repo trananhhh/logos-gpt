@@ -124,7 +124,7 @@ const PlanNCredit = ({ balanceQuery }: Props) => {
           </div>
         </div>
       </DialogTrigger>
-      <DialogContent className="h-fit px-5 py-6 transition-all sm:max-w-screen-sm lg:p-8">
+      <DialogContent className="h-fit px-5 py-6 transition-all dark:text-white sm:max-w-screen-sm lg:p-8">
         <div className="flex flex-col gap-6">
           <div className="flex items-center justify-between">
             <h3 className="text-2xl font-bold">Manage Your Plan</h3>
@@ -153,7 +153,7 @@ const PlanNCredit = ({ balanceQuery }: Props) => {
                     className={`cursor-pointer py-0 transition-all ${
                       selectedPlan === pricing.id
                         ? 'border-zinc-400 shadow-lg drop-shadow-xl'
-                        : 'border-zinc-200 shadow-none drop-shadow-none'
+                        : 'border-zinc-200 shadow-none drop-shadow-none dark:border-zinc-700'
                     }`}
                     onClick={() => setSelectedPlan(pricing.id)}
                   >
