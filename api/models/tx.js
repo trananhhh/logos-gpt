@@ -13,16 +13,14 @@ const tokenValues = {
   // '16k': { prompt: 3, completion: 4 },
 
   //GPT
-  'gpt-3.5': { prompt: 0, completion: 0, ggTime: 9 }, // Free Tier1
-  'gpt-4o-mini': { prompt: 0, completion: 0, ggTime: 19 }, // Free Tier1
+  'gpt-3.5': { prompt: 0.5, completion: 1.5, ggTime: 9, type: 'tier-1' }, // Free Tier1
+  'gpt-4o-mini': { prompt: 0.15, completion: 0.6, ggTime: 19, type: 'tier-1' }, // Free Tier1
   'gpt-4-dalle': { prompt: 0.5, completion: 200, ggTime: 1149 },
   'gpt-4o': { prompt: 5, completion: 15, ggTime: 599 },
-  // 'gpt-3.5': { prompt: 0.5, completion: 1.5, ggTime: 9 },
   'gpt-4-gizmo': { prompt: 5, completion: 15, ggTime: 1149 },
 
   // Claude
-  // 'claude-3-haiku': { prompt: 0.25, completion: 1.25, ggToken: 0.03 },
-  'claude-3-haiku': { prompt: 0, completion: 0, ggToken: 0.03 }, // Free Tier1
+  'claude-3-haiku': { prompt: 0.25, completion: 1.25, ggToken: 0.03, type: 'tier-1' }, // Free Tier1
   'claude-3-sonnet': { prompt: 3, completion: 15, ggToken: 0.3 },
   'claude-3-opus': { prompt: 15, completion: 75, ggToken: 1 },
   'claude-3-5-sonnet': { prompt: 3, completion: 15, ggToken: 0.3 },
@@ -37,7 +35,7 @@ const tokenValues = {
 
   // 'gemini-1.5': { prompt: 7, completion: 21 }, // May 2nd, 2024 pricing
   // 'gemini': { prompt: 0.5, completion: 1.5 }, // May 2nd, 2024 pricing
-  'gemini-1.5-flash': { prompt: 0.5, completion: 1.5 }, // currently free
+  'gemini-1.5-flash': { prompt: 0.5, completion: 1.5, type: 'tier-1' }, // currently free
   'gemini-1.5-pro': { prompt: 5, completion: 15 }, // currently free
   'gemini-1.0-pro': { prompt: 0.5, completion: 1.5 }, // currently free
   // gemini: { prompt: 0, completion: 0 }, // currently free
@@ -62,7 +60,7 @@ const getValueKey = (model, endpoint) => {
     case modelName.includes('dall'):
       console.log('dall-e');
       return 'dall';
-    case modelName.includes('4o') && modelName.includes('gpt') && modelName.includes('mini'):
+    case modelName.includes('gpt-4o-mini'):
       return 'gpt-4o-mini';
     case modelName.includes('gpt-3.5'):
       return 'gpt-3.5';
@@ -148,4 +146,9 @@ const getMultiplierGG = ({ tokenType, model, endpoint }) => {
       };
 };
 
-module.exports = { tokenValues, getValueKey, getMultiplier, getMultiplierGG, defaultRate };
+const isTier1 = ({ model, endpoint }) => {
+  const _valueKey = getValueKey(model, endpoint);
+  return tokenValues[_valueKey]?.type === 'tier-1';
+};
+
+module.exports = { tokenValues, getValueKey, getMultiplier, getMultiplierGG, defaultRate, isTier1 };

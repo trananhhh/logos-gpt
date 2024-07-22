@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { isEnabled } = require('../server/utils/handleText');
 const transactionSchema = require('./schema/transaction');
-const { getMultiplier, getMultiplierGG } = require('./tx');
+const { getMultiplier, getMultiplierGG, isTier1 } = require('./tx');
 const { logger } = require('~/config');
 const Balance = require('./Balance');
 const cancelRate = 1.15;
@@ -17,6 +17,7 @@ transactionSchema.methods.calculateTokenValue = function () {
 
   this.rate = multiplier;
   this.tokenValue = this.rawAmount * multiplier;
+  this.isTier1 = isTier1({ model, endpointTokenConfig });
 
   // GPT-God
   this.ggRate = multiplierGG.value ?? 1;
@@ -51,13 +52,27 @@ transactionSchema.statics.create = async function (transactionData) {
   let incrementValue = transaction.tokenValue;
   let ggIncrementValue = transaction.ggTokenValue;
 
-  if (balance && balance?.tokenCredits + incrementValue < 0) {
+  // The last time will use all of the credit, even when it's not enough
+  if (
+    balance &&
+    balance?.tokenCredits + incrementValue < 0 &&
+    balance?.remainMonthlyTokenCredits + incrementValue < 0
+  ) {
     incrementValue = -balance.tokenCredits;
   }
 
+  const isMonthlyCredits = balance?.remainMonthlyTokenCredits >= incrementValue;
+  const isFreeTier = balance?.plan != 0 && transaction?.isTier1;
+
   balance = await Balance.findOneAndUpdate(
     { user: transaction.user },
-    { $inc: { tokenCredits: incrementValue, ggTokenCredits: ggIncrementValue } },
+    {
+      $inc: {
+        tokenCredits: !isMonthlyCredits && !isFreeTier ? incrementValue : 0,
+        remainMonthlyTokenCredits: isMonthlyCredits && !isFreeTier ? incrementValue : 0,
+        ggTokenCredits: ggIncrementValue,
+      },
+    },
     { upsert: true, new: true },
   ).lean();
 
@@ -65,6 +80,7 @@ transactionSchema.statics.create = async function (transactionData) {
     rate: transaction.rate,
     user: transaction.user.toString(),
     balance: balance.tokenCredits,
+    remainMonthlyTokenCredits: balance.remainMonthlyTokenCredits,
     [transaction.tokenType]: incrementValue,
   };
 };

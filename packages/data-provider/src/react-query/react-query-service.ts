@@ -75,9 +75,9 @@ export const useGetSharedMessages = (
 };
 
 export const useGetUserBalance = (
-  config?: UseQueryOptions<string>,
-): QueryObserverResult<string> => {
-  return useQuery<string>([QueryKeys.balance], () => dataService.getUserBalance(), {
+  config?: UseQueryOptions<t.TUserBalanceResponse>,
+): QueryObserverResult<t.TUserBalanceResponse> => {
+  return useQuery<t.TUserBalanceResponse>([QueryKeys.balance], () => dataService.getUserBalance(), {
     refetchOnWindowFocus: true,
     refetchOnReconnect: true,
     refetchOnMount: true,

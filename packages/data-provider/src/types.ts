@@ -465,3 +465,10 @@ export type TGetRandomPromptsRequest = {
 };
 
 export type TCustomConfigSpeechResponse = { [key: string]: string };
+
+export type TUserBalanceResponse = {
+  balance: string;
+  monthlyTokenCredits: string;
+  remainMonthlyTokenCredits: string;
+  plan: string;
+};

@@ -1,6 +1,6 @@
 import { Menu, Transition } from '@headlessui/react';
 import { useGetStartupConfig, useGetUserBalance } from 'librechat-data-provider/react-query';
-import { CreditCard, FileText } from 'lucide-react';
+import { FileText } from 'lucide-react';
 import { Fragment, memo, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { GearIcon, LinkIcon } from '~/components';
@@ -13,6 +13,7 @@ import store from '~/store';
 import { cn } from '~/utils/';
 import Logout from './Logout';
 import NavLink from './NavLink';
+import PlanNCredit from './PlanNCredit';
 import Settings from './Settings';
 
 function NavLinks() {
@@ -32,14 +33,8 @@ function NavLinks() {
       <div className="absolute -top-8 h-8 w-full bg-gradient-to-t from-gray-50/100 via-gray-50/80 to-gray-50/0 dark:from-gray-850/100 dark:via-gray-850/80 dark:to-gray-800/0"></div>
       {startupConfig?.checkBalance &&
         !!balanceQuery.data &&
-        !isNaN(parseFloat(balanceQuery.data)) && (
-          <div className="text-token-text-secondary mb-1.5 flex select-none justify-between rounded-md bg-gray-100/50 px-3 py-2.5 text-sm dark:bg-gray-800/50">
-            <span className="flex items-center gap-2">
-              <CreditCard size={16} />
-              Credit
-            </span>
-            <span>{`${new Intl.NumberFormat().format(parseInt(balanceQuery.data))}`}</span>
-          </div>
+        !isNaN(parseFloat(balanceQuery?.data?.balance)) && (
+          <PlanNCredit balanceQuery={balanceQuery} />
         )}
 
       <Menu as="div" className="group relative">
