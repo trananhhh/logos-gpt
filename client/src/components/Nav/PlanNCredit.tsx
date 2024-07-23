@@ -2,7 +2,9 @@ import { QueryObserverResult } from '@tanstack/react-query';
 import { TUserBalanceResponse } from 'librechat-data-provider/dist/types';
 import { CreditCard } from 'lucide-react';
 import { useState } from 'react';
-import { cn } from '../../lib/utils';
+import { CANCEL_URL, RETURN_URL } from '../../api';
+import { createPaymentLink } from '../../api/create-payment-link';
+import { cn, generateNumericId } from '../../lib/utils';
 import {
   Button,
   Dialog,
@@ -71,12 +73,34 @@ const CREDIT_RATE = 0.05;
 const PlanNCredit = ({ balanceQuery }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('plan');
-  const [selectedPlan, setSelectedPlan] = useState('community');
+  const [selectedPlan, setSelectedPlan] = useState(0);
   const [creditAmount, setCreditAmount] = useState(0);
 
   if (!balanceQuery?.data) {
     return null;
   }
+
+  const handleCreatePaymentLink = async () => {
+    const transId = generateNumericId();
+
+    if (activeTab === 'plan') {
+      await createPaymentLink({
+        orderCode: parseInt(transId),
+        plan: selectedPlan,
+        duration: 1,
+        amount: pricings[selectedPlan].price * 1000,
+        cancelUrl: CANCEL_URL,
+        returnUrl: RETURN_URL,
+      })
+        .then((link) => {
+          console.log('Created payment link:', link.checkoutUrl);
+          window.location.href = link?.checkoutUrl;
+        })
+        .catch((error) => {
+          console.error('Failed to create payment link:', error);
+        });
+    }
+  };
 
   return (
     <Dialog onOpenChange={(e) => setIsOpen(e)} open={isOpen}>
@@ -147,15 +171,15 @@ const PlanNCredit = ({ balanceQuery }: Props) => {
             </TabsList>
             <TabsContent className="mt-4 border-none p-0 outline-none ring-0" value="plan">
               <div className="flex flex-col gap-4">
-                {pricings.map((pricing) => (
+                {pricings.map((pricing, index) => (
                   <Card
                     key={pricing.id}
                     className={`cursor-pointer py-0 transition-all ${
-                      selectedPlan === pricing.id
+                      selectedPlan === index
                         ? 'border-zinc-400 shadow-lg drop-shadow-xl'
                         : 'border-zinc-200 shadow-none drop-shadow-none dark:border-zinc-700'
                     }`}
-                    onClick={() => setSelectedPlan(pricing.id)}
+                    onClick={() => setSelectedPlan(index)}
                   >
                     <CardHeader className="flex flex-row items-center justify-between py-4">
                       <CardTitle className="text-xl font-semibold">{pricing.title}</CardTitle>
@@ -217,7 +241,7 @@ const PlanNCredit = ({ balanceQuery }: Props) => {
             <Button variant="outline" onClick={() => setIsOpen(false)}>
               Cancel
             </Button>
-            <Button>Next</Button>
+            <Button onClick={() => handleCreatePaymentLink()}>Next</Button>
           </div>
         </div>
       </DialogContent>
