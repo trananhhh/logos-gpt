@@ -4,6 +4,7 @@ import { CreditCard } from 'lucide-react';
 import { useState } from 'react';
 import { CANCEL_URL, RETURN_URL } from '../../api';
 import { createPaymentLink } from '../../api/create-payment-link';
+import { useAuthContext } from '../../hooks';
 import { cn, generateNumericId } from '../../lib/utils';
 import {
   Button,
@@ -37,7 +38,7 @@ type Pricing = {
   shortDescription: string;
 };
 
-const pricings: Pricing[] = [
+export const pricings: Pricing[] = [
   {
     id: 'community',
     title: 'Community',
@@ -66,21 +67,31 @@ const pricings: Pricing[] = [
     price: 249,
     shortDescription: 'Best plan for advanced users with high usage and more features',
   },
+  {
+    id: 'credits',
+    title: 'Credits',
+    credits: 0,
+    price: 0,
+    shortDescription: '',
+  },
 ];
 
 const CREDIT_RATE = 0.05;
 
 const PlanNCredit = ({ balanceQuery }: Props) => {
+  const { user } = useAuthContext();
   const [isOpen, setIsOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('plan');
   const [selectedPlan, setSelectedPlan] = useState(0);
   const [creditAmount, setCreditAmount] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
 
   if (!balanceQuery?.data) {
     return null;
   }
 
   const handleCreatePaymentLink = async () => {
+    setIsLoading(true);
     const transId = generateNumericId();
 
     if (activeTab === 'plan') {
@@ -91,6 +102,26 @@ const PlanNCredit = ({ balanceQuery }: Props) => {
         amount: pricings[selectedPlan].price * 1000,
         cancelUrl: CANCEL_URL,
         returnUrl: RETURN_URL,
+        email: user?.email,
+        // userId: user?.id,
+      })
+        .then((link) => {
+          console.log('Created payment link:', link.checkoutUrl);
+          window.location.href = link?.checkoutUrl;
+        })
+        .catch((error) => {
+          console.error('Failed to create payment link:', error);
+        });
+    } else {
+      await createPaymentLink({
+        orderCode: parseInt(transId),
+        plan: 4,
+        duration: creditAmount,
+        amount: creditAmount * CREDIT_RATE,
+        cancelUrl: CANCEL_URL,
+        returnUrl: RETURN_URL,
+        email: user?.email,
+        // userId: user?.id,
       })
         .then((link) => {
           console.log('Created payment link:', link.checkoutUrl);
@@ -155,6 +186,7 @@ const PlanNCredit = ({ balanceQuery }: Props) => {
           </div>
 
           <Tabs
+            onValueChange={(value) => setActiveTab(value)}
             defaultValue="plan"
             className={cn(
               'max-h-[40rem] w-full border-none outline-none ring-0 transition-all duration-1000',
@@ -162,12 +194,8 @@ const PlanNCredit = ({ balanceQuery }: Props) => {
             )}
           >
             <TabsList>
-              <TabsTrigger value="plan" onClick={() => setActiveTab('plan')}>
-                Manage Plan
-              </TabsTrigger>
-              <TabsTrigger value="credit" onClick={() => setActiveTab('credit')}>
-                Credit
-              </TabsTrigger>
+              <TabsTrigger value="plan">Manage Plan</TabsTrigger>
+              <TabsTrigger value="credit">Credit</TabsTrigger>
             </TabsList>
             <TabsContent className="mt-4 border-none p-0 outline-none ring-0" value="plan">
               <div className="flex flex-col gap-4">
@@ -241,7 +269,9 @@ const PlanNCredit = ({ balanceQuery }: Props) => {
             <Button variant="outline" onClick={() => setIsOpen(false)}>
               Cancel
             </Button>
-            <Button onClick={() => handleCreatePaymentLink()}>Next</Button>
+            <Button onClick={() => handleCreatePaymentLink()} loading={isLoading}>
+              Next
+            </Button>
           </div>
         </div>
       </DialogContent>

@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { VariantProps, cva } from 'class-variance-authority';
 import { cn } from '~/utils';
+import { Slot } from '@radix-ui/react-slot';
+import { Loader2 } from 'lucide-react';
 
 const buttonVariants = cva(
   'rounded-md inline-flex items-center justify-center text-sm font-medium transition-colors dark:hover:bg-gray-700 dark:hover:text-gray-100 disabled:opacity-50 disabled:pointer-events-none data-[state=open]:bg-gray-100 dark:data-[state=open]:bg-gray-700',
@@ -32,17 +34,27 @@ const buttonVariants = cva(
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {}
+    VariantProps<typeof buttonVariants> {
+  asChild?: boolean;
+  loading?: boolean;
+}
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps & { customId?: string }>(
-  ({ className, variant, size, customId, ...props }, ref) => {
+  ({ className, variant, size, asChild = false, loading, children, customId, ...props }, ref) => {
+    const Comp = asChild ? Slot : 'button';
     return (
-      <button
+      <Comp
         className={cn(buttonVariants({ variant, size, className }))}
+        disabled={loading}
         ref={ref}
         {...props}
         id={customId ?? props?.id ?? 'shadcn-button'}
-      />
+      >
+        <>
+          {loading && <Loader2 className={cn('h-4 w-4 animate-spin', children ? 'mr-2' : '')} />}
+          {children}
+        </>
+      </Comp>
     );
   },
 );

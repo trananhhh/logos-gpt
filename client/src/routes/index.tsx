@@ -30,10 +30,6 @@ export const router = createBrowserRouter([
     element: <ShareRoute />,
   },
   {
-    path: 'payment',
-    element: <PaymentRoute />,
-  },
-  {
     path: '/',
     element: <StartupLayout />,
     children: [
@@ -68,6 +64,10 @@ export const router = createBrowserRouter([
             element: <Login />,
           },
         ],
+      },
+      {
+        path: 'payment',
+        element: <PaymentRoute />,
       },
       dashboardRoutes,
       {

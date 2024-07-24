@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { PAYOS_API_KEY, PAYOS_BASE_URL, PAYOS_CLIENT_ID } from '.';
+import { BASE_URL, Response } from '.';
 
 interface Transaction {
   reference: string;
@@ -15,7 +15,7 @@ interface Transaction {
   counterAccountNumber: string | null;
 }
 
-interface PaymentRequestData {
+export interface PaymentInfoResponse {
   id: string;
   orderCode: number;
   amount: number;
@@ -28,27 +28,18 @@ interface PaymentRequestData {
   canceledAt: string | null;
 }
 
-export interface PaymentRequestResponse {
-  code: string;
-  desc: string;
-  data: PaymentRequestData;
-  signature: string;
-}
-
-export const getPaymentRequest = async (id: string): Promise<PaymentRequestResponse> => {
+export const getPaymentInfo = async (orderCode: string): Promise<PaymentInfoResponse> => {
   try {
-    const response = await axios.get(PAYOS_BASE_URL + 'payment-requests/' + id, {
-      headers: {
-        'x-client-id': PAYOS_CLIENT_ID ?? '',
-        'x-api-key': PAYOS_API_KEY ?? '',
-        'Content-Type': 'application/json',
+    const response = await axios.get<Response<PaymentInfoResponse>>(BASE_URL + '/payment-info', {
+      params: {
+        orderCode,
       },
     });
 
-    return response.data;
+    return response?.data?.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      console.error('Error getPaymentRequest:', error.response?.data || error.message);
+      console.error('Error getPaymentInfo:', error.response?.data || error.message);
     } else {
       console.error('Unexpected error:', error);
     }
