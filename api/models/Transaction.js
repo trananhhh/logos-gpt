@@ -5,6 +5,7 @@ const { getMultiplier, getMultiplierGG, isTier1 } = require('./tx');
 const { logger } = require('~/config');
 const Balance = require('./Balance');
 const cancelRate = 1.15;
+const discountRate = 0.5;
 
 // Method to calculate and set the tokenValue for a transaction
 transactionSchema.methods.calculateTokenValue = function () {
@@ -12,7 +13,8 @@ transactionSchema.methods.calculateTokenValue = function () {
     this.tokenValue = this.rawAmount;
   }
   const { valueKey, tokenType, model, endpointTokenConfig } = this;
-  const multiplier = Math.abs(getMultiplier({ valueKey, tokenType, model, endpointTokenConfig }));
+  const multiplier =
+    Math.abs(getMultiplier({ valueKey, tokenType, model, endpointTokenConfig })) * discountRate;
   const multiplierGG = getMultiplierGG({ tokenType, model });
 
   this.rate = multiplier;
