@@ -20,7 +20,7 @@ const Balance = require('./Balance');
  * @throws {Error} Throws an error if there's an issue with the balance check.
  */
 const checkBalance = async ({ req, res, txData }) => {
-  const { canSpend, balance, tokenCost } = await Balance.check(txData);
+  const { canSpend, balance, tokenCost, monthlyCredits } = await Balance.check(txData);
 
   if (canSpend) {
     return true;
@@ -31,6 +31,7 @@ const checkBalance = async ({ req, res, txData }) => {
     type,
     balance,
     tokenCost,
+    monthlyCredits,
     promptTokens: txData.amount,
   };
 

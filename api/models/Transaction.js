@@ -52,24 +52,24 @@ transactionSchema.statics.create = async function (transactionData) {
   let incrementValue = transaction.tokenValue;
   let ggIncrementValue = transaction.ggTokenValue;
 
-  // The last time will use all of the credit, even when it's not enough
-  if (
-    balance &&
-    balance?.tokenCredits + incrementValue < 0 &&
-    balance?.remainMonthlyTokenCredits + incrementValue < 0
-  ) {
-    incrementValue = -balance.tokenCredits;
-  }
+  const isMonthlyCredits = balance?.remainMonthlyTokenCredits > 0;
 
-  const isMonthlyCredits = balance?.remainMonthlyTokenCredits >= incrementValue;
+  // The last time will use all of the credit, even when it's not enough
+  const tokenCreditsReduce =
+    balance && balance.tokenCredits + incrementValue < 0 ? -balance?.tokenCredits : incrementValue;
+  const monthlyCreditReduce =
+    balance && balance.remainMonthlyTokenCredits + incrementValue < 0
+      ? -balance?.remainMonthlyTokenCredits
+      : incrementValue;
+
   const isFreeTier = balance?.plan != 0 && transaction?.isTier1;
 
   balance = await Balance.findOneAndUpdate(
     { user: transaction.user },
     {
       $inc: {
-        tokenCredits: !isMonthlyCredits && !isFreeTier ? incrementValue : 0,
-        remainMonthlyTokenCredits: isMonthlyCredits && !isFreeTier ? incrementValue : 0,
+        tokenCredits: !isMonthlyCredits && !isFreeTier ? tokenCreditsReduce : 0,
+        remainMonthlyTokenCredits: isMonthlyCredits && !isFreeTier ? monthlyCreditReduce : 0,
         ggTokenCredits: ggIncrementValue,
       },
     },
