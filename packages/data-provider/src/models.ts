@@ -19,6 +19,7 @@ export type TModelSpec = {
   showIconInHeader?: boolean;
   iconURL?: string | EModelEndpoint; // Allow using project-included icons
   authType?: AuthType;
+  tier?: number;
 };
 
 export const tModelSpecSchema = z.object({
@@ -32,12 +33,14 @@ export const tModelSpecSchema = z.object({
   showIconInHeader: z.boolean().optional(),
   iconURL: z.union([z.string(), eModelEndpointSchema]).optional(),
   authType: authTypeSchema.optional(),
+  tier: z.number().optional(),
 });
 
 export const specsConfigSchema = z.object({
   enforce: z.boolean().default(false),
   prioritize: z.boolean().default(true),
   list: z.array(tModelSpecSchema).optional(),
+  tier: z.number().optional(),
 });
 
 export type TSpecsConfig = z.infer<typeof specsConfigSchema>;

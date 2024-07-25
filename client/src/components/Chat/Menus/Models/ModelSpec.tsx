@@ -65,7 +65,20 @@ const MenuItem: FC<MenuItemProps> = ({
             <div className="flex items-center gap-2">
               {showIconInMenu && <SpecIcon currentSpec={spec} endpointsConfig={endpointsConfig} />}
               <div className="">
-                {title}
+                <div className="flex items-center gap-2">
+                  <span className="max-w-40 truncate">{title}</span>
+                  {/* <span
+                    className={cn(
+                      'h-fit min-w-14 rounded-full px-2.5 py-0.5 text-center text-xs',
+                      // Tier 2
+                      'bg-zinc-700 text-white',
+                      // Tier 1
+                      'border border-zinc-400 bg-zinc-50 text-zinc-600',
+                    )}
+                  >
+                    Tier 1
+                  </span> */}
+                </div>
                 <div className="text-token-text-tertiary line-clamp-2">{description}</div>
               </div>
             </div>

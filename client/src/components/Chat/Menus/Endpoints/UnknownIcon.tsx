@@ -15,6 +15,7 @@ const knownEndpointAssets = {
   [KnownEndpoints.openrouter]: '/assets/openrouter.png',
   [KnownEndpoints.perplexity]: '/assets/perplexity.png',
   [KnownEndpoints.shuttleai]: '/assets/shuttleai.png',
+  [KnownEndpoints.meta]: '/assets/meta.png',
   [KnownEndpoints['together.ai']]: '/assets/together.png',
 };
 

@@ -98,8 +98,9 @@ modelSpecs:
     - name: 'gpt-god-3-5'
       iconURL: 'openAI'
       label: 'GPT 3.5 Turbo'
-      description: 'Great for daily tasks.'
+      description: '[Tier 1] Great for daily tasks.'
       default: false
+      tier: 1
       preset:
         iconURL: 'openAI'
         default: false
@@ -113,8 +114,9 @@ modelSpecs:
     - name: 'gpt-god-4o-mimi'
       iconURL: 'openAI'
       label: 'GPT 4o Mini'
-      description: 'Great for daily tasks.'
+      description: '[Tier 1] Great for daily tasks.'
       default: true
+      tier: 1
       preset:
         iconURL: 'openAI'
         default: true
@@ -128,8 +130,9 @@ modelSpecs:
     - name: 'gpt-god-4o'
       iconURL: 'openAI'
       label: 'GPT 4o'
-      description: 'Newest and most advanced GPT model.'
+      description: '[Tier 2] Newest and most advanced GPT model.'
       default: false
+      tier: 2
       preset:
         iconURL: 'openAI'
         endpoint: 'gpt-god-open-ai'
@@ -144,8 +147,9 @@ modelSpecs:
       default: false
       iconURL: 'google'
       label: 'Gemini 1.5 Flash'
-      description: 'AI model can handle various tasks quickly, flexibly, and supports image recognition'
+      description: '[Tier 1] AI model can handle various tasks quickly, flexibly, and supports image recognition'
       preset:
+        tier: 1
         iconURL: 'google'
         default: false
         endpoint: 'google'
@@ -158,8 +162,9 @@ modelSpecs:
     - name: 'gemini-pro'
       iconURL: 'google'
       label: 'Gemini 1.5 Pro'
-      description: "Google's advanced AI model"
+      description: "[Tier 2] Google's advanced AI model"
       preset:
+        tier: 2
         iconURL: 'google'
         default: false
         endpoint: 'google'
@@ -197,7 +202,7 @@ modelSpecs:
 
     - name: 'claude-3-haiku'
       label: 'Claude 3 Haiku'
-      description: 'Featuring state-of-the-art language processing technology'
+      description: '[Tier 1] Featuring state-of-the-art language processing technology'
       preset:
         default: false
         endpoint: 'gpt-god-anthropic'
@@ -209,7 +214,7 @@ modelSpecs:
 
     - name: 'claude-3-opus'
       label: 'Claude 3 Opus'
-      description: 'Featuring state-of-the-art language processing technology'
+      description: '[Tier 2] Featuring state-of-the-art language processing technology'
       preset:
         default: false
         endpoint: 'gpt-god-anthropic'
@@ -221,7 +226,7 @@ modelSpecs:
 
     - name: 'claude-3-5-sonnet'
       label: 'Claude 3.5 Sonnet'
-      description: 'The latest version of the Claude model is more powerful, with the most advanced language processing technology'
+      description: '[Tier 2] The latest version of the Claude model is more powerful, with the most advanced language processing technology'
       preset:
         default: false
         endpoint: 'gpt-god-anthropic'
@@ -231,22 +236,43 @@ modelSpecs:
         greeting: |
           The latest version of the Claude model is more powerful, with the most advanced language processing technology
 
-    - name: 'llama-3.1-405b'
-      label: 'Llama 3.1 405B'
-      description: 'The biggest model version of the Meta with 405 Bilion parameter sizes'
+    - name: 'llama-3.1-8b'
+      label: 'Llama 3.1 8b'
+      description: '[Tier 1] The model of the Meta with 8 Bilion parameter sizes'
       preset:
         default: false
         endpoint: 'gpt-god-meta'
-        model: 'flame-3.1-405b' #'flame-3.1-405b'
+        model: 'llama-3.1-8b' #'flame-3.1-405b'
+        modelLabel: 'Llama 3.1 8b'
+        greeting: |
+          The model of the Meta with 8 Bilion parameter sizes
+
+    - name: 'llama-3.1-70b'
+      label: 'Llama 3.1 70b'
+      description: '[Tier 1] The model of the Meta with 70 Bilion parameter sizes'
+      preset:
+        default: false
+        endpoint: 'gpt-god-meta'
+        model: 'llama-3.1-70b' #'flame-3.1-405b'
+        modelLabel: 'Llama 3.1 70b'
+        greeting: |
+          The model of the Meta with 70 Bilion parameter sizes
+
+    - name: 'llama-3.1-405b'
+      label: 'Llama 3.1 405B'
+      description: '[Tier 2] The biggest model version of the Meta with 405 Bilion parameter sizes'
+      preset:
+        default: false
+        endpoint: 'gpt-god-meta'
+        model: 'llama-3.1-405b' #'flame-3.1-405b'
         modelLabel: 'Llama 3.1 405B'
         greeting: |
           The biggest model version of the Meta with 405 Bilion parameter sizes
 
-
     # Dall-E
     - name: 'gpt-dall-e-4o'
       label: 'DALL-E 3 / Image generator with GPT 4'
-      description: 'Generate images starting form text.'
+      description: '[Plugin] Generate images starting form text.'
       preset:
         default: false
         endpoint: 'gpt-god-dall-e'
@@ -274,7 +300,7 @@ modelSpecs:
     - name: 'gpt-god-3-5-net'
       iconURL: 'openAI'
       label: 'GPT 3.5 Turbo Internet'
-      description: 'Great for daily tasks, with internet.'
+      description: '[Plugin] Great for daily tasks, with internet.'
       default: false
       preset:
         iconURL: 'openAI'
@@ -289,7 +315,7 @@ modelSpecs:
     - name: 'gpt-god-4o-net'
       iconURL: 'openAI'
       label: 'GPT 4o Internet'
-      description: 'Newest and most advanced GPT model, with internet'
+      description: '[Plugin] Newest and most advanced GPT model, with internet'
       default: false
       preset:
         iconURL: 'openAI'
@@ -414,21 +440,18 @@ endpoints:
       titleModel: 'gpt-3.5-turbo-16k'
       modelDisplayLabel: 'ClaudeAI'
       titleMessageRole: 'user' # <-----------NEW
-      
+
     - name: 'gpt-god-meta'
       apiKey: '${GPTGOD_API_KEY}'
-      iconURL: 'anthropic'
+      iconURL: '/public/assets/meta.png'
       baseURL: 'https://api.gptgod.online/v1/'
       models:
-        default:
-          [
-            'flame-3.1-405b',
-            'gpt-3.5-turbo-16k',
-          ]
+        default: ['llama-3.1-8b', 'llama-3.1-70b', 'llama-3.1-405b', 'gpt-3.5-turbo-16k']
         fetch: false
       titleConvo: true
       titleModel: 'gpt-3.5-turbo-16k'
-      modelDisplayLabel: 'Meta Llama'
+      modelDisplayLabel: 'Meta'
+      # iconURL: 'assests/meta.png'
       titleMessageRole: 'user' # <-----------NEW
   all:
     streamRate: 15
