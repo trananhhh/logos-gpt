@@ -231,6 +231,18 @@ modelSpecs:
         greeting: |
           The latest version of the Claude model is more powerful, with the most advanced language processing technology
 
+    - name: 'llama-3.1-405b'
+      label: 'Llama 3.1 405B'
+      description: 'The biggest model version of the Meta with 405 Bilion parameter sizes'
+      preset:
+        default: false
+        endpoint: 'gpt-god-anthropic'
+        model: 'flame-3.1-405b' #'claude-3-5-sonnet@anthropic'
+        modelLabel: 'Llama 3.1 405B'
+        greeting: |
+          The biggest model version of the Meta with 405 Bilion parameter sizes
+
+
     # Dall-E
     - name: 'gpt-dall-e-4o'
       label: 'DALL-E 3 / Image generator with GPT 4'
