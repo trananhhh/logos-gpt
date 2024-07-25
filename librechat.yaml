@@ -415,7 +415,7 @@ endpoints:
       modelDisplayLabel: 'ClaudeAI'
       titleMessageRole: 'user' # <-----------NEW
       
-      - name: 'gpt-god-meta'
+    - name: 'gpt-god-meta'
       apiKey: '${GPTGOD_API_KEY}'
       iconURL: 'anthropic'
       baseURL: 'https://api.gptgod.online/v1/'
