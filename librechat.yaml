@@ -236,8 +236,8 @@ modelSpecs:
       description: 'The biggest model version of the Meta with 405 Bilion parameter sizes'
       preset:
         default: false
-        endpoint: 'gpt-god-anthropic'
-        model: 'flame-3.1-405b' #'claude-3-5-sonnet@anthropic'
+        endpoint: 'gpt-god-meta'
+        model: 'flame-3.1-405b' #'flame-3.1-405b'
         modelLabel: 'Llama 3.1 405B'
         greeting: |
           The biggest model version of the Meta with 405 Bilion parameter sizes
@@ -413,6 +413,22 @@ endpoints:
       titleConvo: true
       titleModel: 'gpt-3.5-turbo-16k'
       modelDisplayLabel: 'ClaudeAI'
+      titleMessageRole: 'user' # <-----------NEW
+      
+      - name: 'gpt-god-meta'
+      apiKey: '${GPTGOD_API_KEY}'
+      iconURL: 'anthropic'
+      baseURL: 'https://api.gptgod.online/v1/'
+      models:
+        default:
+          [
+            'flame-3.1-405b',
+            'gpt-3.5-turbo-16k',
+          ]
+        fetch: false
+      titleConvo: true
+      titleModel: 'gpt-3.5-turbo-16k'
+      modelDisplayLabel: 'Meta Llama'
       titleMessageRole: 'user' # <-----------NEW
   all:
     streamRate: 15
