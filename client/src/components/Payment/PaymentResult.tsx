@@ -5,22 +5,29 @@ import PaymentItem from './PaymentItem';
 
 const PaymentResult = ({ data }: { data?: PaymentInfoResponse }) => {
   return (
-    <Card>
+    <Card className="dark:text-white">
       <CardHeader>
-        <CardTitle>Transaction Details</CardTitle>
+        <CardTitle>Chi tiết giao dịch</CardTitle>
+        {/* <CardTitle>Transaction Details</CardTitle> */}
       </CardHeader>
       <CardContent className="grid gap-3">
-        <PaymentItem label={'Order Code'} content={data?.orderCode.toString()} />
+        <PaymentItem label={'Mã đơn hàng'} content={data?.orderCode.toString()} />
+        {/* <PaymentItem label={'Order Code'} content={data?.orderCode.toString()} /> */}
 
         <PaymentItem
-          label={'Amount'}
+          label={'Số tiền'}
+          // label={'Amount'}
           content={data?.amount.toLocaleString('it-IT', {
             style: 'currency',
             currency: 'vnd',
           })}
         />
 
-        <PaymentItem label={'Time'} content={dayjs(data?.createdAt).format('HH:mm DD/MM/YYYY')} />
+        <PaymentItem
+          //  label={'Time'}
+          label={'Thời gian'}
+          content={dayjs(data?.createdAt).format('HH:mm DD/MM/YYYY')}
+        />
       </CardContent>
     </Card>
   );

@@ -1,13 +1,16 @@
 import { useQuery } from '@tanstack/react-query';
-import { Home, Loader2, MessageCircleIcon } from 'lucide-react';
+import { ArrowLeft, Loader2, MessageCircleIcon } from 'lucide-react';
 import { Fragment, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { getPaymentHistory } from '../../api/payment-history';
 import { getPaymentInfo, PaymentInfoResponse } from '../../api/payment-info';
+import { subscribe } from '../../api/subscribe';
 import { useAuthContext } from '../../hooks';
+import { useToastContext } from '../../Providers';
 import { Button } from '../ui';
 import PaymentHistory from './PaymentHistory';
 import PaymentResult from './PaymentResult';
+import SubscribeDialog from './SubscribeDialog';
 
 function PaymentView() {
   const { user } = useAuthContext();
@@ -15,6 +18,8 @@ function PaymentView() {
   const searchParams = new URLSearchParams(location.search);
   const [data, setData] = useState<PaymentInfoResponse>();
   const orderCode = searchParams.get('orderCode');
+  const [dialogCode, setDialogCode] = useState<string>();
+  const { showToast } = useToastContext();
 
   useEffect(() => {
     if (!orderCode) {
@@ -32,6 +37,22 @@ function PaymentView() {
     queryFn: () => getPaymentHistory(user?.email),
   });
 
+  useEffect(() => {
+    if (orderCode && paymentHistory) {
+      const currentItem = paymentHistory.find((item) => item.orderCode === parseInt(orderCode));
+      console.log('currentItem', currentItem);
+
+      if (!currentItem?.handled && currentItem?.status === 'success') {
+        if (currentItem?.plan === 4) {
+          handleSubscribe(currentItem.orderCode);
+        } else {
+          setDialogCode(currentItem.orderCode.toString());
+        }
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [paymentHistory, orderCode]);
+
   if (!data && !paymentHistory) {
     return (
       <span className="flex min-h-80 w-screen items-center justify-center">
@@ -40,13 +61,50 @@ function PaymentView() {
     );
   }
 
+  const handleSubscribe = async (orderCode: number) => {
+    subscribe({
+      affectNow: true,
+      orderCode,
+      email: user?.email,
+    }).then((result) => {
+      setDialogCode(undefined);
+      refetch();
+      showToast({
+        status: 'info',
+        message: result.message,
+      });
+    });
+  };
+
   return (
     <div
       className="relative flex w-full grow overflow-hidden bg-white dark:bg-gray-800"
       style={{ paddingBottom: '50px' }}
     >
-      <div className="transition-width relative flex h-full w-full flex-1 flex-col items-stretch overflow-hidden bg-white dark:bg-gray-800">
+      <SubscribeDialog
+        dialogCode={dialogCode}
+        setDialogCode={setDialogCode}
+        handleSubscribe={handleSubscribe}
+      />
+      <div className="transition-width relative flex h-full w-full flex-1 flex-col items-stretch overflow-hidden bg-white dark:bg-gray-800 dark:text-white">
         <div className="mx-auto flex w-full max-w-screen-md flex-col gap-6 p-6 sm:p-8 md:p-10">
+          <div className="flex justify-between">
+            <Button variant="link" className="px-0 font-normal">
+              <a href="/" className="flex items-center">
+                <ArrowLeft className="mr-1.5" size={16} />
+                {'Quay lại Trang chủ'}
+                {/* {'Return to Home'} */}
+              </a>
+            </Button>
+
+            <Button variant="outline" className="font-normal">
+              <a href="/" className="flex items-center">
+                <MessageCircleIcon className="mr-1.5" size={18} />
+                {'Chat ngay'}
+              </a>
+            </Button>
+          </div>
+
           {data && (
             <div className="flex flex-col items-center">
               {data?.status === 'PAID' ? (
@@ -54,17 +112,23 @@ function PaymentView() {
                   <div className="rounded-full bg-green-500 p-3 text-green-50">
                     <CircleCheckIcon className="h-8 w-8" />
                   </div>
-                  <div className="mt-4 text-2xl font-bold">Payment Successful</div>
-                  <p className="text-muted-foreground">Your payment was processed successfully.</p>
+                  <div className="mt-4 text-2xl font-bold">Thanh toán thành công!</div>
+                  {/* <div className="mt-4 text-2xl font-bold">Payment Successful</div> */}
+                  <p className="text-muted-foreground">
+                    Giao dịch của bạn đã được xử lí thành công.
+                  </p>
+                  {/* <p className="text-muted-foreground">Your payment was processed successfully.</p> */}
                 </Fragment>
               ) : (
                 <Fragment>
                   <div className="rounded-full bg-red-500 p-3 text-green-50">
                     <CircleXIcon className="h-8 w-8" />
                   </div>
-                  <div className="mt-4 text-2xl font-bold">Payment Unsuccessful</div>
+                  <div className="mt-4 text-2xl font-bold">Thanh toán thất bại!</div>
+                  {/* <div className="mt-4 text-2xl font-bold">Payment Unsuccessful</div> */}
                   <p className="text-muted-foreground">
-                    Please contact admin for more information.
+                    Vui lòng liên hệ quản trị viên để biết thêm thông tin.
+                    {/* Please contact admin for more information. */}
                   </p>
                 </Fragment>
               )}
@@ -72,24 +136,7 @@ function PaymentView() {
           )}
           <div className="flex flex-col gap-6">
             {data && <PaymentResult data={data} />}
-            <PaymentHistory data={paymentHistory ?? []} refetch={refetch} />
-          </div>
-          <div className="flex justify-center">
-            <Button size="lg">
-              <a href="/" className="flex items-center">
-                {data?.status === 'PAID' ? (
-                  <>
-                    <MessageCircleIcon className="mr-1.5" size={18} />
-                    {'Chat now'}
-                  </>
-                ) : (
-                  <>
-                    <Home className="mr-1.5" size={18} />
-                    {'Return to Home'}
-                  </>
-                )}
-              </a>
-            </Button>
+            <PaymentHistory data={paymentHistory ?? []} setDialogCode={setDialogCode} />
           </div>
         </div>
       </div>

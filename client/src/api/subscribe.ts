@@ -6,6 +6,7 @@ interface SubscribeParams {
   email?: string;
   orderCode: number;
   affectNow: boolean;
+  context?: string;
 }
 
 interface SubscribeResponse {
@@ -24,7 +25,7 @@ export const subscribe = async (params: SubscribeParams): Promise<SubscribeRespo
         userId: params.userId,
         email: params.email,
         affectNow: params.affectNow ?? false,
-        context: 'subscribe',
+        context: params?.context ?? 'subscribe',
       },
     });
 

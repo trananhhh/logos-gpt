@@ -82,7 +82,7 @@ const PlanNCredit = ({ balanceQuery }: Props) => {
   const { user } = useAuthContext();
   const [isOpen, setIsOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('plan');
-  const [selectedPlan, setSelectedPlan] = useState(0);
+  const [selectedPlan, setSelectedPlan] = useState(parseInt(balanceQuery?.data?.plan ?? '0'));
   const [creditAmount, setCreditAmount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -130,6 +130,19 @@ const PlanNCredit = ({ balanceQuery }: Props) => {
         .catch((error) => {
           console.error('Failed to create payment link:', error);
         });
+    }
+  };
+
+  const handleGetButtonLabel = (index: number) => {
+    const currentPlan = parseInt(balanceQuery?.data?.plan);
+    if (activeTab === 'credit') {
+      return 'Buy Credits';
+    } else if (currentPlan === index) {
+      return 'Renew';
+    } else if (currentPlan > index) {
+      return 'Downgrade';
+    } else {
+      return 'Upgrade';
     }
   };
 
@@ -188,10 +201,7 @@ const PlanNCredit = ({ balanceQuery }: Props) => {
           <Tabs
             onValueChange={(value) => setActiveTab(value)}
             defaultValue="plan"
-            className={cn(
-              'max-h-[40rem] w-full border-none outline-none ring-0 transition-all duration-1000',
-              activeTab === 'plan' ? 'max-h-[40rem]' : 'max-h-64',
-            )}
+            className={cn('max-h-[40rem] w-full border-none outline-none ring-0')}
           >
             <TabsList>
               <TabsTrigger value="plan">Manage Plan</TabsTrigger>
@@ -199,29 +209,42 @@ const PlanNCredit = ({ balanceQuery }: Props) => {
             </TabsList>
             <TabsContent className="mt-4 border-none p-0 outline-none ring-0" value="plan">
               <div className="flex flex-col gap-4">
-                {pricings.map((pricing, index) => (
-                  <Card
-                    key={pricing.id}
-                    className={`cursor-pointer py-0 transition-all ${
-                      selectedPlan === index
-                        ? 'border-zinc-400 shadow-lg drop-shadow-xl'
-                        : 'border-zinc-200 shadow-none drop-shadow-none dark:border-zinc-700'
-                    }`}
-                    onClick={() => setSelectedPlan(index)}
-                  >
-                    <CardHeader className="flex flex-row items-center justify-between py-4">
-                      <CardTitle className="text-xl font-semibold">{pricing.title}</CardTitle>
-                      <CardDescription className="text-base">
-                        {pricing.price}k / month
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent className="pb-4 ">
-                      <div>{pricing.shortDescription}</div>
-                    </CardContent>
-                  </Card>
-                ))}
+                {pricings.map(
+                  (pricing, index) =>
+                    index <= 3 && (
+                      <Card
+                        key={pricing.id}
+                        className={`cursor-pointer py-0 transition-all ${
+                          selectedPlan === index
+                            ? 'border-zinc-400 shadow-lg drop-shadow-xl'
+                            : 'border-zinc-200 shadow-none drop-shadow-none dark:border-zinc-700'
+                        }`}
+                        onClick={() => setSelectedPlan(index)}
+                      >
+                        <CardHeader className="flex flex-row items-center justify-between py-4">
+                          <CardTitle className="flex items-center text-xl font-semibold">
+                            <span>{pricing.title}</span>
+                            {balanceQuery?.data?.plan === index.toString() && (
+                              <span className="ml-2 rounded-full bg-text-primary px-2 py-1 text-xs text-white dark:text-zinc-800">
+                                Current
+                              </span>
+                            )}
+                          </CardTitle>
+                          <CardDescription className="text-base">
+                            {pricing.price}k / month
+                          </CardDescription>
+                        </CardHeader>
+                        <CardContent className="pb-4 ">
+                          <div>{pricing.shortDescription}</div>
+                        </CardContent>
+                      </Card>
+                    ),
+                )}
               </div>
-              <div className="flex items-center justify-center pt-6">
+              <div className="flex flex-col items-center justify-center gap-4 pt-6">
+                <a href="/payment" className="underline" target="_blank" rel="noreferrer">
+                  View payment history
+                </a>
                 <a
                   href="https://loyos.app/pricing"
                   className="underline"
@@ -270,7 +293,7 @@ const PlanNCredit = ({ balanceQuery }: Props) => {
               Cancel
             </Button>
             <Button onClick={() => handleCreatePaymentLink()} loading={isLoading}>
-              Next
+              {handleGetButtonLabel(selectedPlan)}
             </Button>
           </div>
         </div>
