@@ -21,7 +21,8 @@ const PaymentHistory = ({
   return (
     <Card className="dark:text-white">
       <CardHeader>
-        <CardTitle>Payment History</CardTitle>
+        <CardTitle>Lịch sử thanh toán</CardTitle>
+        {/* <CardTitle>Payment History</CardTitle> */}
       </CardHeader>
       <CardContent className="w-full max-w-full overflow-x-auto max-md:w-fit">
         <Table className="whitespace-nowrap ">
@@ -92,13 +93,12 @@ const PaymentHistory = ({
                         ) : (
                           <Button
                             size="sm"
-                            className="h-7 border-blue-400 bg-blue-600 text-xs font-medium text-blue-600"
+                            className="h-7 border-blue-400 text-xs font-medium text-blue-600 dark:bg-blue-600"
                             variant="outline"
                             onClick={() => handleSubscribe(item?.orderCode)}
                           >
                             <Check size={15} className="mr-1" />
                             Kích hoạt
-                            {/* Apply Now */}
                           </Button>
                         )}
                       </div>

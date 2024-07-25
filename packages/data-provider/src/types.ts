@@ -470,5 +470,6 @@ export type TUserBalanceResponse = {
   balance: string;
   monthlyTokenCredits: string;
   remainMonthlyTokenCredits: string;
+  expiredAt: string;
   plan: string;
 };

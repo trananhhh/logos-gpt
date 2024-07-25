@@ -1,6 +1,6 @@
 import { Menu, Transition } from '@headlessui/react';
 import { useGetStartupConfig, useGetUserBalance } from 'librechat-data-provider/react-query';
-import { FileText } from 'lucide-react';
+import { FileText, ReceiptText } from 'lucide-react';
 import { Fragment, memo, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { GearIcon, LinkIcon } from '~/components';
@@ -109,6 +109,13 @@ function NavLinks() {
                     svg={() => <GearIcon className="icon-md" />}
                     text={localize('com_nav_settings')}
                     clickHandler={() => setShowSettings(true)}
+                  />
+                </Menu.Item>
+                <Menu.Item as="div">
+                  <NavLink
+                    svg={() => <ReceiptText size={16} className="icon-md" />}
+                    text={localize('com_nav_subscriptions')}
+                    clickHandler={() => window.open('/payment', '_blank')}
                   />
                 </Menu.Item>
                 <div className="my-1.5 h-px bg-black/10 dark:bg-white/10" role="none" />

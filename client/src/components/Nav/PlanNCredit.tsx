@@ -25,6 +25,7 @@ import {
 } from '../ui';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/Card';
 import { Progress } from '../ui/Progress';
+import dayjs from 'dayjs';
 
 type Props = {
   balanceQuery: QueryObserverResult<TUserBalanceResponse>;
@@ -222,12 +223,21 @@ const PlanNCredit = ({ balanceQuery }: Props) => {
                         onClick={() => setSelectedPlan(index)}
                       >
                         <CardHeader className="flex flex-row items-center justify-between py-4">
-                          <CardTitle className="flex items-center text-xl font-semibold">
-                            <span>{pricing.title}</span>
+                          <CardTitle className="flex flex-col text-xl font-semibold">
+                            <div className="flex items-center">
+                              <span>{pricing.title}</span>
+                              {balanceQuery?.data?.plan === index.toString() && (
+                                <span className="ml-2 rounded-full bg-text-primary px-2 py-1 text-xs text-white dark:text-zinc-800">
+                                  Current
+                                </span>
+                              )}
+                            </div>
                             {balanceQuery?.data?.plan === index.toString() && (
-                              <span className="ml-2 rounded-full bg-text-primary px-2 py-1 text-xs text-white dark:text-zinc-800">
-                                Current
-                              </span>
+                              <div className="mt-1 text-sm font-normal opacity-70">
+                                {`Expired At : ${dayjs(balanceQuery.data?.expiredAt).format(
+                                  'DD/MM/YYYY',
+                                )}`}
+                              </div>
                             )}
                           </CardTitle>
                           <CardDescription className="text-base">

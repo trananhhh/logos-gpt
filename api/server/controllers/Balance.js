@@ -6,11 +6,13 @@ async function balanceController(req, res) {
     remainMonthlyTokenCredits = '0',
     monthlyTokenCredits = '0',
     plan = '0',
+    expiredAt,
   } = (await Balance.findOne({ user: req.user.id }, [
     'tokenCredits',
     'monthlyTokenCredits',
     'remainMonthlyTokenCredits',
     'plan',
+    'expiredAt',
   ]).lean()) ?? {};
 
   res.status(200).send({
@@ -18,6 +20,7 @@ async function balanceController(req, res) {
     monthlyTokenCredits: '' + monthlyTokenCredits,
     remainMonthlyTokenCredits: '' + remainMonthlyTokenCredits,
     plan: '' + plan,
+    expiredAt: expiredAt,
   });
 }
 

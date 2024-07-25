@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
 // Vietnamese phrases
 
 export default {
@@ -140,9 +141,9 @@ export default {
   com_endpoint_bing_to_enable_sydney: 'Để bật Sydney',
   com_endpoint_bing_jailbreak: 'Bẻ khóa',
   com_endpoint_bing_context_placeholder:
-    'Bing có thể sử dụng tối đa 7k mã thông báo cho \'ngữ cảnh\', mà nó có thể tham khảo trong cuộc trò chuyện. Giới hạn cụ thể không được biết nhưng có thể gặp lỗi vượt quá 7k mã thông báo',
+    "Bing có thể sử dụng tối đa 7k mã thông báo cho 'ngữ cảnh', mà nó có thể tham khảo trong cuộc trò chuyện. Giới hạn cụ thể không được biết nhưng có thể gặp lỗi vượt quá 7k mã thông báo",
   com_endpoint_bing_system_message_placeholder:
-    'CẢNH BÁO: Sử dụng sai chức năng này có thể bị CẤM sử dụng Bing! Nhấp vào \'Thông điệp hệ thống\' để có hướng dẫn đầy đủ và thông điệp mặc định nếu không có (mặc định là \'Sydney\') được coi là an toàn.',
+    "CẢNH BÁO: Sử dụng sai chức năng này có thể bị CẤM sử dụng Bing! Nhấp vào 'Thông điệp hệ thống' để có hướng dẫn đầy đủ và thông điệp mặc định nếu không có (mặc định là 'Sydney') được coi là an toàn.",
   com_endpoint_system_message: 'Thông điệp hệ thống',
   com_endpoint_default_blank: 'mặc định: trống',
   com_endpoint_default_false: 'mặc định: sai',
@@ -247,7 +248,7 @@ export default {
   com_endpoint_config_key_edge_instructions: 'hướng dẫn',
   com_endpoint_config_key_edge_full_key_string: 'để cung cấp chuỗi cookie đầy đủ.',
   com_endpoint_config_key_chatgpt:
-    'Để nhận Mã truy cập của bạn cho ChatGPT \'Phiên bản miễn phí\', đăng nhập vào',
+    "Để nhận Mã truy cập của bạn cho ChatGPT 'Phiên bản miễn phí', đăng nhập vào",
   com_endpoint_config_key_chatgpt_then_visit: 'sau đó truy cập',
   com_endpoint_config_key_chatgpt_copy_token: 'Sao chép mã truy cập.',
   com_endpoint_config_key_google_need_to: 'Bạn cần',
@@ -255,7 +256,7 @@ export default {
   com_endpoint_config_key_google_vertex_api: 'API trên Google Cloud, sau đó',
   com_endpoint_config_key_google_service_account: 'Tạo một Tài khoản Dịch vụ',
   com_endpoint_config_key_google_vertex_api_role:
-    'Hãy chắc chắn nhấp vào \'Tạo và Tiếp tục\' để cấp ít nhất vai trò \'Người dùng Vertex AI\' thì còn lại, tạo một khóa JSON để nhập vào đây.',
+    "Hãy chắc chắn nhấp vào 'Tạo và Tiếp tục' để cấp ít nhất vai trò 'Người dùng Vertex AI' thì còn lại, tạo một khóa JSON để nhập vào đây.",
   com_nav_auto_scroll: 'Cuộn tự động đến tin nhắn mới nhất khi mở',
   com_nav_plugin_store: 'Cửa hàng Plugin',
   com_nav_plugin_search: 'Tìm kiếm plugin',
@@ -292,6 +293,7 @@ export default {
     'Bạn có chắc chắn muốn xóa tất cả cuộc trò chuyện? Hành động này không thể hoàn tác.',
   com_nav_help_faq: 'Trợ giúp & Câu hỏi thường gặp',
   com_nav_settings: 'Cài đặt',
+  com_nav_subscriptions: 'Lịch sử thanh toán',
   com_nav_search_placeholder: 'Tìm kiếm tin nhắn',
   com_nav_setting_general: 'Chung',
   com_nav_setting_data: 'Kiểm soát dữ liệu',
@@ -307,7 +309,7 @@ export const comparisons = {
     translated: 'Trò chuyện mới',
   },
   com_ui_happy_birthday: {
-    english: 'It\'s my 1st birthday!',
+    english: "It's my 1st birthday!",
     translated: 'Đây là sinh nhật đầu tiên của tôi!',
   },
   com_ui_example_quantum_computing: {
@@ -315,7 +317,7 @@ export const comparisons = {
     translated: 'Giải thích máy tính lượng tử theo cách đơn giản',
   },
   com_ui_example_10_year_old_b_day: {
-    english: 'Got any creative ideas for a 10 year old\'s birthday?',
+    english: "Got any creative ideas for a 10 year old's birthday?",
     translated: 'Có ý tưởng sáng tạo nào cho sinh nhật của một đứa trẻ 10 tuổi không?',
   },
   com_ui_example_http_in_js: {
@@ -607,7 +609,7 @@ export const comparisons = {
     translated: 'Đã xảy ra lỗi máy chủ nội bộ. Vui lòng đợi một vài phút và thử lại.',
   },
   com_auth_no_account: {
-    english: 'Don\'t have an account?',
+    english: "Don't have an account?",
     translated: 'Chưa có tài khoản?',
   },
   com_auth_sign_up: {
@@ -814,15 +816,15 @@ export const comparisons = {
   },
   com_endpoint_bing_context_placeholder: {
     english:
-      'Bing can use up to 7k tokens for \'context\', which it can reference for the conversation. The specific limit is not known but may run into errors exceeding 7k tokens',
+      "Bing can use up to 7k tokens for 'context', which it can reference for the conversation. The specific limit is not known but may run into errors exceeding 7k tokens",
     translated:
-      'Bing có thể sử dụng tối đa 7k mã thông báo cho \'ngữ cảnh\', mà nó có thể tham khảo trong cuộc trò chuyện. Giới hạn cụ thể không được biết nhưng có thể gặp lỗi vượt quá 7k mã thông báo',
+      "Bing có thể sử dụng tối đa 7k mã thông báo cho 'ngữ cảnh', mà nó có thể tham khảo trong cuộc trò chuyện. Giới hạn cụ thể không được biết nhưng có thể gặp lỗi vượt quá 7k mã thông báo",
   },
   com_endpoint_bing_system_message_placeholder: {
     english:
-      'WARNING: Misuse of this feature can get you BANNED from using Bing! Click on \'System Message\' for full instructions and the default message if omitted, which is the \'Sydney\' preset that is considered safe.',
+      "WARNING: Misuse of this feature can get you BANNED from using Bing! Click on 'System Message' for full instructions and the default message if omitted, which is the 'Sydney' preset that is considered safe.",
     translated:
-      'CẢNH BÁO: Sử dụng sai chức năng này có thể bị CẤM sử dụng Bing! Nhấp vào \'Thông điệp hệ thống\' để có hướng dẫn đầy đủ và thông điệp mặc định nếu không có (mặc định là \'Sydney\') được coi là an toàn.',
+      "CẢNH BÁO: Sử dụng sai chức năng này có thể bị CẤM sử dụng Bing! Nhấp vào 'Thông điệp hệ thống' để có hướng dẫn đầy đủ và thông điệp mặc định nếu không có (mặc định là 'Sydney') được coi là an toàn.",
   },
   com_endpoint_system_message: {
     english: 'System Message',
@@ -878,7 +880,7 @@ export const comparisons = {
   },
   com_endpoint_google_topk: {
     english:
-      'Top-k changes how the model selects tokens for output. A top-k of 1 means the selected token is the most probable among all tokens in the model\'s vocabulary (also called greedy decoding), while a top-k of 3 means that the next token is selected from among the 3 most probable tokens (using temperature).',
+      "Top-k changes how the model selects tokens for output. A top-k of 1 means the selected token is the most probable among all tokens in the model's vocabulary (also called greedy decoding), while a top-k of 3 means that the next token is selected from among the 3 most probable tokens (using temperature).",
     translated:
       'Top-k thay đổi cách mô hình chọn mã thông báo để xuất. Top-k là 1 có nghĩa là mã thông báo được chọn là phổ biến nhất trong tất cả các mã thông báo trong bảng từ vựng của mô hình (còn được gọi là giải mã tham lam), trong khi top-k là 3 có nghĩa là mã thông báo tiếp theo được chọn từ giữa 3 mã thông báo phổ biến nhất (sử dụng nhiệt độ).',
   },
@@ -932,7 +934,7 @@ export const comparisons = {
   },
   com_endpoint_openai_max: {
     english:
-      'The max tokens to generate. The total length of input tokens and generated tokens is limited by the model\'s context length.',
+      "The max tokens to generate. The total length of input tokens and generated tokens is limited by the model's context length.",
     translated:
       'Số mã thông báo tối đa để tạo. Tổng chiều dài của mã thông báo đầu vào và mã thông báo đã tạo bị giới hạn bởi độ dài ngữ cảnh của mô hình.',
   },
@@ -944,13 +946,13 @@ export const comparisons = {
   },
   com_endpoint_openai_freq: {
     english:
-      'Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model\'s likelihood to repeat the same line verbatim.',
+      "Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model's likelihood to repeat the same line verbatim.",
     translated:
       'Số từ giữa -2.0 và 2.0. Giá trị dương trừu tượng hóa các mã thông báo mới dựa trên tần suất hiện có của chúng trong văn bản, làm giảm khả năng mô hình lặp lại cùng một dòng văn hoàn toàn.',
   },
   com_endpoint_openai_pres: {
     english:
-      'Number between -2.0 and 2.0. Positive values penalize new tokens based on whether they appear in the text so far, increasing the model\'s likelihood to talk about new topics.',
+      "Number between -2.0 and 2.0. Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics.",
     translated:
       'Số từ giữa -2.0 và 2.0. Giá trị dương trừu tượng hóa mã thông báo mới dựa trên việc chúng có xuất hiện trong văn bản, làm tăng khả năng của mô hình để nói về các chủ đề mới.',
   },
@@ -976,7 +978,7 @@ export const comparisons = {
   },
   com_endpoint_anthropic_topk: {
     english:
-      'Top-k changes how the model selects tokens for output. A top-k of 1 means the selected token is the most probable among all tokens in the model\'s vocabulary (also called greedy decoding), while a top-k of 3 means that the next token is selected from among the 3 most probable tokens (using temperature).',
+      "Top-k changes how the model selects tokens for output. A top-k of 1 means the selected token is the most probable among all tokens in the model's vocabulary (also called greedy decoding), while a top-k of 3 means that the next token is selected from among the 3 most probable tokens (using temperature).",
     translated:
       'Top-k thay đổi cách mô hình chọn mã thông báo để xuất. Top-k là 1 có nghĩa là mã thông báo được chọn là phổ biến nhất trong tất cả các mã thông báo trong bảng từ vựng của mô hình (còn được gọi là giải mã tham lam), trong khi top-k là 3 có nghĩa là mã thông báo tiếp theo được chọn từ giữa 3 mã thông báo phổ biến nhất (sử dụng nhiệt độ).',
   },
@@ -1183,8 +1185,8 @@ export const comparisons = {
     translated: 'để cung cấp chuỗi cookie đầy đủ.',
   },
   com_endpoint_config_key_chatgpt: {
-    english: 'To get your Access token For ChatGPT \'Free Version\', login to',
-    translated: 'Để nhận Mã truy cập của bạn cho ChatGPT \'Phiên bản miễn phí\', đăng nhập vào',
+    english: "To get your Access token For ChatGPT 'Free Version', login to",
+    translated: "Để nhận Mã truy cập của bạn cho ChatGPT 'Phiên bản miễn phí', đăng nhập vào",
   },
   com_endpoint_config_key_chatgpt_then_visit: {
     english: 'then visit',
@@ -1212,9 +1214,9 @@ export const comparisons = {
   },
   com_endpoint_config_key_google_vertex_api_role: {
     english:
-      'Make sure to click \'Create and Continue\' to give at least the \'Vertex AI User\' role. Lastly, create a JSON key to import here.',
+      "Make sure to click 'Create and Continue' to give at least the 'Vertex AI User' role. Lastly, create a JSON key to import here.",
     translated:
-      'Hãy chắc chắn nhấp vào \'Tạo và Tiếp tục\' để cấp ít nhất vai trò \'Người dùng Vertex AI\' thì còn lại, tạo một khóa JSON để nhập vào đây.',
+      "Hãy chắc chắn nhấp vào 'Tạo và Tiếp tục' để cấp ít nhất vai trò 'Người dùng Vertex AI' thì còn lại, tạo một khóa JSON để nhập vào đây.",
   },
   com_nav_auto_scroll: {
     english: 'Auto-Scroll to latest message on chat open',

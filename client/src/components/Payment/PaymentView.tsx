@@ -40,8 +40,6 @@ function PaymentView() {
   useEffect(() => {
     if (orderCode && paymentHistory) {
       const currentItem = paymentHistory.find((item) => item.orderCode === parseInt(orderCode));
-      console.log('currentItem', currentItem);
-
       if (!currentItem?.handled && currentItem?.status === 'success') {
         if (currentItem?.plan === 4) {
           handleSubscribe(currentItem.orderCode);

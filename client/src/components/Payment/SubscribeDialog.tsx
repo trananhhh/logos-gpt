@@ -1,5 +1,5 @@
 import { ShieldCheck } from 'lucide-react';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Button } from '../ui';
 import { Dialog, DialogContent, DialogFooter } from '../ui/Dialog';
 
@@ -16,6 +16,10 @@ const SubscribeDialog = ({ dialogCode, setDialogCode, handleSubscribe }: Props) 
     setIsLoading(true);
     await handleSubscribe(parseInt(dialogCode ?? ''));
   };
+
+  useEffect(() => {
+    setIsLoading(false);
+  }, [dialogCode]);
 
   return (
     <Dialog onOpenChange={() => setDialogCode('')} open={!!dialogCode && dialogCode !== ''}>
