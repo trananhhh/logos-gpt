@@ -443,7 +443,8 @@ endpoints:
 
     - name: 'gpt-god-meta'
       apiKey: '${GPTGOD_API_KEY}'
-      iconURL: '/public/assets/meta.png'
+      iconURL: 'https://firebasestorage.googleapis.com/v0/b/trananhpremium-65c2d.appspot.com/o/meta-logo.svg?alt=media&token=6a7f1c4b-2573-4386-a2e3-e1f4a7cf9964'
+      # iconURL: '/public/assets/meta.png'
       baseURL: 'https://api.gptgod.online/v1/'
       models:
         default: ['llama-3.1-8b', 'llama-3.1-70b', 'llama-3.1-405b', 'gpt-3.5-turbo-16k']

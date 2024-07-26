@@ -24,7 +24,7 @@ module.exports = {
     //   'gpt-dark-gray': '#171717',
     // },
     fontFamily: {
-      sans: ['Inter', 'sans-serif'],
+      sans: ['Be Vietnam Pro', 'sans-serif'],
       mono: ['Roboto Mono', 'monospace'],
     },
     // fontFamily: {

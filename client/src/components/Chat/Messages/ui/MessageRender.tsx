@@ -89,21 +89,33 @@ const MessageRender = React.memo(
         {isLatestCard && (
           <div className="absolute right-0 top-0 m-2 h-3 w-3 rounded-full bg-text-primary"></div>
         )}
-        <div className="relative flex flex-shrink-0 flex-col items-end">
-          <div>
-            <div className="pt-0.5">
-              <div className="flex h-6 w-6 items-center justify-center overflow-hidden rounded-full">
-                <Icon message={msg} conversation={conversation} assistant={assistant} />
+        {!isCreatedByUser && (
+          <div className="relative flex flex-shrink-0 flex-col items-end">
+            <div>
+              <div className="pt-0.5">
+                <div className="flex h-6 w-6 items-center justify-center overflow-hidden rounded-full">
+                  <Icon message={msg} conversation={conversation} assistant={assistant} />
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
         <div
-          className={cn('relative flex w-11/12 flex-col', msg?.isCreatedByUser ? '' : 'agent-turn')}
+          className={cn(
+            'relative flex w-11/12 flex-col',
+            msg?.isCreatedByUser ? '' : 'agent-turn',
+            isCreatedByUser && ' ml-auto items-end',
+          )}
         >
-          <div className="select-none font-semibold">{messageLabel}</div>
+          {!isCreatedByUser && <div className="select-none font-semibold">{messageLabel}</div>}
           <div className="flex-col gap-1 md:gap-3">
-            <div className="flex max-w-full flex-grow flex-col gap-0">
+            <div
+              className={cn(
+                'flex max-w-full flex-grow flex-col gap-0',
+                isCreatedByUser &&
+                  'items-end justify-end rounded-3xl bg-zinc-100 px-5 py-2 dark:bg-zinc-900',
+              )}
+            >
               {msg?.plugin && <Plugin plugin={msg?.plugin} />}
               <MessageContent
                 ask={ask}

@@ -181,55 +181,55 @@ html {
 
 @font-face {
   font-display: swap;
-  font-family: Inter;
+  font-family: 'Be Vietnam Pro', sans-serif;
   font-style: normal;
   font-weight: 400;
-  src: url('$fonts/Inter-Regular.woff2') format('woff2');
+  src: url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
   size-adjust: 94%;
 }
 
 @font-face {
   font-display: swap;
-  font-family: Inter;
+  font-family: 'Be Vietnam Pro', sans-serif;
   font-style: italic;
   font-weight: 400;
-  src: url('$fonts/Inter-Italic.woff2') format('woff2');
+  src: url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
   size-adjust: 94%;
 }
 
 @font-face {
   font-display: swap;
-  font-family: Inter;
+  font-family: 'Be Vietnam Pro', sans-serif;
   font-style: normal;
   font-weight: 500;
-  src: url('$fonts/Inter-SemiBold.woff2') format('woff2');
+  src: url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
   size-adjust: 94%;
 }
 
 @font-face {
   font-display: swap;
-  font-family: Inter;
+  font-family: 'Be Vietnam Pro', sans-serif;
   font-style: italic;
   font-weight: 500;
-  src: url('$fonts/Inter-SemiBoldItalic.woff2') format('woff2');
+  src: url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
   size-adjust: 94%;
 }
 
 @font-face {
   font-display: swap;
-  font-family: Inter;
+  font-family: 'Be Vietnam Pro', sans-serif;
   font-style: normal;
   font-weight: 600;
-  src: url('$fonts/Inter-Bold.woff2') format('woff2');
+  src: url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
   size-adjust: 94%;
 }
 
 @font-face {
   font-display: swap;
-  font-family: Inter;
+  font-family: 'Be Vietnam Pro', sans-serif;
   font-style: italic;
   font-weight: 600;
-  src: url('$fonts/Inter-BoldItalic.woff2') format('woff2');
+  src: url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
   size-adjust: 94%;
 }
 
@@ -257,6 +257,31 @@ html {
   src: url('$fonts/roboto-mono-latin-400-italic.woff2') format('woff2');
 }
 
+.be-vietnam-pro-bold-italic {
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.be-vietnam-pro-extrabold-italic {
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-weight: 800;
+  font-style: italic;
+}
+
+.be-vietnam-pro-black-italic {
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-weight: 900;
+  font-style: italic;
+}
+
+/* .raleway-<uniquifier > {
+  font-family: "Be Vietnam Pro", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: <weight>;
+  font-style: normal;
+} */
+
 /*
 
 The default ChatGPT fonts, according to OpenAI's brand guidelines, are proprietary and require appropriate font license according to your use case.
@@ -282,6 +307,8 @@ Step 3: Replace the current `fontFamily` config in ./client/tailwind.config.cjs 
 
 Step 4: Uncomment all Söhne font-face declarations below.
 Step 5: rebuild frontend code: `npm run frontend` (or rebuild docker).
+
+
 
 */
 
@@ -1790,8 +1817,8 @@ button.scroll-convo {
   content: '⬤';
   width: 12px;
   height: 12px;
-  font-family: system-ui, Inter, Söhne Circle, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell,
-    Noto Sans, sans-serif;
+  font-family: system-ui, 'Be Vietnam Pro', Inter, Söhne Circle, -apple-system, Segoe UI, Roboto,
+    Ubuntu, Cantarell, Noto Sans, sans-serif;
   line-height: normal;
   margin-left: 0.25rem;
   vertical-align: middle;
@@ -1861,8 +1888,8 @@ button.scroll-convo {
     > li:last-child:after,
   .result-streaming > ul:last-child > li:last-child[*|\:not-has\(]:after {
     content: '⬤';
-    font-family: system-ui, Inter, Söhne Circle, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell,
-      Noto Sans, sans-serif;
+    font-family: system-ui, 'Be Vietnam Pro', Inter, Söhne Circle, -apple-system, Segoe UI, Roboto,
+      Ubuntu, Cantarell, Noto Sans, sans-serif;
     line-height: normal;
     margin-left: 0.25rem;
     vertical-align: middle;
@@ -1873,8 +1900,8 @@ button.scroll-convo {
   }
   .result-streaming > ul:last-child > li:last-child:not(:has(* > li)):after {
     content: '⬤';
-    font-family: system-ui, Inter, Söhne Circle, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell,
-      Noto Sans, sans-serif;
+    font-family: system-ui, 'Be Vietnam Pro', Inter, Söhne Circle, -apple-system, Segoe UI, Roboto,
+      Ubuntu, Cantarell, Noto Sans, sans-serif;
     line-height: normal;
     margin-left: 0.25rem;
     vertical-align: middle;
@@ -1885,8 +1912,8 @@ button.scroll-convo {
   }
   .result-streaming > ol:last-child > li:last-child[*|\:not-has\(]:after {
     content: '⬤';
-    font-family: system-ui, Inter, Söhne Circle, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell,
-      Noto Sans, sans-serif;
+    font-family: system-ui, 'Be Vietnam Pro', Inter, Söhne Circle, -apple-system, Segoe UI, Roboto,
+      Ubuntu, Cantarell, Noto Sans, sans-serif;
     line-height: normal;
     margin-left: 0.25rem;
     vertical-align: middle;
@@ -1897,8 +1924,8 @@ button.scroll-convo {
   }
   .result-streaming > ol:last-child > li:last-child:not(:has(* > li)):after {
     content: '⬤';
-    font-family: system-ui, Inter, Söhne Circle, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell,
-      Noto Sans, sans-serif;
+    font-family: system-ui, 'Be Vietnam Pro', Inter, Söhne Circle, -apple-system, Segoe UI, Roboto,
+      Ubuntu, Cantarell, Noto Sans, sans-serif;
     line-height: normal;
     margin-left: 0.25rem;
     vertical-align: middle;
@@ -1912,8 +1939,8 @@ button.scroll-convo {
   .result-streaming > ol:last-child > li:last-child:after,
   .result-streaming > ul:last-child > li:last-child:after {
     content: '⬤';
-    font-family: system-ui, Inter, Söhne Circle, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell,
-      Noto Sans, sans-serif;
+    font-family: system-ui, 'Be Vietnam Pro', Inter, Söhne Circle, -apple-system, Segoe UI, Roboto,
+      Ubuntu, Cantarell, Noto Sans, sans-serif;
     line-height: normal;
     margin-left: 0.25rem;
     vertical-align: middle;
