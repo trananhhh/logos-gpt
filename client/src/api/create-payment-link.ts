@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { BASE_URL, Response } from '.';
+import { useAuthContext } from '~/hooks/AuthContext';
 
 interface PaymentLinkParams {
   orderCode: number;
@@ -26,6 +27,8 @@ interface PaymentResponse {
   qrCode: string;
 }
 
+const { token } = useAuthContext();
+
 export const createPaymentLink = async (params: PaymentLinkParams): Promise<PaymentResponse> => {
   try {
     const response = await axios.post<Response<PaymentResponse>>(
@@ -42,6 +45,9 @@ export const createPaymentLink = async (params: PaymentLinkParams): Promise<Paym
           userId: params.userId,
           email: params.email,
         },
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        }
       },
     );
 
