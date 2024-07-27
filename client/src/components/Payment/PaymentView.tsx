@@ -32,7 +32,11 @@ function PaymentView() {
       .catch((error) => console.error('Error fetching payment request:', error));
   }, [orderCode]);
 
-  const { data: paymentHistory, refetch } = useQuery({
+  const {
+    data: paymentHistory,
+    refetch,
+    isLoading,
+  } = useQuery({
     queryKey: ['payment-history', user?.email],
     queryFn: () => getPaymentHistory(user?.email),
   });
@@ -51,7 +55,7 @@ function PaymentView() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [paymentHistory, orderCode]);
 
-  if (!data && !paymentHistory) {
+  if ((orderCode && !data) || isLoading) {
     return (
       <span className="flex min-h-80 w-screen items-center justify-center">
         <Loader2 className="animate-spin" />

@@ -102,18 +102,18 @@ const MessageRender = React.memo(
         )}
         <div
           className={cn(
-            'relative flex w-11/12 flex-col',
+            'relative flex w-fit max-w-[85%] flex-col',
             msg?.isCreatedByUser ? '' : 'agent-turn',
-            isCreatedByUser && ' ml-auto items-end',
+            isCreatedByUser && 'ml-auto items-end',
           )}
         >
           {!isCreatedByUser && <div className="select-none font-semibold">{messageLabel}</div>}
-          <div className="flex-col gap-1 md:gap-3">
+          <div className="w-fit max-w-full flex-col gap-1 md:gap-3">
             <div
               className={cn(
-                'flex max-w-full flex-grow flex-col gap-0',
+                'flex w-fit max-w-full flex-grow flex-col gap-0',
                 isCreatedByUser &&
-                  'items-end justify-end rounded-3xl bg-zinc-100 px-5 py-2 dark:bg-zinc-900',
+                  'items-end justify-end rounded-3xl bg-zinc-100 px-5 py-2.5 dark:bg-zinc-900',
               )}
             >
               {msg?.plugin && <Plugin plugin={msg?.plugin} />}
@@ -137,11 +137,6 @@ const MessageRender = React.memo(
             <PlaceholderRow isCard={isCard} />
           ) : (
             <SubRow classes="text-xs">
-              <SiblingSwitch
-                siblingIdx={siblingIdx}
-                siblingCount={siblingCount}
-                setSiblingIdx={setSiblingIdx}
-              />
               <HoverButtons
                 index={index}
                 isEditing={edit}
@@ -154,6 +149,11 @@ const MessageRender = React.memo(
                 handleContinue={handleContinue}
                 latestMessage={latestMessage}
                 isLast={isLast}
+              />
+              <SiblingSwitch
+                siblingIdx={siblingIdx}
+                siblingCount={siblingCount}
+                setSiblingIdx={setSiblingIdx}
               />
             </SubRow>
           )}

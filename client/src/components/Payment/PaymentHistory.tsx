@@ -108,7 +108,8 @@ const PaymentHistory = ({
           </TableBody>
         </Table>
         {data?.length === 0 && (
-          <p className="w-full flex-1 py-4 text-center text-sm">Payment History Empty!</p>
+          <p className="w-full flex-1 py-4 text-center text-sm">Lịch sử giao dịch trống!</p>
+          // <p className="w-full flex-1 py-4 text-center text-sm">Payment History Empty!</p>
         )}
       </CardContent>
     </Card>

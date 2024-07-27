@@ -620,7 +620,7 @@ export default {
     'Are you sure you want to clear all conversations? This is irreversible.',
   com_nav_help_faq: 'Help & FAQ',
   com_nav_settings: 'Settings',
-  com_nav_subscriptions: 'Payment history',
+  com_nav_subscriptions: 'Payment History',
   com_nav_search_placeholder: 'Search messages',
   com_nav_delete_account: 'Delete account',
   com_nav_delete_account_confirm: 'Delete account - are you sure?',

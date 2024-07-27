@@ -222,7 +222,7 @@ const PlanNCredit = ({ balanceQuery }: Props) => {
                         }`}
                         onClick={() => setSelectedPlan(index)}
                       >
-                        <CardHeader className="flex flex-row items-center justify-between py-4">
+                        <CardHeader className="flex flex-row items-center justify-between py-4 pb-2">
                           <CardTitle className="flex flex-col text-xl font-semibold">
                             <div className="flex items-center">
                               <span>{pricing.title}</span>
@@ -302,9 +302,11 @@ const PlanNCredit = ({ balanceQuery }: Props) => {
             <Button variant="outline" onClick={() => setIsOpen(false)}>
               Cancel
             </Button>
-            <Button onClick={() => handleCreatePaymentLink()} loading={isLoading}>
-              {handleGetButtonLabel(selectedPlan)}
-            </Button>
+            {!(activeTab === 'plan' && selectedPlan === 0 && balanceQuery.data.plan === '0') && (
+              <Button onClick={() => handleCreatePaymentLink()} loading={isLoading}>
+                {handleGetButtonLabel(selectedPlan)}
+              </Button>
+            )}
           </div>
         </div>
       </DialogContent>

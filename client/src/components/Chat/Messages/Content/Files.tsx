@@ -12,8 +12,8 @@ const Files = ({ message }: { message: TMessage }) => {
     return message?.files?.filter((file) => !file.type?.startsWith('image/')) || [];
   }, [message?.files]);
 
-  return (
-    <>
+  return otherFiles?.length > 0 || imageFiles?.length > 0 ? (
+    <div className="flex flex-wrap gap-2 pt-1">
       {otherFiles.length > 0 &&
         otherFiles.map((file) => <FileContainer key={file.file_id} file={file as TFile} />)}
       {imageFiles &&
@@ -32,7 +32,9 @@ const Files = ({ message }: { message: TMessage }) => {
             // i={i}
           />
         ))}
-    </>
+    </div>
+  ) : (
+    <></>
   );
 };
 

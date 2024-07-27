@@ -77,12 +77,12 @@ export default function Message(props: TMessageProps) {
                 </div>
               </div>
               <SubRow classes="text-xs">
+                <MinimalHoverButtons message={message} />
                 <SiblingSwitch
                   siblingIdx={siblingIdx}
                   siblingCount={siblingCount}
                   setSiblingIdx={setSiblingIdx}
                 />
-                <MinimalHoverButtons message={message} />
               </SubRow>
             </div>
           </div>

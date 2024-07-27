@@ -58,14 +58,14 @@ const Image = ({
     <Dialog.Root>
       <div ref={containerRef}>
         <div className="relative mt-1 flex h-auto w-full max-w-lg items-center justify-center overflow-hidden bg-gray-200 text-gray-500 dark:bg-gray-700 dark:text-gray-400">
-          <Dialog.Trigger asChild>
+          <Dialog.Trigger asChild className="overflow-hidden rounded-lg">
             <button type="button" aria-haspopup="dialog" aria-expanded="false">
               <LazyLoadImage
                 alt={altText}
                 onLoad={handleImageLoad}
                 visibleByDefault={true}
                 className={cn(
-                  'opacity-100 transition-opacity duration-100',
+                  'rounded-lg opacity-100 transition-opacity duration-100',
                   isLoaded ? 'opacity-100' : 'opacity-0',
                 )}
                 src={imagePath}
@@ -73,8 +73,13 @@ const Image = ({
                   width: scaledWidth,
                   height: 'auto',
                   color: 'transparent',
+                  borderRadius: '0.375rem',
                 }}
-                placeholder={<div style={{ width: scaledWidth, height: scaledHeight }} />}
+                placeholder={
+                  <div
+                    style={{ width: scaledWidth, height: scaledHeight, borderRadius: '0.375rem' }}
+                  />
+                }
               />
             </button>
           </Dialog.Trigger>
