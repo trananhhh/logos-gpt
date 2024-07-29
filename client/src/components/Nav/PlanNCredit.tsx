@@ -193,21 +193,23 @@ const PlanNCredit = ({ balanceQuery }: Props) => {
           </div>
         </div>
       </DialogTrigger>
-      <DialogContent className="h-fit px-5 py-6 transition-all dark:text-white sm:max-w-screen-sm lg:p-8">
-        <div className="flex flex-col gap-6">
+
+      <DialogContent className="inline-block h-fit max-h-[80vh] overflow-y-auto px-5 py-6 transition-all dark:text-white sm:max-w-screen-sm lg:max-h-fit lg:p-8">
+        <div className="flex h-fit flex-col gap-6">
           <div className="flex items-center justify-between">
-            <h3 className="text-2xl font-bold">Manage Your Plan</h3>
+            <h3 className="text-lg font-bold lg:text-2xl">Manage Your Plan</h3>
           </div>
 
           <Tabs
             onValueChange={(value) => setActiveTab(value)}
             defaultValue="plan"
-            className={cn('max-h-[40rem] w-full border-none outline-none ring-0')}
+            className={cn('w-full border-none outline-none ring-0')}
           >
             <TabsList>
               <TabsTrigger value="plan">Manage Plan</TabsTrigger>
               <TabsTrigger value="credit">Credit</TabsTrigger>
             </TabsList>
+            {/* Plans */}
             <TabsContent className="mt-4 border-none p-0 outline-none ring-0" value="plan">
               <div className="flex flex-col gap-4">
                 {pricings.map(
@@ -222,8 +224,8 @@ const PlanNCredit = ({ balanceQuery }: Props) => {
                         }`}
                         onClick={() => setSelectedPlan(index)}
                       >
-                        <CardHeader className="flex flex-row items-center justify-between py-4 pb-2">
-                          <CardTitle className="flex flex-col text-xl font-semibold">
+                        <CardHeader className="flex flex-row items-center justify-between py-3 pb-1 lg:py-4 lg:pb-2">
+                          <CardTitle className="flex flex-col font-semibold lg:text-xl">
                             <div className="flex items-center">
                               <span>{pricing.title}</span>
                               {balanceQuery?.data?.plan === index.toString() && (
@@ -233,25 +235,25 @@ const PlanNCredit = ({ balanceQuery }: Props) => {
                               )}
                             </div>
                             {balanceQuery?.data?.plan === index.toString() && (
-                              <div className="mt-1 text-sm font-normal opacity-70">
+                              <div className="mt-1 text-xs font-normal opacity-70 lg:text-sm">
                                 {`Expired At : ${dayjs(balanceQuery.data?.expiredAt).format(
                                   'DD/MM/YYYY',
                                 )}`}
                               </div>
                             )}
                           </CardTitle>
-                          <CardDescription className="text-base">
+                          <CardDescription className="pb-2 text-sm lg:text-base">
                             {pricing.price}k / month
                           </CardDescription>
                         </CardHeader>
-                        <CardContent className="pb-4 ">
+                        <CardContent className="pb-4 max-md:text-xs">
                           <div>{pricing.shortDescription}</div>
                         </CardContent>
                       </Card>
                     ),
                 )}
               </div>
-              <div className="flex flex-col items-center justify-center gap-4 pt-6">
+              <div className="flex flex-col items-center justify-center gap-4 pt-6 max-md:text-xs">
                 <a href="/payment" className="underline" target="_blank" rel="noreferrer">
                   View payment history
                 </a>
@@ -265,6 +267,7 @@ const PlanNCredit = ({ balanceQuery }: Props) => {
                 </a>
               </div>
             </TabsContent>
+            {/* Credits */}
             <TabsContent className="mt-4 border-none p-0 outline-none ring-0" value="credit">
               <div className="flex flex-col gap-4">
                 <div className="flex items-center justify-between gap-4">
