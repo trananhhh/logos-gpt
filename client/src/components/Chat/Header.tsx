@@ -10,6 +10,7 @@ import AddMultiConvo from './AddMultiConvo';
 import ExportAndShareMenu from './ExportAndShareMenu';
 import AddedConvo from './Input/AddedConvo';
 import { EndpointsMenu, HeaderNewChat, ModelSpecsMenu } from './Menus';
+import BookmarkMenu from './Menus/BookmarkMenu';
 
 const defaultInterface = getConfigDefaults().interface;
 
@@ -75,6 +76,8 @@ export default function Header() {
               className="pl-0"
             />
           )}
+          <BookmarkMenu />
+          <AddMultiConvo />
         </div>
         {!isSmallScreen && (
           <ExportAndShareMenu isSharedButtonEnabled={startupConfig?.sharedLinksEnabled ?? false} />
