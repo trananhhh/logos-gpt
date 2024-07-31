@@ -150,11 +150,11 @@ const PlanNCredit = ({ balanceQuery }: Props) => {
   return (
     <Dialog onOpenChange={(e) => setIsOpen(e)} open={isOpen}>
       <DialogTrigger asChild>
-        <div className="text-token-text-secondary mb-1.5 flex cursor-pointer select-none flex-col gap-3 rounded-md bg-gray-100/50 px-3 py-2.5 text-sm dark:bg-gray-800/50">
+        <div className="text-token-text-secondary mb-1.5 flex cursor-pointer select-none flex-col gap-3 rounded-md bg-gray-100/50 px-3 py-2.5 text-sm dark:bg-gray-800/50 dark:text-white">
           {/* Credits */}
           <div className="flex items-center justify-between">
-            <span className="flex items-center gap-2">
-              <CreditCard size={16} />
+            <span className="flex items-center gap-3">
+              <CreditCard className="size-6" />
               Credit
             </span>
             <span>{`${new Intl.NumberFormat().format(

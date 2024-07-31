@@ -1,5 +1,5 @@
 import { Menu, Transition } from '@headlessui/react';
-import { useGetStartupConfig, useGetUserBalance } from 'librechat-data-provider/react-query';
+import { useGetStartupConfig } from 'librechat-data-provider/react-query';
 import { FileText, ReceiptText } from 'lucide-react';
 import { Fragment, memo, useState } from 'react';
 import { useRecoilState } from 'recoil';
@@ -13,30 +13,19 @@ import store from '~/store';
 import { cn } from '~/utils/';
 import Logout from './Logout';
 import NavLink from './NavLink';
-import PlanNCredit from './PlanNCredit';
 import Settings from './Settings';
 
 function NavLinks() {
   const localize = useLocalize();
-  const { user, isAuthenticated } = useAuthContext();
+  const { user } = useAuthContext();
   const { data: startupConfig } = useGetStartupConfig();
-  const balanceQuery = useGetUserBalance({
-    enabled: !!isAuthenticated && startupConfig?.checkBalance,
-  });
   const [showSettings, setShowSettings] = useState(false);
   const [showFiles, setShowFiles] = useRecoilState(store.showFiles);
 
   const avatarSrc = useAvatar(user);
 
   return (
-    <div className="relative pt-2">
-      <div className="absolute -top-8 h-8 w-full bg-gradient-to-t from-gray-50/100 via-gray-50/80 to-gray-50/0 dark:from-gray-850/100 dark:via-gray-850/80 dark:to-gray-800/0"></div>
-      {startupConfig?.checkBalance &&
-        !!balanceQuery.data &&
-        !isNaN(parseFloat(balanceQuery?.data?.balance)) && (
-          <PlanNCredit balanceQuery={balanceQuery} />
-        )}
-
+    <div className="pt-2">
       <Menu as="div" className="group relative">
         {({ open }) => (
           <>

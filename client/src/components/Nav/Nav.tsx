@@ -1,27 +1,29 @@
-import { useCallback, useEffect, useState, useMemo, memo } from 'react';
+import type { ConversationListResponse } from 'librechat-data-provider';
+import { useGetStartupConfig, useGetUserBalance } from 'librechat-data-provider/react-query';
+import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import type { ConversationListResponse } from 'librechat-data-provider';
+import { useSearchContext } from '~/Providers';
+import { Conversations } from '~/components/Conversations';
+import { Spinner } from '~/components/svg';
+import { Tooltip, TooltipProvider } from '~/components/ui';
+import { useConversationsInfiniteQuery } from '~/data-provider';
 import {
-  useMediaQuery,
   useAuthContext,
   useConversation,
-  useLocalStorage,
-  useNavScrolling,
   useConversations,
+  useLocalStorage,
+  useMediaQuery,
+  useNavScrolling,
 } from '~/hooks';
-import { useConversationsInfiniteQuery } from '~/data-provider';
-import { TooltipProvider, Tooltip } from '~/components/ui';
-import { Conversations } from '~/components/Conversations';
-import BookmarkNav from './Bookmarks/BookmarkNav';
-import { useSearchContext } from '~/Providers';
-import { Spinner } from '~/components/svg';
-import SearchBar from './SearchBar';
-import NavToggle from './NavToggle';
-import NavLinks from './NavLinks';
-import NewChat from './NewChat';
-import { cn } from '~/utils';
 import store from '~/store';
+import { cn } from '~/utils';
+import BookmarkNav from './Bookmarks/BookmarkNav';
+import NavLinks from './NavLinks';
+import NavToggle from './NavToggle';
+import NewChat from './NewChat';
+import PlanNCredit from './PlanNCredit';
+import SearchBar from './SearchBar';
 
 const Nav = ({ navVisible, setNavVisible }) => {
   const { conversationId } = useParams();
@@ -32,6 +34,11 @@ const Nav = ({ navVisible, setNavVisible }) => {
   const isSmallScreen = useMediaQuery('(max-width: 768px)');
   const [newUser, setNewUser] = useLocalStorage('newUser', true);
   const [isToggleHovering, setIsToggleHovering] = useState(false);
+
+  const { data: startupConfig } = useGetStartupConfig();
+  const balanceQuery = useGetUserBalance({
+    enabled: !!isAuthenticated && startupConfig?.checkBalance,
+  });
 
   const handleMouseEnter = useCallback(() => {
     setIsHovering(true);
@@ -165,8 +172,16 @@ const Nav = ({ navVisible, setNavVisible }) => {
                         />
                       )}
                     </div>
-                    <BookmarkNav tags={tags} setTags={setTags} />
-                    <NavLinks />
+                    <div className="relative">
+                      <div className="absolute -top-8 h-8 w-full bg-gradient-to-t from-gray-50/100 via-gray-50/80 to-gray-50/0 dark:from-gray-850/100 dark:via-gray-850/80 dark:to-gray-800/0"></div>
+                      {startupConfig?.checkBalance &&
+                        !!balanceQuery.data &&
+                        !isNaN(parseFloat(balanceQuery?.data?.balance)) && (
+                          <PlanNCredit balanceQuery={balanceQuery} />
+                        )}
+                      <BookmarkNav tags={tags} setTags={setTags} />
+                      <NavLinks />
+                    </div>
                   </nav>
                 </div>
               </div>

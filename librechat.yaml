@@ -65,7 +65,7 @@ interface:
 
 modelSpecs:
   enforce: false
-  prioritize: true
+  prioritize: false
   list:
     # BingAI
     # - name: 'copilot-sydney'

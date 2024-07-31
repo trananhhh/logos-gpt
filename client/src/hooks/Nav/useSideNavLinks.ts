@@ -41,6 +41,8 @@ export default function useSideNavLinks({
 
   const Links = useMemo(() => {
     const links: NavLink[] = [];
+
+    // TODO: Hide this option
     if (
       isAssistantsEndpoint(endpoint) &&
       assistants &&
