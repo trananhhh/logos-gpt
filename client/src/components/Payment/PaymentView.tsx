@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import { useGetStartupConfig, useGetUserBalance } from 'librechat-data-provider/react-query';
 import { ArrowLeft, Loader2, MessageCircleIcon } from 'lucide-react';
 import { Fragment, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
@@ -6,19 +7,25 @@ import { getPaymentHistory } from '../../api/payment-history';
 import { getPaymentInfo, PaymentInfoResponse } from '../../api/payment-info';
 import { subscribe } from '../../api/subscribe';
 import { useAuthContext } from '../../hooks';
+import { getSubscribeContext } from '../../lib/utils';
 import { useToastContext } from '../../Providers';
 import { Button } from '../ui';
-import PaymentHistory from './PaymentHistory';
+import PaymentHistory, { SubscribeParams } from './PaymentHistory';
 import PaymentResult from './PaymentResult';
 import SubscribeDialog from './SubscribeDialog';
 
 function PaymentView() {
   const { user } = useAuthContext();
+  const { isAuthenticated } = useAuthContext();
+  const { data: startupConfig } = useGetStartupConfig();
+  const balanceQuery = useGetUserBalance({
+    enabled: !!isAuthenticated && startupConfig?.checkBalance,
+  });
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const [data, setData] = useState<PaymentInfoResponse>();
   const orderCode = searchParams.get('orderCode');
-  const [dialogCode, setDialogCode] = useState<string>();
+  const [dialogCode, setDialogCode] = useState<SubscribeParams | undefined>();
   const { showToast } = useToastContext();
 
   useEffect(() => {
@@ -45,10 +52,20 @@ function PaymentView() {
     if (orderCode && paymentHistory) {
       const currentItem = paymentHistory.find((item) => item.orderCode === parseInt(orderCode));
       if (!currentItem?.handled && currentItem?.status === 'success') {
-        if (currentItem?.plan === 4) {
+        if (
+          currentItem?.plan === 4 ||
+          balanceQuery?.data?.plan ||
+          balanceQuery?.data?.plan === '0'
+        ) {
           handleSubscribe(currentItem.orderCode);
         } else {
-          setDialogCode(currentItem.orderCode.toString());
+          setDialogCode({
+            orderCode: currentItem.orderCode.toString(),
+            context: getSubscribeContext(
+              balanceQuery.data?.plan ?? '0',
+              currentItem.plan.toString(),
+            ),
+          });
         }
       }
     }
@@ -63,11 +80,12 @@ function PaymentView() {
     );
   }
 
-  const handleSubscribe = async (orderCode: number) => {
+  const handleSubscribe = async (orderCode: number, context?: string) => {
     subscribe({
       affectNow: true,
       orderCode,
       email: user?.email,
+      context,
     }).then((result) => {
       setDialogCode(undefined);
       refetch();
@@ -89,7 +107,7 @@ function PaymentView() {
         handleSubscribe={handleSubscribe}
       />
       <div className="transition-width relative flex h-full w-full flex-1 flex-col items-stretch overflow-hidden bg-white dark:bg-gray-800 dark:text-white">
-        <div className="mx-auto flex w-full max-w-screen-md flex-col gap-6 p-6 sm:p-8 md:p-10">
+        <div className="mx-auto flex w-full max-w-screen-lg flex-col gap-6 p-6 sm:p-8 md:p-10">
           <div className="flex justify-between">
             <Button variant="link" className="px-0 font-normal">
               <a href="/" className="flex items-center">
@@ -138,7 +156,11 @@ function PaymentView() {
           )}
           <div className="flex flex-col gap-6">
             {data && <PaymentResult data={data} />}
-            <PaymentHistory data={paymentHistory ?? []} setDialogCode={setDialogCode} />
+            <PaymentHistory
+              data={paymentHistory ?? []}
+              setDialogCode={setDialogCode}
+              currentPlan={balanceQuery?.data?.plan ?? '0'}
+            />
           </div>
         </div>
       </div>

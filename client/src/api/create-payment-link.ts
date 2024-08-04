@@ -24,11 +24,18 @@ interface PaymentResponse {
   status: string;
   checkoutUrl: string;
   qrCode: string;
+  message?: string;
 }
 
-export const createPaymentLink = async (params: PaymentLinkParams): Promise<PaymentResponse> => {
+interface DowngradeResponse {
+  message: string;
+}
+
+export const createPaymentLink = async (
+  params: PaymentLinkParams,
+): Promise<PaymentResponse | null> => {
   try {
-    const response = await axios.post<Response<PaymentResponse>>(
+    const response = await axios.post<Response<PaymentResponse | DowngradeResponse>>(
       BASE_URL + '/create-payment-link',
       null,
       {
@@ -44,8 +51,11 @@ export const createPaymentLink = async (params: PaymentLinkParams): Promise<Paym
         },
       },
     );
-
-    return JSON.parse(response.data.data[0]) as PaymentResponse;
+    if (response.data.data?.message && response.data.data?.message?.length > 0) {
+      return null;
+    } else {
+      return JSON.parse(response.data.data[0]) as PaymentResponse;
+    }
   } catch (error) {
     if (axios.isAxiosError(error)) {
       console.error('Error creating payment link:', error.response?.data || error.message);
