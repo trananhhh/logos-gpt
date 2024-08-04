@@ -28,6 +28,7 @@ import {
 } from '../ui';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/Card';
 import { Progress } from '../ui/Progress';
+import { subscribe } from '../../api/subscribe';
 
 type Props = {
   balanceQuery: QueryObserverResult<TUserBalanceResponse>;
@@ -90,6 +91,33 @@ const PlanNCredit = ({ balanceQuery }: Props) => {
   const [selectedPlan, setSelectedPlan] = useState(parseInt(balanceQuery?.data?.plan ?? '0'));
   const [creditAmount, setCreditAmount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (user && balanceQuery?.data?.plan === '0' && balanceQuery.data.monthlyTokenCredits === '0') {
+      const transId = generateNumericId();
+      createPaymentLink({
+        orderCode: parseInt(transId),
+        plan: 0,
+        duration: 0,
+        amount: 0,
+        cancelUrl: CANCEL_URL,
+        returnUrl: RETURN_URL,
+        email: user?.email,
+      }).then(() => {
+        subscribe({
+          affectNow: true,
+          orderCode: parseInt(transId),
+          context: 'subscribe',
+          email: user?.email ?? '',
+        }).then(() => {
+          showToast({
+            message: 'Kích hoạt thành viên thành công',
+          });
+        });
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user, balanceQuery]);
 
   useEffect(() => {
     if (communityCode === 2 && selectedPlan === 0) {

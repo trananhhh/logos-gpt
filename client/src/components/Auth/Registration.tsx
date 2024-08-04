@@ -6,10 +6,13 @@ import type { TRegisterUser, TError } from 'librechat-data-provider';
 import type { TLoginLayoutContext } from '~/common';
 import { ErrorMessage } from './ErrorMessage';
 import { useLocalize } from '~/hooks';
+import { cn } from '../../lib/utils';
+import { Loader2 } from 'lucide-react';
 
 const Registration: React.FC = () => {
   const navigate = useNavigate();
   const localize = useLocalize();
+  const [isLoading, setIsLoading] = useState(false);
   const { startupConfig, startupConfigError, isFetching } = useOutletContext<TLoginLayoutContext>();
 
   const {
@@ -168,9 +171,18 @@ const Registration: React.FC = () => {
                 disabled={Object.keys(errors).length > 0}
                 type="submit"
                 aria-label="Submit registration"
-                className="w-full transform rounded-md bg-green-500 px-4 py-3 tracking-wide text-white transition-colors duration-200 hover:bg-green-550 focus:bg-green-550 focus:outline-none disabled:cursor-not-allowed disabled:hover:bg-green-500"
+                className={cn(
+                  'relative w-full transform rounded-md bg-green-500 px-4 py-3 tracking-wide text-white transition-colors duration-200 hover:bg-green-550 focus:bg-green-550 focus:outline-none disabled:cursor-not-allowed disabled:hover:bg-green-500',
+                  isLoading && 'opacity-50',
+                )}
+                onClick={() => setIsLoading(true)}
               >
                 {localize('com_auth_continue')}
+                {isLoading && (
+                  <span className="absolute bottom-0 right-0 top-0 z-50 float-right flex h-full w-12 items-center justify-center">
+                    <Loader2 size={20} className="animate-spin" />
+                  </span>
+                )}
               </button>
             </div>
           </form>
