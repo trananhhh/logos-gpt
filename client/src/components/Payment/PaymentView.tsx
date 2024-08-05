@@ -72,7 +72,7 @@ function PaymentView() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [paymentHistory, orderCode]);
 
-  if ((orderCode && !data) || isLoading) {
+  if (isLoading) {
     return (
       <span className="flex min-h-80 w-screen items-center justify-center">
         <Loader2 className="animate-spin" />

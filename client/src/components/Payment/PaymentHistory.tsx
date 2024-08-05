@@ -57,7 +57,7 @@ const PaymentHistory = ({
             {data?.length > 0 &&
               data
                 ?.sort((a, b) => (dayjs(a?.createAt).isAfter(b?.createAt) ? -1 : 1))
-                .map((item) => (
+                .map((item, index) => (
                   <TableRow key={item?._id} className="h-14 items-center">
                     <TableCell className="pl-0">
                       <div className="flex h-full min-w-20 items-center">
@@ -76,6 +76,8 @@ const PaymentHistory = ({
                         ? item?.duration
                           ? `${item?.duration} tháng`
                           : `${Intl.NumberFormat().format(item?.tokenCredits ?? 0)}`
+                        : index === data?.length - 1
+                        ? 'Kích hoạt'
                         : 'Huỷ gói'}
                     </TableCell>
                     <TableCell className="text-right">{pricings[item?.plan]?.title}</TableCell>

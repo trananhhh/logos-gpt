@@ -91,9 +91,17 @@ const PlanNCredit = ({ balanceQuery }: Props) => {
   const [selectedPlan, setSelectedPlan] = useState(parseInt(balanceQuery?.data?.plan ?? '0'));
   const [creditAmount, setCreditAmount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [isActivated, setIsActivated] = useState(false);
 
   useEffect(() => {
-    if (user && balanceQuery?.data?.plan === '0' && balanceQuery.data.monthlyTokenCredits === '0') {
+    if (
+      user &&
+      balanceQuery?.data?.plan === '0' &&
+      balanceQuery.data.monthlyTokenCredits === '0' &&
+      !isActivated
+    ) {
+      setIsActivated(true);
+
       const transId = generateNumericId();
       createPaymentLink({
         orderCode: parseInt(transId),
@@ -117,7 +125,7 @@ const PlanNCredit = ({ balanceQuery }: Props) => {
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user, balanceQuery]);
+  }, [user, balanceQuery?.data?.plan, isActivated]);
 
   useEffect(() => {
     if (communityCode === 2 && selectedPlan === 0) {
