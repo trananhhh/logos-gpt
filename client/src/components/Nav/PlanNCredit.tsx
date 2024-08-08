@@ -379,7 +379,7 @@ const PlanNCredit = ({ balanceQuery }: Props) => {
                   value={[creditAmount]}
                   onValueChange={(value) => setCreditAmount(value[0])}
                   min={100000}
-                  max={100000000}
+                  max={20000000}
                   step={100000}
                   className="w-full"
                 />
