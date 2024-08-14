@@ -1,11 +1,10 @@
-import * as React from 'react';
-import { VariantProps, cva } from 'class-variance-authority';
-import { cn } from '~/utils';
 import { Slot } from '@radix-ui/react-slot';
-import { Loader2 } from 'lucide-react';
+import { VariantProps, cva } from 'class-variance-authority';
+import * as React from 'react';
+import { cn } from '~/utils';
 
 const buttonVariants = cva(
-  'rounded-md inline-flex items-center justify-center text-sm font-medium transition-colors dark:hover:bg-gray-700 dark:hover:text-gray-100 disabled:opacity-50 disabled:pointer-events-none data-[state=open]:bg-gray-100 dark:data-[state=open]:bg-gray-700',
+  'rounded-md inline-flex items-center justify-center text-sm font-medium transition-colors dark:hover:bg-gray-700 dark:hover:text-gray-100 disabled:opacity-50 disabled:pointer-events-none data-[state=open]:bg-gray-100 dark:data-[state=open]:bg-gray-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-500',
   {
     variants: {
       variant: {
@@ -48,13 +47,8 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps & { customId?: st
         disabled={loading}
         ref={ref}
         {...props}
-        id={customId ?? props?.id ?? 'shadcn-button'}
-      >
-        <>
-          {loading && <Loader2 className={cn('h-4 w-4 animate-spin', children ? 'mr-2' : '')} />}
-          {children}
-        </>
-      </Comp>
+        id={customId ?? props.id ?? 'shadcn-button'}
+      />
     );
   },
 );

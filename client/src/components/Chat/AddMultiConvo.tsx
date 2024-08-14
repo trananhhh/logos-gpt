@@ -39,6 +39,7 @@ function AddMultiConvo({ className = '' }: { className?: string }) {
 
   return (
     <button
+      aria-label="Add multi-conversation"
       onClick={clickHandler}
       className={cn(
         'group flex w-fit cursor-pointer items-center rounded p-2 text-sm hover:bg-border-medium focus-visible:bg-border-medium focus-visible:outline-0',
