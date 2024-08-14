@@ -2,20 +2,46 @@ import dayjs from 'dayjs';
 import { Calendar, Check, ReceiptText } from 'lucide-react';
 import { Dispatch } from 'react';
 import { PaymentHistoryResponse } from '../../api/payment-history';
-import { cn } from '../../lib/utils';
+import { cn, getSubscribeContext } from '../../lib/utils';
 import { pricings } from '../Nav/PlanNCredit';
 import { Button, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/Card';
 
+export type SubscribeParams = {
+  orderCode: string;
+  context: 'downgrade' | 'upgrade' | 'renew' | 'subscribe';
+};
+
 const PaymentHistory = ({
   data,
   setDialogCode,
+  currentPlan,
 }: {
   data: PaymentHistoryResponse[];
-  setDialogCode: Dispatch<React.SetStateAction<string | undefined>>;
+  setDialogCode: Dispatch<React.SetStateAction<SubscribeParams | undefined>>;
+  currentPlan: string;
 }) => {
-  const handleSubscribe = async (orderCode: number) => {
-    setDialogCode(orderCode.toString());
+  const handleSubscribe = async (orderCode: number, nextPlan: string) => {
+    setDialogCode({
+      orderCode: orderCode.toString(),
+      context: getSubscribeContext(currentPlan, nextPlan),
+    });
+  };
+
+  const labelItem = (item: PaymentHistoryResponse, index: number, dataLength: number): string => {
+    if (item.plan !== 0) {
+      if (item.duration) {
+        return `${item.duration} tháng`;
+      } else {
+        return `${Intl.NumberFormat().format(item.tokenCredits ?? 0)}`;
+      }
+    } else {
+      if (index === dataLength - 1) {
+        return 'Kích hoạt';
+      } else {
+        return 'Huỷ gói';
+      }
+    }
   };
 
   return (
@@ -44,58 +70,55 @@ const PaymentHistory = ({
             </TableRow>
           </TableHeader>
           <TableBody className="text-xs">
-            {data?.length > 0 &&
+            {data.length > 0 &&
               data
-                ?.sort((a, b) => (dayjs(a?.createAt).isAfter(b?.createAt) ? -1 : 1))
-                .map((item) => (
-                  <TableRow key={item?._id} className="h-14 items-center">
+                .sort((a, b) => (dayjs(a.createAt).isAfter(b.createAt) ? -1 : 1))
+                .map((item, index) => (
+                  <TableRow key={item._id} className="h-14 items-center">
                     <TableCell className="pl-0">
                       <div className="flex h-full min-w-20 items-center">
                         <ReceiptText size={16} className="mr-1" />
-                        {`${item?.orderCode}`}
+                        {`${item.orderCode}`}
                       </div>
                     </TableCell>
                     <TableCell>
-                      {' '}
                       <div className="flex h-full min-w-20 items-center">
                         <Calendar size={16} className="mr-1" />
-                        {dayjs(item?.createAt).add(7, 'hours').format('DD/MM/YYYY HH:mm')}
+                        {dayjs(item.createAt).add(7, 'hours').format('DD/MM/YYYY HH:mm')}
                       </div>
                     </TableCell>
                     <TableCell className="text-right">
-                      {item?.duration
-                        ? `${item?.duration} tháng`
-                        : `${Intl.NumberFormat().format(item?.tokenCredits ?? 0)}`}
+                      {labelItem(item, index, data.length)}
                     </TableCell>
-                    <TableCell className="text-right">{pricings[item?.plan]?.title}</TableCell>
+                    <TableCell className="text-right">{pricings[item.plan]?.title}</TableCell>
                     <TableCell className="text-right">
-                      {item?.amount?.toLocaleString('vi-VN', {
+                      {item.amount.toLocaleString('vi-VN', {
                         style: 'currency',
                         currency: 'VND',
                       })}
                     </TableCell>
                     <TableCell>
                       <div className="flex h-full min-w-20 items-center justify-center text-xs">
-                        {!(item?.status === 'success' && !item?.handled) ? (
+                        {!(item.status === 'success' && !item.handled) ? (
                           <span
                             className={cn(
                               'rounded-md border px-2 py-1 text-center',
-                              item?.status === 'success' &&
+                              item.status === 'success' &&
                                 'border-green-500 bg-green-50 text-green-500',
-                              item?.status === 'pending' &&
+                              item.status === 'pending' &&
                                 'border-orange-500 bg-orange-50 text-orange-500',
-                              item?.status === 'cancelled' &&
+                              item.status === 'cancelled' &&
                                 'border-red-500 bg-red-50 text-red-500',
                             )}
                           >
-                            {item?.status?.toUpperCase()}
+                            {item.status.toUpperCase()}
                           </span>
                         ) : (
                           <Button
                             size="sm"
                             className="h-7 border-blue-400 text-xs font-medium text-blue-600 dark:bg-blue-600"
                             variant="outline"
-                            onClick={() => handleSubscribe(item?.orderCode)}
+                            onClick={() => handleSubscribe(item.orderCode, item.plan.toString())}
                           >
                             <Check size={15} className="mr-1" />
                             Kích hoạt
@@ -107,7 +130,7 @@ const PaymentHistory = ({
                 ))}
           </TableBody>
         </Table>
-        {data?.length === 0 && (
+        {data.length === 0 && (
           <p className="w-full flex-1 py-4 text-center text-sm">Lịch sử giao dịch trống!</p>
           // <p className="w-full flex-1 py-4 text-center text-sm">Payment History Empty!</p>
         )}

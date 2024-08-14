@@ -35,3 +35,19 @@ export function parsePaymentResponse(response: string) {
     throw new Error('Failed to parse payment response');
   }
 }
+
+export function getSubscribeContext(cur: string, next: string) {
+  const curPlan = parseInt(cur);
+  const nextPlan = parseInt(next);
+
+  switch (true) {
+    case curPlan < nextPlan:
+      return 'upgrade';
+    case curPlan > nextPlan:
+      return 'downgrade';
+    case curPlan === nextPlan:
+      return 'renew';
+    default:
+      return 'subscribe';
+  }
+}

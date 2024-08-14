@@ -79,6 +79,11 @@ const SidePanel = ({
     localStorage.setItem('fullPanelCollapse', 'true');
     panelRef.current?.collapse();
   }, []);
+  // const [showBookmarks, setShowBookmarks] = useState(false);
+  // const manageBookmarks = useCallback((e) => {
+  //   e.preventDefault();
+  //   setShowBookmarks((prev) => !prev);
+  // }, []);
 
   const Links = useSideNavLinks({
     hidePanel,
@@ -86,6 +91,7 @@ const SidePanel = ({
     keyProvided,
     endpoint,
     interfaceConfig,
+    // manageBookmarks,
   });
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -134,6 +140,7 @@ const SidePanel = ({
 
   return (
     <>
+      {/* {showBookmarks && <BookmarkPanel open={showBookmarks} onOpenChange={setShowBookmarks} />} */}
       <TooltipProvider delayDuration={0}>
         <ResizablePanelGroup
           direction="horizontal"

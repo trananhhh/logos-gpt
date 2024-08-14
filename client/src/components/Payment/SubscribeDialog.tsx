@@ -2,11 +2,12 @@ import { ShieldCheck } from 'lucide-react';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Button } from '../ui';
 import { Dialog, DialogContent, DialogFooter } from '../ui/Dialog';
+import { SubscribeParams } from './PaymentHistory';
 
 type Props = {
-  dialogCode?: string;
-  setDialogCode: Dispatch<SetStateAction<string | undefined>>;
-  handleSubscribe: (orderCode: number) => Promise<void>;
+  dialogCode?: SubscribeParams;
+  setDialogCode: Dispatch<SetStateAction<SubscribeParams | undefined>>;
+  handleSubscribe: (orderCode: number, context?: string) => Promise<void>;
 };
 
 const SubscribeDialog = ({ dialogCode, setDialogCode, handleSubscribe }: Props) => {
@@ -14,7 +15,7 @@ const SubscribeDialog = ({ dialogCode, setDialogCode, handleSubscribe }: Props) 
 
   const handleActivate = async () => {
     setIsLoading(true);
-    await handleSubscribe(parseInt(dialogCode ?? ''));
+    await handleSubscribe(parseInt(dialogCode?.orderCode ?? '0'), dialogCode?.context);
   };
 
   useEffect(() => {
@@ -22,7 +23,10 @@ const SubscribeDialog = ({ dialogCode, setDialogCode, handleSubscribe }: Props) 
   }, [dialogCode]);
 
   return (
-    <Dialog onOpenChange={() => setDialogCode('')} open={!!dialogCode && dialogCode !== ''}>
+    <Dialog
+      onOpenChange={() => setDialogCode(undefined)}
+      open={!!dialogCode && dialogCode.orderCode !== ''}
+    >
       <DialogContent className="h-fit px-5 py-6 transition-all dark:text-white sm:max-w-screen-sm lg:p-8">
         <div className="-mt-2">
           <h3 className="flex items-center gap-1 text-lg font-bold">
@@ -40,7 +44,7 @@ const SubscribeDialog = ({ dialogCode, setDialogCode, handleSubscribe }: Props) 
           </p>
         </div>
         <DialogFooter className="justify-end p-0">
-          <Button variant="ghost" onClick={() => setDialogCode('')}>
+          <Button variant="ghost" onClick={() => setDialogCode(undefined)}>
             Để sau
           </Button>
           <Button onClick={() => handleActivate()} loading={isLoading}>
