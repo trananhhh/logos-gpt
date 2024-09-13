@@ -1,7 +1,7 @@
 import { QueryObserverResult } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { TUserBalanceResponse } from 'librechat-data-provider/dist/types';
-import { CreditCard, ReceiptText, SquareGanttChart } from 'lucide-react';
+import { CreditCard, ReceiptText, SquareGanttChart, Zap } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { CANCEL_URL, RETURN_URL } from '../../api';
 import { createPaymentLink } from '../../api/create-payment-link';
@@ -233,12 +233,18 @@ const PlanNCredit = ({ balanceQuery }: Props) => {
           {/* Credits */}
           <div className="flex items-center justify-between">
             <span className="flex items-center gap-3">
-              <CreditCard className="size-6" />
-              Credit
+              {balanceQuery.data.plan === '0' ? (
+                <>
+                  <Zap className="size-5" /> Nâng gói
+                </>
+              ) : (
+                <>
+                  <CreditCard className="size-6" />
+                  Credit
+                </>
+              )}
             </span>
-            <span>{`${new Intl.NumberFormat().format(
-              parseInt(balanceQuery.data.balance),
-            )}`}</span>
+            <span>{`${new Intl.NumberFormat().format(parseInt(balanceQuery.data.balance))}`}</span>
           </div>
 
           <div className="w-full">
@@ -257,7 +263,7 @@ const PlanNCredit = ({ balanceQuery }: Props) => {
                 <TooltipContent>
                   <div className="text-left font-normal">
                     <div className="mb-2 border-b pb-2">
-                      Gói: {pricings[parseInt(balanceQuery.data.plan) ?? 0].title}
+                      Gói: {pricings[parseInt(balanceQuery.data.plan)].title}
                     </div>
                     <div>Credit hàng tháng</div>
                     <div>{`${Intl.NumberFormat().format(
@@ -273,7 +279,7 @@ const PlanNCredit = ({ balanceQuery }: Props) => {
         </div>
       </DialogTrigger>
 
-      <DialogContent className="inline-block h-fit max-h-[80vh] overflow-y-auto px-5 py-6 transition-all dark:text-white sm:max-w-screen-sm lg:max-h-fit lg:p-8">
+      <DialogContent className="inline-block h-fit max-h-[65dvh] overflow-y-auto px-5 py-6 transition-all dark:text-white sm:max-w-screen-lg lg:p-8 xl:max-h-fit">
         <div className="flex h-fit flex-col gap-6">
           <div className="flex items-center justify-between">
             <h3 className="text-lg font-bold lg:text-2xl">Quản Lý Gói Của Bạn</h3>
@@ -294,7 +300,7 @@ const PlanNCredit = ({ balanceQuery }: Props) => {
             </TabsList>
             {/* Plans */}
             <TabsContent className="mt-4 border-none p-0 outline-none ring-0" value="plan">
-              <div className="flex flex-col gap-4">
+              <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
                 {pricings.map(
                   (pricing, index) =>
                     index <= 3 && (

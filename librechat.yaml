@@ -142,6 +142,36 @@ modelSpecs:
         greeting: |
           Latest GPT model, AI with internet access.
 
+    - name: 'gpt-god-o1-mini'
+      iconURL: 'openAI'
+      label: 'GPT o1 mini'
+      description: '[Tier 3] Faster at reasoning.'
+      default: false
+      tier: 3
+      preset:
+        iconURL: 'openAI'
+        endpoint: 'gpt-god-open-ai'
+        model: 'o1-mini-all'
+        # temperature: 0.7
+        modelLabel: 'GPT o1 mini'
+        greeting: |
+          New reasoning model for complex tasks that require broad general knowledge.
+
+    - name: 'gpt-god-o1-preview'
+      iconURL: 'openAI'
+      label: 'GPT o1 preview'
+      description: '[Tier 3] Uses advanced reasoning.'
+      default: false
+      tier: 3
+      preset:
+        iconURL: 'openAI'
+        endpoint: 'gpt-god-open-ai'
+        model: 'o1-preview-all'
+        # temperature: 0.7
+        modelLabel: 'GPT o1 preview'
+        greeting: |
+          New reasoning model for complex tasks that require broad general knowledge.
+
     # Gemini
     - name: 'gemini-flash'
       default: false
@@ -391,6 +421,8 @@ endpoints:
             'gpt-4o-all',
             'net-gpt-4o-all',
             'gpt-4o-mini',
+            'o1-mini-all',
+            'o1-preview-all',
           ]
         fetch: false
       titleConvo: true
