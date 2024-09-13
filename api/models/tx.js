@@ -52,6 +52,8 @@ const tokenValues = {
   'gpt-4-dalle': { prompt: 0.5, completion: 200, ggTime: 1149 },
   'gpt-4o': { prompt: 5, completion: 15, ggTime: 599 },
   'gpt-4-gizmo': { prompt: 5, completion: 15, ggTime: 1149 },
+  'o1-mini': { prompt: 3, completion: 12, ggTime: 1999 },
+  'o1-preview': { prompt: 15, completion: 60, ggTime: 3999 },
 
   // Claude
   'claude-3-haiku': { prompt: 0.25, completion: 1.25, ggToken: 0.03, type: 'tier-1' }, // Free Tier1
