@@ -47,33 +47,33 @@ const tokenValues = {
   // '16k': { prompt: 3, completion: 4 },
 
   //GPT
-  'gpt-3.5': { prompt: 0.5, completion: 1.5, ggTime: 9, type: 'tier-1' }, // Free Tier1
-  'gpt-4o-mini': { prompt: 0.15, completion: 0.6, ggTime: 19, type: 'tier-1' }, // Free Tier1
-  'gpt-4-dalle': { prompt: 0.5, completion: 200, ggTime: 1149 },
-  'gpt-4o': { prompt: 5, completion: 15, ggTime: 599 },
-  'gpt-4-gizmo': { prompt: 5, completion: 15, ggTime: 1149 },
-  'o1-mini': { prompt: 3, completion: 12, ggTime: 1999 },
-  'o1-preview': { prompt: 15, completion: 60, ggTime: 3999 },
+  'gpt-3.5': { prompt: 0.5, completion: 1.5, ggTime: 9, tier: 1 }, // Free Tier1
+  'gpt-4o-mini': { prompt: 0.15, completion: 0.6, ggTime: 19, tier: 1 }, // Free Tier1
+  'gpt-4-dalle': { prompt: 0.5, completion: 200, ggTime: 1149, tier: 2 },
+  'gpt-4o': { prompt: 5, completion: 15, ggTime: 599, tier: 2 },
+  'gpt-4-gizmo': { prompt: 5, completion: 15, ggTime: 1149, tier: 2 },
+  'o1-mini': { prompt: 3, completion: 12, ggTime: 1999, tier: 3 },
+  'o1-preview': { prompt: 15, completion: 60, ggTime: 3999, tier: 3 },
 
   // Claude
-  'claude-3-haiku': { prompt: 0.25, completion: 1.25, ggToken: 0.03, type: 'tier-1' }, // Free Tier1
-  'claude-3-sonnet': { prompt: 3, completion: 15, ggToken: 0.3 },
-  'claude-3-opus': { prompt: 15, completion: 75, ggToken: 1 },
-  'claude-3-5-sonnet': { prompt: 3, completion: 15, ggToken: 0.3 },
+  'claude-3-haiku': { prompt: 0.25, completion: 1.25, ggToken: 0.03, tier: 1 }, // Free Tier1
+  'claude-3-sonnet': { prompt: 3, completion: 15, ggToken: 0.3, tier: 2 },
+  'claude-3-opus': { prompt: 15, completion: 75, ggToken: 1, tier: 2 },
+  'claude-3-5-sonnet': { prompt: 3, completion: 15, ggToken: 1.2, tier: 3 },
 
   /* cohere doesn't have rates for the older command models,
   so this was from https://artificialanalysis.ai/models/command-light/providers */
-  command: { prompt: 0.38, completion: 0.38 },
-  'command-r-plus': { prompt: 3, completion: 15 },
-  'command-r': { prompt: 0.5, completion: 1.5 },
+  command: { prompt: 0.38, completion: 0.38, tier: 2 },
+  'command-r-plus': { prompt: 3, completion: 15, tier: 2 },
+  'command-r': { prompt: 0.5, completion: 1.5, tier: 2 },
 
   // Gemini
 
   // 'gemini-1.5': { prompt: 7, completion: 21 }, // May 2nd, 2024 pricing
   // 'gemini': { prompt: 0.5, completion: 1.5 }, // May 2nd, 2024 pricing
-  'gemini-1.5-flash': { prompt: 0.5, completion: 1.5, type: 'tier-1' }, // currently free
-  'gemini-1.5-pro': { prompt: 5, completion: 15 }, // currently free
-  'gemini-1.0-pro': { prompt: 0.5, completion: 1.5 }, // currently free
+  'gemini-1.5-flash': { prompt: 0.5, completion: 1.5, tier: 1 }, // currently free
+  'gemini-1.5-pro': { prompt: 5, completion: 15, tier: 2 }, // currently free
+  'gemini-1.0-pro': { prompt: 0.5, completion: 1.5, tier: 2 }, // currently free
   // gemini: { prompt: 0, completion: 0 }, // currently free
 };
 
@@ -182,9 +182,9 @@ const getMultiplierGG = ({ tokenType, model, endpoint }) => {
       };
 };
 
-const isTier1 = ({ model, endpoint }) => {
+const getTier = ({ model, endpoint }) => {
   const _valueKey = getValueKey(model, endpoint);
-  return tokenValues[_valueKey]?.type === 'tier-1';
+  return tokenValues[_valueKey]?.tier ?? 1;
 };
 
-module.exports = { tokenValues, getValueKey, getMultiplier, getMultiplierGG, defaultRate, isTier1 };
+module.exports = { tokenValues, getValueKey, getMultiplier, getMultiplierGG, defaultRate, getTier };

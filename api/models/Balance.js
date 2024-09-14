@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const balanceSchema = require('./schema/balance');
-const { getMultiplier, isTier1 } = require('./tx');
+const { getMultiplier, getTier } = require('./tx');
 const { logger } = require('~/config');
 
 balanceSchema.statics.check = async function ({
@@ -13,7 +13,7 @@ balanceSchema.statics.check = async function ({
   endpointTokenConfig,
 }) {
   const multiplier = getMultiplier({ valueKey, tokenType, model, endpoint, endpointTokenConfig });
-  const _isTier1 = isTier1({ model, endpointTokenConfig });
+  const modelTier = getTier({ model, endpointTokenConfig });
 
   const tokenCost = amount * multiplier;
   const { tokenCredits: balance, plan } =
@@ -39,7 +39,7 @@ balanceSchema.statics.check = async function ({
     // (remainMonthlyTokenCredits ?? 0) < tokenCost &&
     balance <= 0 &&
     remainMonthlyTokenCredits <= 0 &&
-    (!_isTier1 || plan == '0')
+    (modelTier != 1 || plan == '0')
   ) {
     return {
       canSpend: false,
@@ -50,10 +50,13 @@ balanceSchema.statics.check = async function ({
   }
 
   logger.debug('[Balance.check]', { tokenCost });
+  logger.debug('===tokenCost', tokenCost);
 
   return {
     canSpend:
-      balance >= tokenCost || remainMonthlyTokenCredits >= tokenCost || (_isTier1 && plan !== '0'),
+      balance >= tokenCost ||
+      remainMonthlyTokenCredits >= tokenCost ||
+      (modelTier === 1 && plan !== '0'),
     balance,
     tokenCost,
     monthlyCredits: remainMonthlyTokenCredits,

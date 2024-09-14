@@ -1,25 +1,36 @@
 const mongoose = require('mongoose');
 const { isEnabled } = require('../server/utils/handleText');
 const transactionSchema = require('./schema/transaction');
-const { getMultiplier, getMultiplierGG, isTier1 } = require('./tx');
+const { getMultiplier, getMultiplierGG, getTier } = require('./tx');
 const { logger } = require('~/config');
 const Balance = require('./Balance');
 const cancelRate = 1.15;
-const discountRate = 0.5;
+const discountRate = 0.65;
 
 // Method to calculate and set the tokenValue for a transaction
 transactionSchema.methods.calculateTokenValue = function () {
   if (!this.valueKey || !this.tokenType) {
     this.tokenValue = this.rawAmount;
   }
+
   const { valueKey, tokenType, model, endpointTokenConfig } = this;
+
+  this.modelTier = getTier({ model, endpointTokenConfig });
+
+  logger.debug('===modelTier', this.modelTier);
+
+  // No discount for tier 3 models
   const multiplier =
-    Math.abs(getMultiplier({ valueKey, tokenType, model, endpointTokenConfig })) * discountRate;
+    Math.abs(getMultiplier({ valueKey, tokenType, model, endpointTokenConfig })) *
+    (this.modelTier <= 2 ? discountRate : 1);
   const multiplierGG = getMultiplierGG({ tokenType, model });
+
+  logger.debug('===multiplier', multiplier);
 
   this.rate = multiplier;
   this.tokenValue = this.rawAmount * multiplier;
-  this.isTier1 = isTier1({ model, endpointTokenConfig });
+
+  logger.debug('===this.tokenValue', this.tokenValue);
 
   // GPT-God
   this.ggRate = multiplierGG.value ?? 1;
@@ -64,7 +75,7 @@ transactionSchema.statics.create = async function (transactionData) {
       ? -balance?.remainMonthlyTokenCredits
       : incrementValue;
 
-  const isFreeTier = balance?.plan != 0 && transaction?.isTier1;
+  const isFreeTier = balance?.plan != 0 && transaction?.modelTier === 1;
 
   balance = await Balance.findOneAndUpdate(
     { user: transaction.user },
