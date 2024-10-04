@@ -6,6 +6,7 @@ const knownEndpointAssets = {
   [KnownEndpoints.anyscale]: '/assets/anyscale.png',
   [KnownEndpoints.apipie]: '/assets/apipie.png',
   [KnownEndpoints.cohere]: '/assets/cohere.png',
+  [KnownEndpoints.deepseek]: '/assets/deepseek.svg',
   [KnownEndpoints.fireworks]: '/assets/fireworks.png',
   [KnownEndpoints.groq]: '/assets/groq.png',
   [KnownEndpoints.huggingface]: '/assets/huggingface.svg',
@@ -17,6 +18,7 @@ const knownEndpointAssets = {
   [KnownEndpoints.shuttleai]: '/assets/shuttleai.png',
   [KnownEndpoints.meta]: '/assets/meta.png',
   [KnownEndpoints['together.ai']]: '/assets/together.png',
+  [KnownEndpoints.unify]: '/assets/unify.webp',
 };
 
 const knownEndpointClasses = {

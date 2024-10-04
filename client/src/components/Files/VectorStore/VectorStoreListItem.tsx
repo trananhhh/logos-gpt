@@ -1,7 +1,9 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TVectorStore } from '~/common';
-import { DotsIcon, TrashIcon, TrashIcon } from '~/components/svg';
+import { DotsIcon, TrashIcon } from '~/components/svg';
 import { Button } from '~/components/ui';
 
 type VectorStoreListItemProps = {
@@ -19,7 +21,7 @@ export default function VectorStoreListItem({
       onClick={() => {
         navigate('vs_id_abcdef');
       }}
-      className="w-100 mt-2 flex cursor-pointer flex-row justify-around rounded-md border border-0 bg-white p-4 transition duration-300 ease-in-out hover:bg-slate-200"
+      className="w-100 mt-2 flex cursor-pointer flex-row justify-around rounded-md border bg-white p-4 transition duration-300 ease-in-out hover:bg-slate-200"
     >
       <div className="flex w-1/2 flex-col justify-around align-middle">
         <strong>{vectorStore.name}</strong>
@@ -27,7 +29,7 @@ export default function VectorStoreListItem({
       </div>
       <div className="w-2/6 text-gray-500">
         <p>
-          {vectorStore.file_counts.total} Files ({vectorStore.bytes / 1000}KB)
+          {vectorStore.file_counts?.total} Files ({(vectorStore.bytes ?? 0) / 1000}KB)
         </p>
         <p className="text-sm">{vectorStore.created_at.toString()}</p>
       </div>

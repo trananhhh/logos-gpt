@@ -1,9 +1,14 @@
-import { getConfigDefaults, isAssistantsEndpoint } from 'librechat-data-provider';
+import {
+  getConfigDefaults,
+  isAssistantsEndpoint,
+  Permissions,
+  PermissionTypes,
+} from 'librechat-data-provider';
 import { useGetStartupConfig } from 'librechat-data-provider/react-query';
-import { Fragment, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import type { ContextType } from '~/common';
-import { useMediaQuery } from '~/hooks';
+import { useHasAccess, useMediaQuery } from '~/hooks';
 import { useAddedChatContext, useChatContext } from '../../Providers';
 import { cn } from '../../utils';
 import AddMultiConvo from './AddMultiConvo';
@@ -31,6 +36,16 @@ export default function Header() {
     () => startupConfig?.interface ?? defaultInterface,
     [startupConfig],
   );
+
+  const hasAccessToBookmarks = useHasAccess({
+    permissionType: PermissionTypes.BOOKMARKS,
+    permission: Permissions.USE,
+  });
+
+  const hasAccessToMultiConvo = useHasAccess({
+    permissionType: PermissionTypes.MULTI_CONVO,
+    permission: Permissions.USE,
+  });
 
   const isSmallScreen = useMediaQuery('(max-width: 768px)');
 
@@ -70,19 +85,16 @@ export default function Header() {
             {/* <HeaderOptions interfaceConfig={interfaceConfig} /> */}
             {/* {interfaceConfig.presets && <PresetsMenu />} */}
 
-            <AddMultiConvo />
+            {hasAccessToMultiConvo === true && <AddMultiConvo />}
 
             {isSmallScreen && (
               <ExportAndShareMenu
                 isSharedButtonEnabled={startupConfig?.sharedLinksEnabled ?? false}
-                className="pl-0"
+                // className="pl-0"
               />
             )}
-            <BookmarkMenu />
+            {hasAccessToBookmarks === true && <BookmarkMenu />}
           </div>
-        )}
-        {!isSmallScreen && (
-          <ExportAndShareMenu isSharedButtonEnabled={startupConfig?.sharedLinksEnabled ?? false} />
         )}
       </div>
       {/* Empty div for spacing */}

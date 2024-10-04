@@ -1,6 +1,7 @@
 import { TStartupConfig } from 'librechat-data-provider';
 import { ThemeSelector } from '~/components/ui';
 import { useLocalize } from '~/hooks';
+import { Banner } from '../Banners';
 import Footer from './Footer';
 import SocialLoginRender from './SocialLoginRender';
 
@@ -55,9 +56,10 @@ function AuthLayout({
 
   return (
     <div className="relative flex min-h-screen flex-col bg-white dark:bg-gray-900">
+      <Banner />
       {/* <BlinkAnimation active={isFetching}>
-        <div className="mt-12 h-24 w-full bg-cover">
-          <img src="/assets/favicon.ico" className="h-full w-full object-contain" alt="Logo" />
+        <div className="mt-6 h-10 w-full bg-cover">
+          <img src="/assets/logo.svg" className="h-full w-full object-contain" alt="Logo" />
         </div>
       </BlinkAnimation> */}
       <DisplayError />

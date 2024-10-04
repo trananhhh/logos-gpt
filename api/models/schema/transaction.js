@@ -38,6 +38,9 @@ const transactionSchema = mongoose.Schema(
       type: Number,
       default: null,
     },
+    inputTokens: { type: Number },
+    writeTokens: { type: Number },
+    readTokens: { type: Number },
   },
   {
     timestamps: true,
